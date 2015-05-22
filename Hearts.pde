@@ -61,8 +61,9 @@ void cardBack(float x, float y) {
   rect(x, y, 46, 66, 6, 6, 6, 6);
   rect(x, y, 44, 64, 6, 6, 6, 6);
   stroke(195, 0, 0);
-  strokeWeight(1.5);
+  strokeWeight(1);
   rect(x, y, 42, 62);
+  rect(x, y, 40, 60);
   strokeWeight(1);
   stroke(0);
   rectMode(CORNER);
