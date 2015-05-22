@@ -4,13 +4,12 @@ void setup() {
 }
 
 void draw() {
-  cardBack(200, 200);
+  for(int i=0; i<13; i++){
+    cardBack(145+(i*30), 550);
+  }
 }
 
 void cardBack(float x, float y) {
-  fill(195, 0, 0);
-  rect(x, y, 50, 70);
-  fill(255);
   boolean redFirst = false;
   for (int j=0; j<70; j+=3.5) {
     for (int i=0; i<50; i+=5) {
@@ -28,5 +27,11 @@ void cardBack(float x, float y) {
     }
     redFirst = !redFirst;
   }
+  stroke(255);
+  strokeWeight(2);
+  noFill();
+  rect(x, y, 50, 70);
+  strokeWeight(1);
+  stroke(0);
 }
 
