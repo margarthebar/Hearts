@@ -4,11 +4,13 @@ void setup() {
 }
 
 void draw() {
-  for(int i=0; i<13; i++){
+  for (int i=0; i<13; i++) {
+    //could be a draw method in the card class?
     cardBack(145+(i*30), 550);
   }
 }
 
+//varying in orientation based on player
 void cardBack(float x, float y) {
   boolean redFirst = false;
   for (int j=0; j<70; j+=3.5) {
@@ -33,5 +35,22 @@ void cardBack(float x, float y) {
   rect(x, y, 50, 70);
   strokeWeight(1);
   stroke(0);
+}
+
+void mouseClicked() {
+  for (int i=0; i<13; i++) {
+    int cardX = 145+(i*30);
+    int cardY = 550;
+      if (mouseX>cardX+2 && mouseX<cardX+48 &&
+      mouseY>cardY+2 && mouseY<cardY+48) {
+      stroke(150,150,0);
+      strokeWeight(6);
+      noFill();
+      rect(cardX-2, cardY-2, 54, 74);
+      strokeWeight(1);
+      stroke(0);
+      print("here");
+    }
+  }
 }
 
