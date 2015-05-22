@@ -1,29 +1,34 @@
 int cardWidth;
 int cardHeight;
 int numCards;
+boolean selected;
+int cardSelected;
 
 void setup() {
   size(700, 700);
   background(0, 100, 0);
   cardWidth = 50;
   cardHeight = 70;
-  numCards = 1;
+  numCards = 13;
+  selected = false;
+  cardSelected = numCards-1;
 }
 
 void draw() {
-  for (int i=0; i<13; i++) {
-    //could be a draw method in the card class?
-    //cardBack(145+(i*30), 550);
-  }
+  background(0,100,0);
+  hand();
+}
 
+void hand() {
   rectMode(CENTER);
-  //rect(width/2-15,550,cardWidth,cardHeight);
-  //rect(width/2+15,550,cardWidth,cardHeight);
-  //cardBack(width/2-15,550);
   int cardsWidth = cardWidth + (numCards-1)*30;
   for (int i=0; i<numCards; i++) {
     int x = width/2 - cardsWidth/2 + i*30;
+    if (i==cardSelected) {
+      selected = true;
+    }
     cardBack(x, 550);
+    selected = false;
   }
   rectMode(CORNER);
 }
@@ -32,6 +37,13 @@ void draw() {
 void cardBack(float x, float y) {
   boolean redFirst = true;
   rectMode(CENTER);
+  if (selected) {
+    stroke(200, 200, 0, 200);
+    fill(200, 200, 0, 200);
+    rect(x, y, 58, 78, 6, 6, 6, 6);
+    noFill();
+  }
+  
   for (float j=3.5; j<66.5; j+=3.5) {
     for (float i=5; i<45; i+=5) {
       if (redFirst) {
@@ -61,12 +73,23 @@ void cardBack(float x, float y) {
   rect(x, y, 46, 66, 6, 6, 6, 6);
   rect(x, y, 44, 64, 6, 6, 6, 6);
   stroke(195, 0, 0);
-  strokeWeight(1);
   rect(x, y, 42, 62);
   rect(x, y, 40, 60);
-  strokeWeight(1);
   stroke(0);
   rectMode(CORNER);
+}
+
+void keyPressed() {
+  if (keyCode==39) {
+    if(cardSelected<numCards-1){
+       cardSelected++; 
+    }
+  }
+  if (keyCode==37) {
+    if(cardSelected>0){
+       cardSelected--; 
+    }
+  }
 }
 
 void mouseClicked() {
