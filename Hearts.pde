@@ -7,6 +7,13 @@ int NORTH = 0;
 int SOUTH = 1;
 int EAST = 2;
 int WEST = 3;
+int HEARTS = 0;
+int SPADES = 1;
+int DIAMONDS = 2;
+int CLUBS = 3;
+int JACK = 11;
+int QUEEN = 12;
+int KING = 13;
 
 void setup() {
   size(700, 700);
@@ -35,7 +42,7 @@ void hand(int place) {
       if (i==cardSelected) {
         selected = true;
       }
-      cardBack(x, height-75);
+      cardFront(x, height-75, JACK, HEARTS);
       selected = false;
     }
   }else if(place==NORTH){
@@ -57,7 +64,23 @@ void hand(int place) {
   rectMode(CORNER);
 }
 
-//varying in orientation based on player
+void cardFront(float x, float y, int number, int suit){
+  rectMode(CENTER);
+  cardHighlight(x,y);
+  cardContent(x, y, number, suit);
+  cardBorder(x,y);
+  rectMode(CENTER);
+  stroke(255);
+  fill(255);
+  rect(x, y, 42, 62);
+  stroke(0);
+  fill(CORNER);
+}
+
+void cardContent(float x, float y, int number, int suit){
+  
+}
+
 void cardBack(float x, float y) {
   rectMode(CENTER);
   cardHighlight(x, y);
@@ -71,6 +94,7 @@ void cardBack2(float x, float y){
   cardChecker2(x, y);
   cardBorder2(x, y);
 }
+
 void cardHighlight(float x, float y) {
   if (selected) {
     stroke(200, 200, 0, 200);
@@ -135,6 +159,8 @@ void cardChecker2(float x, float y) {
 
 void cardBorder2(float x, float y){
   noFill();
+  stroke(100);
+  rect(x, y, 72, 52, 6, 6, 6, 6);
   stroke(255);
   rect(x, y, 70, 50, 6, 6, 6, 6);
   rect(x, y, 68, 48, 6, 6, 6, 6);
@@ -149,6 +175,8 @@ void cardBorder2(float x, float y){
 
 void cardBorder(float x, float y) {
   noFill();
+  stroke(100);
+  rect(x, y, 52, 72, 6, 6, 6, 6);
   stroke(255);
   rect(x, y, 50, 70, 6, 6, 6, 6);
   rect(x, y, 48, 68, 6, 6, 6, 6);
