@@ -14,6 +14,8 @@ int CLUBS = 3;
 int JACK = 11;
 int QUEEN = 12;
 int KING = 13;
+int ACE = 1;
+int[][] cardHand;
 
 void setup() {
   size(700, 700);
@@ -23,6 +25,21 @@ void setup() {
   numCards = 13;
   selected = false;
   cardSelected = numCards-1;
+  //this would interact with card class/might not be here, but just for display purposes:
+  int[][] cH = {  {ACE , SPADES},
+                {2,CLUBS},
+                {3,HEARTS},
+                {4,DIAMONDS},
+                {5,CLUBS},
+                {6,DIAMONDS},
+                {7,HEARTS},
+                {8,SPADES},
+                {KING,HEARTS},
+                {10,SPADES},
+                {JACK,DIAMONDS},
+                {QUEEN,CLUBS},
+                {9,HEARTS} };
+  cardHand = cH;
 }
 
 void draw() {
@@ -90,7 +107,7 @@ void hand(int place) {
       if (i==cardSelected) {
         selected = true;
       }
-      cardFront(x, height-75, 9, HEARTS);
+      cardFront(x, height-75, cardHand[i][0], cardHand[i][1]);
       selected = false;
     }
   } else if (place==NORTH) {
