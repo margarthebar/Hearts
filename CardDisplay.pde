@@ -72,7 +72,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     cardHand.get(11).add(1, CLUBS);
 
     cardHand.get(12).add(0, 9);
-    cardHand.get(12).add(1, SPADES);
+    cardHand.get(12).add(1, HEARTS);
   }
 
   void draw() {
@@ -407,6 +407,30 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     triangle(x-3.5, y, x+3.5, y, x, y+5);
     rect(x, y, 1.5, 8);
   }
+  
+  ///////////DIAMOND SYMBOLS///////////
+  void diamondSmall(float x, float y) {//diamonds under the number
+    fill(195, 0, 0);
+    noStroke();
+    y+=2;
+    triangle(x-2.25, y, x+2.25, y, x, y-3.5);
+    triangle(x-2.25, y, x+2.25, y, x, y+3.5);
+  }
+
+  void diamondSmall2(float x, float y) {//upside down diamonds under the number
+    diamondSmall(x,y-4);
+  }
+
+  void diamond(float x, float y) {//rightside up diamonds representing the number
+    fill(195, 0, 0);
+    noStroke();
+    triangle(x-3, y, x+3, y, x, y-4.5);
+    triangle(x-3, y, x+3, y, x, y+4.5);
+  }
+
+  void diamond2(float x, float y) {//upside down diamonds representing the number
+    diamond(x,y);
+  }
 
   ///////////CLUB SYMBOLS///////////
   void clubSmall(float x, float y) {//clubs under the number
@@ -451,36 +475,48 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
   void nine(float x, float y, int suit) {//prints correct number of symbols for 9 cards
     if (suit==HEARTS) {
       heart(x, y);
-      heart(x-7, y-10);
-      heart(x+7, y-10);
+      heart(x-7, y-8);
+      heart(x+7, y-8);
       heart(x-7, y-20);
       heart(x+7, y-20);
-      heart2(x-7, y+10);
-      heart2(x+7, y+10);
+      heart2(x-7, y+8);
+      heart2(x+7, y+8);
       heart2(x-7, y+20);
       heart2(x+7, y+20);
       heartSmall(x-17, y-18);
       heartSmall2(x+17, y+18);
     } else if (suit==SPADES) {
       spade(x, y);
-      spade(x-7, y-10);
-      spade(x+7, y-10);
+      spade(x-7, y-8);
+      spade(x+7, y-8);
       spade(x-7, y-20);
       spade(x+7, y-20);
-      spade2(x-7, y+10);
-      spade2(x+7, y+10);
+      spade2(x-7, y+8);
+      spade2(x+7, y+8);
       spade2(x-7, y+20);
       spade2(x+7, y+20);
       spadeSmall(x-17, y-18);
       spadeSmall2(x+17, y+18);
+    }else if(suit==DIAMONDS){
+      diamond(x, y);
+      diamond(x-7, y-8);
+      diamond(x+7, y-8);
+      diamond(x-7, y-20);
+      diamond(x+7, y-20);
+      diamond2(x-7, y+8);
+      diamond2(x+7, y+8);
+      diamond2(x-7, y+20);
+      diamond2(x+7, y+20);
+      diamondSmall(x-17, y-18);
+      diamondSmall2(x+17, y+18);
     } else if (suit==CLUBS) {
       club(x, y);
-      club(x-7, y-10);
-      club(x+7, y-10);
+      club(x-7, y-8);
+      club(x+7, y-8);
       club(x-7, y-20);
       club(x+7, y-20);
-      club2(x-7, y+10);
-      club2(x+7, y+10);
+      club2(x-7, y+8);
+      club2(x+7, y+8);
       club2(x-7, y+20);
       club2(x+7, y+20);
       clubSmall(x-17, y-18);
