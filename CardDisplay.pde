@@ -87,6 +87,25 @@ class CardDisplay {
       hand(i);
     }
   }
+  
+  void selectRight(){
+   if (cardSelected<numCards-1) {
+      cardSelected++;
+    } 
+  }
+  
+  void selectLeft(){
+    if (cardSelected>0) {
+      cardSelected--;
+    }
+  }
+  
+  void playCard(){
+   if (cardSelected==numCards-1) {
+      cardSelected--;
+    }
+    numCards--; 
+  }
 
   void heartSmall(float x, float y) {
     fill(195, 0, 0);

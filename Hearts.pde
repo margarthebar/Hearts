@@ -12,20 +12,13 @@ void draw() {
 
 void keyPressed() {
   if (keyCode==RIGHT) {
-    if (cardSelected<numCards-1) {
-      cardSelected++;
-    }
+    display.selectRight();
   }
   if (keyCode==LEFT) {
-    if (cardSelected>0) {
-      cardSelected--;
-    }
+    display.selectLeft();
   }
   if (keyCode==UP) {
-    if (cardSelected==numCards-1) {
-      cardSelected--;
-    }
-    numCards--;
+    display.playCard();
   }
 }
 
