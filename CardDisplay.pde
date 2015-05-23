@@ -288,9 +288,13 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     if (x>width/2) {
       rect(x-1, y, 62, 42);
       rect(x-1, y, 60, 40);
+      stroke(255);
+      rect(x-1,y,64,44);
     } else {
       rect(x-1, y-1, 62, 42);
       rect(x-1, y-1, 60, 40);
+      stroke(255);
+      rect(x-1,y-1,64,44);
     }
     stroke(0);
     rectMode(CORNER);
@@ -408,37 +412,38 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     fill(0);
     noStroke();
     y+=2;
-    ellipse(x-1.5, y, 2, 2);
-    ellipse(x+1.5, y, 2, 2);
-    triangle(x-3, y, x+3, y, x, y-4);
-    rect(x, y, 1, 5.5);
+    ellipse(x-1.5, y, 2.5, 2.5);
+    ellipse(x+1.5, y, 2.5, 2.5);
+    ellipse(x,y-2.5,2.5,2.5);
+    triangle(x,y,x+1,y+3,x-1,y+3);
   }
 
   void clubSmall2(float x, float y) {//upside down clubs under the number
     fill(0);
     noStroke();
     y-=2;
-    ellipse(x-1.5, y, 2, 2);
-    ellipse(x+1.5, y, 2, 2);
-    triangle(x-3, y, x+3, y, x, y+4);
-    rect(x, y, 1, 5.5);
+    ellipse(x-1.5, y, 2.5, 2.5);
+    ellipse(x+1.5, y, 2.5, 2.5);
+    ellipse(x,y+2.5,2.5,2.5);
+    triangle(x,y,x+1,y-3,x-1,y-3);
   }
 
   void club(float x, float y) {//rightside up clubs representing the number
     fill(0);
     noStroke();
-    ellipse(x-1.75, y, 3.5, 3.5);
-    ellipse(x+1.75, y, 3.5, 3.5);
-    triangle(x-3.5, y, x+3.5, y, x, y-5);
-    rect(x, y, 1.5, 8);
+    ellipse(x-2, y, 3.3, 3.3);
+    ellipse(x+2, y, 3.3, 3.3);
+    ellipse(x,y-3,3.3,3.3);
+    triangle(x,y,x+1,y+4,x-1,y+4);
   }
 
   void club2(float x, float y) {//upside down clubs representing the number
     fill(0);
     noStroke();
-    ellipse(x-1.75, y, 3.5, 3.5);
-    ellipse(x+1.75, y, 3, 3);
-    triangle(x-3.5, y, x+3.5, y, x, y+5);
+    ellipse(x-2, y, 3.3, 3.3);
+    ellipse(x+2, y, 3.3, 3.3);
+    ellipse(x,y+3,3.3,3.3);
+    triangle(x,y,x+1,y-4,x-1,y-4);
   }
 
   //////////////NUMBERS///////////
