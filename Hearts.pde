@@ -32,6 +32,54 @@ void draw() {
   }
 }
 
+void heartSmall(float x, float y){
+  fill(195,0,0);
+  noStroke();
+  ellipse(x-1.5,y,2,2);
+  ellipse(x+1.5,y,2,2);
+  triangle(x-3,y,x+3,y,x,y+4);
+}
+
+void heartSmall2(float x, float y){
+  fill(195,0,0);
+  noStroke();
+  ellipse(x-1.5,y,2,2);
+  ellipse(x+1.5,y,2,2);
+  triangle(x-3,y,x+3,y,x,y-4);
+}
+
+void heart(float x, float y){
+  fill(195,0,0);
+  noStroke();
+  ellipse(x-1.75,y,3.5,3.5);
+  ellipse(x+1.75,y,3,3);
+  triangle(x-3.5,y,x+3.5,y,x,y+5);
+}
+
+void heart2(float x, float y){
+  fill(195,0,0);
+  noStroke();
+  ellipse(x-1.75,y,3.5,3.5);
+  ellipse(x+1.75,y,3.5,3.5);
+  triangle(x-3.5,y,x+3.5,y,x,y-5);
+}
+
+void nine(float x, float y, int suit){
+  if(suit==HEARTS){
+    heart(x,y);
+    heart(x-7,y-10);
+    heart(x+7,y-10);
+    heart(x-7,y-20);
+    heart(x+7,y-20);
+    heart2(x-7,y+10);
+    heart2(x+7,y+10);
+    heart2(x-7,y+20);
+    heart2(x+7,y+20);
+    heartSmall(x-17,y-18);
+    heartSmall2(x+17,y+18);
+  }
+}
+
 void hand(int place) {
   rectMode(CENTER);
   int cardsWidth = cardWidth + (numCards-2)*30;
@@ -42,7 +90,7 @@ void hand(int place) {
       if (i==cardSelected) {
         selected = true;
       }
-      cardFront(x, height-75, JACK, HEARTS);
+      cardFront(x, height-75, 9, HEARTS);
       selected = false;
     }
   } else if (place==NORTH) {
@@ -71,7 +119,7 @@ void cardFront(float x, float y, int number, int suit) {
   rectMode(CENTER);
   stroke(255);
   fill(255);
-  rect(x, y, 42, 62);
+  rect(x, y, 43, 63);
   stroke(0);
   fill(CORNER);
   cardContent(x, y, number, suit);
@@ -80,28 +128,44 @@ void cardFront(float x, float y, int number, int suit) {
 void cardContent(float x, float y, int number, int suit) {
   textSize(12);
   textAlign(CENTER, CENTER);
-  stroke(0);
-  fill(0);
+  if(suit==SPADES || suit==CLUBS){
+    fill(0);
+    stroke(0);
+  }else{
+    if(suit==HEARTS){
+     nine(x,y,HEARTS); 
+    }
+     fill(195,0,0);
+     stroke(195,0,0);
+  }
   if (number==JACK) {
     translate(width/2, height/2);
     rotate(radians(180));
-    text("J", -200+((13-numCards)*15), -300);
+    text("J", -204+((13-numCards)*15), -304);
     translate(width/2, height/2);
     rotate(radians(180));
-    text("J", x-cardWidth/2+10, y-cardHeight/2+10);
+    text("J", x-cardWidth/2+8, y-cardHeight/2+8);
   } else if (number==QUEEN) {
     translate(width/2, height/2);
     rotate(radians(180));
-    text("Q", -200, -300);
+    text("Q", -204+((13-numCards)*15), -304);
     translate(width/2, height/2);
     rotate(radians(180));
-    text("Q", x-cardWidth/2+10, y-cardHeight/2+10);
+    text("Q", x-cardWidth/2+8, y-cardHeight/2+8);
   } else if (number==KING) {
-    text("K", x-cardWidth/2+10, y-cardHeight/2+10);
-    text("K", x+cardWidth/2-10, y+cardHeight/2-10);
+    translate(width/2, height/2);
+    rotate(radians(180));
+    text("K", -204+((13-numCards)*15), -304);
+    translate(width/2, height/2);
+    rotate(radians(180));
+    text("K", x-cardWidth/2+8, y-cardHeight/2+8);
   } else {
-    text(""+number, x-cardWidth/2+10, y-cardHeight/2+10);
-    text(""+number, x+cardWidth/2-10, y+cardHeight/2-10);
+    translate(width/2, height/2);
+    rotate(radians(180));
+    text(""+number, -203+((13-numCards)*15), -303);
+    translate(width/2, height/2);
+    rotate(radians(180));
+    text(""+number, x-cardWidth/2+8, y-cardHeight/2+8);
   }
 }
 
