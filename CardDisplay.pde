@@ -89,7 +89,7 @@ class CardDisplay {
   }
 
   void playCard() {
-    if (cardSelected==numCards-1) {
+    if (cardSelected<=numCards-1) {
       cardHand.remove(cardSelected);
       cardSelected--;
     }
