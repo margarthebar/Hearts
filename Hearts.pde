@@ -45,17 +45,17 @@ void hand(int place) {
       cardFront(x, height-75, JACK, HEARTS);
       selected = false;
     }
-  }else if(place==NORTH){
+  } else if (place==NORTH) {
     for (int i=numCards-1; i>=0; i--) {
       int x = width/2 - cardsWidth/2 + i*30 + 15;
       cardBack(x, 75);
     }
-  }else if(place==EAST){
+  } else if (place==EAST) {
     for (int i=numCards-1; i>=0; i--) {
       int y = height/2 - cardsHeight/2 + i*30;
       cardBack2(width-75, y);
     }
-  }else if(place==WEST){
+  } else if (place==WEST) {
     for (int i=0; i<numCards; i++) {
       int y = height/2 - cardsHeight/2 + i*30;
       cardBack2(75, y);
@@ -64,21 +64,42 @@ void hand(int place) {
   rectMode(CORNER);
 }
 
-void cardFront(float x, float y, int number, int suit){
+void cardFront(float x, float y, int number, int suit) {
   rectMode(CENTER);
-  cardHighlight(x,y);
-  cardContent(x, y, number, suit);
-  cardBorder(x,y);
+  cardHighlight(x, y);
+  cardBorder(x, y);
   rectMode(CENTER);
   stroke(255);
   fill(255);
   rect(x, y, 42, 62);
   stroke(0);
   fill(CORNER);
+  cardContent(x, y, number, suit);
 }
 
-void cardContent(float x, float y, int number, int suit){
-  
+void cardContent(float x, float y, int number, int suit) {
+  textSize(12);
+  textAlign(CENTER, CENTER);
+  stroke(0);
+  fill(0);
+  if (number==JACK) {
+    text("J", x-cardWidth/2+10, y-cardHeight/2+10);
+    //translate(width/2,height/2);
+    rotate(radians(180));
+    text("test",200,200);
+    //translate(x, height/2);
+    rotate(radians(180));
+    text("J", x+cardWidth/2-10, y+cardHeight/2-10);
+  } else if (number==QUEEN) {
+    text("Q", x-cardWidth/2+10, y-cardHeight/2+10);
+    text("Q", x+cardWidth/2-10, y+cardHeight/2-10);
+  } else if (number==KING) {
+    text("K", x-cardWidth/2+10, y-cardHeight/2+10);
+    text("K", x+cardWidth/2-10, y+cardHeight/2-10);
+  } else {
+    text(""+number, x-cardWidth/2+10, y-cardHeight/2+10);
+    text(""+number, x+cardWidth/2-10, y+cardHeight/2-10);
+  }
 }
 
 void cardBack(float x, float y) {
@@ -88,7 +109,7 @@ void cardBack(float x, float y) {
   cardBorder(x, y);
 }
 
-void cardBack2(float x, float y){
+void cardBack2(float x, float y) {
   rectMode(CENTER);
   cardHighlight(x, y);
   cardChecker2(x, y);
@@ -157,7 +178,7 @@ void cardChecker2(float x, float y) {
 }
 
 
-void cardBorder2(float x, float y){
+void cardBorder2(float x, float y) {
   noFill();
   stroke(100);
   rect(x, y, 72, 52, 6, 6, 6, 6);
