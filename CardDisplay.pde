@@ -1,8 +1,8 @@
 int cardWidth;
 int cardHeight;
-int numCards;
-boolean selected;
-int cardSelected;
+int numCards;//says how many cards are currently in a player's hand
+boolean selected;//says if a card has been selected
+int cardSelected;//says which card has been selected
 int NORTH = 0;
 int SOUTH = 1;
 int EAST = 2;
@@ -15,9 +15,9 @@ int JACK = 11;
 int QUEEN = 12;
 int KING = 13;
 int ACE = 1;
-ArrayList< ArrayList<Integer> > cardHand;
+ArrayList< ArrayList<Integer> > cardHand;//right now this is preset for testing purposes
 
-class CardDisplay {
+class CardDisplay {//right now this just creates a preset hand for testing purposes
   CardDisplay() {
     cardWidth = 50;
     cardHeight = 70;
@@ -76,75 +76,30 @@ class CardDisplay {
     }
   }
 
-  void selectRight() {
+
+  void selectRight() {//moves highlight (cardSelected) right
     if (cardSelected<numCards-1) {
       cardSelected++;
     }
   }
 
-  void selectLeft() {
+  void selectLeft() {// moves highlight (cardSelected) left
     if (cardSelected>0) {
       cardSelected--;
     }
   }
 
-  void playCard() {
+  void playCard() {//plays card highlighted (right now this just removes it)
     if (cardSelected<=numCards-1) {
       cardHand.remove(cardSelected);
       cardSelected--;
     }
     numCards--;
   }
+  
+////////////////////////////////PHYSICAL CARD REPRESENTATIONS////////////////////////////////////////
 
-  void heartSmall(float x, float y) {
-    fill(195, 0, 0);
-    noStroke();
-    ellipse(x-1.5, y, 2, 2);
-    ellipse(x+1.5, y, 2, 2);
-    triangle(x-3, y, x+3, y, x, y+4);
-  }
-
-  void heartSmall2(float x, float y) {
-    fill(195, 0, 0);
-    noStroke();
-    ellipse(x-1.5, y, 2, 2);
-    ellipse(x+1.5, y, 2, 2);
-    triangle(x-3, y, x+3, y, x, y-4);
-  }
-
-  void heart(float x, float y) {
-    fill(195, 0, 0);
-    noStroke();
-    ellipse(x-1.75, y, 3.5, 3.5);
-    ellipse(x+1.75, y, 3, 3);
-    triangle(x-3.5, y, x+3.5, y, x, y+5);
-  }
-
-  void heart2(float x, float y) {
-    fill(195, 0, 0);
-    noStroke();
-    ellipse(x-1.75, y, 3.5, 3.5);
-    ellipse(x+1.75, y, 3.5, 3.5);
-    triangle(x-3.5, y, x+3.5, y, x, y-5);
-  }
-
-  void nine(float x, float y, int suit) {
-    if (suit==HEARTS) {
-      heart(x, y);
-      heart(x-7, y-10);
-      heart(x+7, y-10);
-      heart(x-7, y-20);
-      heart(x+7, y-20);
-      heart2(x-7, y+10);
-      heart2(x+7, y+10);
-      heart2(x-7, y+20);
-      heart2(x+7, y+20);
-      heartSmall(x-17, y-18);
-      heartSmall2(x+17, y+18);
-    }
-  }
-
-  void hand(int place) {
+  void hand(int place) {//creates hands for all four players
     rectMode(CENTER);
     int cardsWidth = cardWidth + (numCards-2)*30;
     int cardsHeight = cardHeight + (numCards-3)*30;
@@ -176,27 +131,7 @@ class CardDisplay {
     rectMode(CORNER);
   }
 
-  void symbols(float x, float y, int number, int suit) {
-    if (number==ACE) {
-      nine(x, y, HEARTS);
-    } else if (number==1) {
-    } else if (number==2) {
-    } else if (number==3) {
-    } else if (number==4) {
-    } else if (number==5) {
-    } else if (number==6) {
-    } else if (number==7) {
-    } else if (number==8) {
-    } else if (number==9) {
-      nine(x, y, suit);
-    } else if (number==10) {
-    } else if (number == JACK) {
-    } else if (number == QUEEN) {
-    } else if (number == KING) {
-    }
-  }
-
-  void cardFront(float x, float y, int number, int suit) {
+  void cardFront(float x, float y, int number, int suit) {//cards that are face up
     rectMode(CENTER);
     cardHighlight(x, y);
     cardBorder(x, y);
@@ -209,14 +144,14 @@ class CardDisplay {
     cardContent(x, y, number, suit);
   }
 
-  void cardContent(float x, float y, int number, int suit) {
+  void cardContent(float x, float y, int number, int suit) {//number on card
     textSize(12);
     textAlign(CENTER, CENTER);
     if (suit==SPADES || suit==CLUBS) {
       fill(0);
       stroke(0);
     } else {
-      symbols(x, y, number, suit);
+      symbols(x, y, number, suit);//prints out symbols on card
       fill(195, 0, 0);
       stroke(195, 0, 0);
     }
@@ -258,21 +193,21 @@ class CardDisplay {
     }
   }
 
-  void cardBack(float x, float y) {
+  void cardBack(float x, float y) {//cards that are face down and facing NORTH and SOUTH
     rectMode(CENTER);
     cardHighlight(x, y);
     cardChecker(x, y);
     cardBorder(x, y);
   }
 
-  void cardBack2(float x, float y) {
+  void cardBack2(float x, float y) {//cards that are face down and facing EAST or WEST
     rectMode(CENTER);
     cardHighlight(x, y);
     cardChecker2(x, y);
     cardBorder2(x, y);
   }
 
-  void cardHighlight(float x, float y) {
+  void cardHighlight(float x, float y) {//indicates that a card has been selected
     if (selected) {
       stroke(200, 200, 0, 200);
       fill(200, 200, 0, 200);
@@ -281,7 +216,7 @@ class CardDisplay {
     }
   }
 
-  void cardChecker(float x, float y) {
+  void cardChecker(float x, float y) {//creates design on card backs for cards oriented NORTH and SOUTH
     boolean redFirst = true;
     float xcor = x-cardWidth/2+2;
     float ycor = y-cardHeight/2+2;
@@ -307,7 +242,7 @@ class CardDisplay {
     }
   }
 
-  void cardChecker2(float x, float y) {
+  void cardChecker2(float x, float y) {//creates design on card backs for cards oriented towards EAST and WEST
     boolean redFirst = true;
     float xcor = x-cardHeight/2+2;
     float ycor = y-cardWidth/2+2;
@@ -334,7 +269,7 @@ class CardDisplay {
   }
 
 
-  void cardBorder2(float x, float y) {
+  void cardBorder2(float x, float y) {//creates card border for cards oriented EAST and WEST 
     noFill();
     stroke(100);
     rect(x, y, 72, 52, 6, 6, 6, 6);
@@ -350,7 +285,7 @@ class CardDisplay {
     rectMode(CORNER);
   }
 
-  void cardBorder(float x, float y) {
+  void cardBorder(float x, float y) {//creates card border for cards oriented NORTH and SOUTH
     noFill();
     stroke(100);
     rect(x, y, 52, 72, 6, 6, 6, 6);
@@ -364,6 +299,75 @@ class CardDisplay {
     rect(x, y, 40, 60);
     stroke(0);
     rectMode(CORNER);
+  }
+  
+  ////////////////////////////////////CARD SYMBOLS////////////////////////////////////////////
+  void symbols(float x, float y, int number, int suit) {//prints display specific to nuber and suit of card
+    if (number==ACE) {
+      nine(x, y, HEARTS);
+    } else if (number==1) {
+    } else if (number==2) {
+    } else if (number==3) {
+    } else if (number==4) {
+    } else if (number==5) {
+    } else if (number==6) {
+    } else if (number==7) {
+    } else if (number==8) {
+    } else if (number==9) {
+      nine(x, y, suit);
+    } else if (number==10) {
+    } else if (number == JACK) {
+    } else if (number == QUEEN) {
+    } else if (number == KING) {
+    }
+  }
+  
+  void heartSmall(float x, float y) {//hearts under the number
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x-1.5, y, 2, 2);
+    ellipse(x+1.5, y, 2, 2);
+    triangle(x-3, y, x+3, y, x, y+4);
+  }
+
+  void heartSmall2(float x, float y) {//upside down hearts under the number
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x-1.5, y, 2, 2);
+    ellipse(x+1.5, y, 2, 2);
+    triangle(x-3, y, x+3, y, x, y-4);
+  }
+
+  void heart(float x, float y) {//rightside up hearts representing the number
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x-1.75, y, 3.5, 3.5);
+    ellipse(x+1.75, y, 3, 3);
+    triangle(x-3.5, y, x+3.5, y, x, y+5);
+  }
+
+  void heart2(float x, float y) {//upside down hearts representing the number
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x-1.75, y, 3.5, 3.5);
+    ellipse(x+1.75, y, 3.5, 3.5);
+    triangle(x-3.5, y, x+3.5, y, x, y-5);
+  }
+
+  void nine(float x, float y, int suit) {//prints correct number of symbols for 9 cards
+    if (suit==HEARTS) {
+      heart(x, y);
+      heart(x-7, y-10);
+      heart(x+7, y-10);
+      heart(x-7, y-20);
+      heart(x+7, y-20);
+      heart2(x-7, y+10);
+      heart2(x+7, y+10);
+      heart2(x-7, y+20);
+      heart2(x+7, y+20);
+      heartSmall(x-17, y-18);
+      heartSmall2(x+17, y+18);
+    }
   }
 }
 
