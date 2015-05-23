@@ -35,44 +35,44 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     for (int i=0; i<13; i++) {
       cardHand.add(new ArrayList());
     }
-    cardHand.get(0).add(0,ACE);
-    cardHand.get(0).add(1,SPADES);
-    
-    cardHand.get(1).add(0,2);
-    cardHand.get(1).add(1,CLUBS);
-    
-    cardHand.get(2).add(0,3);
-    cardHand.get(2).add(1,HEARTS);
-    
-    cardHand.get(3).add(0,4);
-    cardHand.get(3).add(1,DIAMONDS);
-    
-    cardHand.get(4).add(0,5);
-    cardHand.get(4).add(1,CLUBS);
-    
-    cardHand.get(5).add(0,6);
-    cardHand.get(5).add(1,DIAMONDS);
-    
-    cardHand.get(6).add(0,7);
-    cardHand.get(6).add(1,HEARTS);
-    
-    cardHand.get(7).add(0,8);
-    cardHand.get(7).add(1,SPADES);
-    
-    cardHand.get(8).add(0,KING);
-    cardHand.get(8).add(1,HEARTS);
-    
-    cardHand.get(9).add(0,10);
-    cardHand.get(9).add(1,SPADES);
-    
-    cardHand.get(10).add(0,JACK);
-    cardHand.get(10).add(1,DIAMONDS);
-    
-    cardHand.get(11).add(0,QUEEN);
-    cardHand.get(11).add(1,CLUBS);
-    
-    cardHand.get(12).add(0,9);
-    cardHand.get(12).add(1,SPADES);
+    cardHand.get(0).add(0, ACE);
+    cardHand.get(0).add(1, SPADES);
+
+    cardHand.get(1).add(0, 2);
+    cardHand.get(1).add(1, CLUBS);
+
+    cardHand.get(2).add(0, 3);
+    cardHand.get(2).add(1, HEARTS);
+
+    cardHand.get(3).add(0, 4);
+    cardHand.get(3).add(1, DIAMONDS);
+
+    cardHand.get(4).add(0, 5);
+    cardHand.get(4).add(1, CLUBS);
+
+    cardHand.get(5).add(0, 6);
+    cardHand.get(5).add(1, DIAMONDS);
+
+    cardHand.get(6).add(0, 7);
+    cardHand.get(6).add(1, HEARTS);
+
+    cardHand.get(7).add(0, 8);
+    cardHand.get(7).add(1, SPADES);
+
+    cardHand.get(8).add(0, KING);
+    cardHand.get(8).add(1, HEARTS);
+
+    cardHand.get(9).add(0, 10);
+    cardHand.get(9).add(1, SPADES);
+
+    cardHand.get(10).add(0, JACK);
+    cardHand.get(10).add(1, DIAMONDS);
+
+    cardHand.get(11).add(0, QUEEN);
+    cardHand.get(11).add(1, CLUBS);
+
+    cardHand.get(12).add(0, 9);
+    cardHand.get(12).add(1, CLUBS);
   }
 
   void draw() {
@@ -96,14 +96,14 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
   }
 
   void playCard() {//plays card highlighted (right now this just removes it)
-    if (cardSelected<=numCards-1) {
-      cardHand.remove(cardSelected);
+    cardHand.remove(cardSelected);
+    if (cardSelected<=numCards-1 && cardSelected>0) {
       cardSelected--;
     }
     numCards--;
   }
-  
-////////////////////////////////PHYSICAL CARD REPRESENTATIONS////////////////////////////////////////
+
+  ////////////////////////////////PHYSICAL CARD REPRESENTATIONS////////////////////////////////////////
 
   void hand(int place) {//creates hands for all four players
     rectMode(CENTER);
@@ -285,8 +285,13 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     rect(x, y, 66, 46, 6, 6, 6, 6);
     rect(x, y, 64, 44, 6, 6, 6, 6);
     stroke(195, 0, 0);
-    rect(x-1, y-1, 62, 42);
-    rect(x-1, y-1, 60, 40);
+    if (x>width/2) {
+      rect(x-1, y, 62, 42);
+      rect(x-1, y, 60, 40);
+    } else {
+      rect(x-1, y-1, 62, 42);
+      rect(x-1, y-1, 60, 40);
+    }
     stroke(0);
     rectMode(CORNER);
   }
@@ -306,7 +311,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     stroke(0);
     rectMode(CORNER);
   }
-  
+
   ////////////////////////////////////CARD SYMBOLS////////////////////////////////////////////
   void symbols(float x, float y, int number, int suit) {//prints display specific to nuber and suit of card
     if (number==ACE) {
@@ -319,7 +324,6 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     } else if (number==7) {
     } else if (number==8) {
     } else if (number==9) {
-      println("nine");
       nine(x, y, suit);
     } else if (number==10) {
     } else if (number == JACK) {
@@ -327,7 +331,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     } else if (number == KING) {
     }
   }
-  
+
   ///////////HEART SYMBOLS///////////
   void heartSmall(float x, float y) {//hearts under the number
     fill(195, 0, 0);
@@ -360,7 +364,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x+1.75, y, 3.5, 3.5);
     triangle(x-3.5, y, x+3.5, y, x, y-5);
   }
-  
+
   ///////////SPADE SYMBOLS///////////
   void spadeSmall(float x, float y) {//spades under the number
     fill(0);
@@ -369,7 +373,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x-1.5, y, 2, 2);
     ellipse(x+1.5, y, 2, 2);
     triangle(x-3, y, x+3, y, x, y-4);
-    rect(x,y,1,5.5);
+    rect(x, y, 1, 5.5);
   }
 
   void spadeSmall2(float x, float y) {//upside down spades under the number
@@ -379,7 +383,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x-1.5, y, 2, 2);
     ellipse(x+1.5, y, 2, 2);
     triangle(x-3, y, x+3, y, x, y+4);
-    rect(x,y,1,5.5);
+    rect(x, y, 1, 5.5);
   }
 
   void spade(float x, float y) {//rightside up spades representing the number
@@ -388,7 +392,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x-1.75, y, 3.5, 3.5);
     ellipse(x+1.75, y, 3.5, 3.5);
     triangle(x-3.5, y, x+3.5, y, x, y-5);
-    rect(x,y,1.5,8);
+    rect(x, y, 1.5, 8);
   }
 
   void spade2(float x, float y) {//upside down spades representing the number
@@ -399,9 +403,46 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     triangle(x-3.5, y, x+3.5, y, x, y+5);
   }
 
+  ///////////CLUB SYMBOLS///////////
+  void clubSmall(float x, float y) {//clubs under the number
+    fill(0);
+    noStroke();
+    y+=2;
+    ellipse(x-1.5, y, 2, 2);
+    ellipse(x+1.5, y, 2, 2);
+    triangle(x-3, y, x+3, y, x, y-4);
+    rect(x, y, 1, 5.5);
+  }
+
+  void clubSmall2(float x, float y) {//upside down clubs under the number
+    fill(0);
+    noStroke();
+    y-=2;
+    ellipse(x-1.5, y, 2, 2);
+    ellipse(x+1.5, y, 2, 2);
+    triangle(x-3, y, x+3, y, x, y+4);
+    rect(x, y, 1, 5.5);
+  }
+
+  void club(float x, float y) {//rightside up clubs representing the number
+    fill(0);
+    noStroke();
+    ellipse(x-1.75, y, 3.5, 3.5);
+    ellipse(x+1.75, y, 3.5, 3.5);
+    triangle(x-3.5, y, x+3.5, y, x, y-5);
+    rect(x, y, 1.5, 8);
+  }
+
+  void club2(float x, float y) {//upside down clubs representing the number
+    fill(0);
+    noStroke();
+    ellipse(x-1.75, y, 3.5, 3.5);
+    ellipse(x+1.75, y, 3, 3);
+    triangle(x-3.5, y, x+3.5, y, x, y+5);
+  }
+
   //////////////NUMBERS///////////
   void nine(float x, float y, int suit) {//prints correct number of symbols for 9 cards
-    println(""+suit);
     if (suit==HEARTS) {
       heart(x, y);
       heart(x-7, y-10);
@@ -414,8 +455,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       heart2(x+7, y+20);
       heartSmall(x-17, y-18);
       heartSmall2(x+17, y+18);
-    }else if(suit==SPADES){
-      println("here");
+    } else if (suit==SPADES) {
       spade(x, y);
       spade(x-7, y-10);
       spade(x+7, y-10);
@@ -427,6 +467,18 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       spade2(x+7, y+20);
       spadeSmall(x-17, y-18);
       spadeSmall2(x+17, y+18);
+    } else if (suit==CLUBS) {
+      club(x, y);
+      club(x-7, y-10);
+      club(x+7, y-10);
+      club(x-7, y-20);
+      club(x+7, y-20);
+      club2(x-7, y+10);
+      club2(x+7, y+10);
+      club2(x-7, y+20);
+      club2(x+7, y+20);
+      clubSmall(x-17, y-18);
+      clubSmall2(x+17, y+18);
     }
   }
 }
