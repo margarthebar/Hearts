@@ -1,3 +1,9 @@
+//// This class is for display and play purposes only.
+//// The cards contain therein are only physical representations
+//// of actual functional cards.
+//// Later the information from the actual functional cards
+//// could be passed into this class to display them.
+
 int cardWidth;
 int cardHeight;
 int numCards;//says how many cards are currently in a player's hand
@@ -15,7 +21,7 @@ int JACK = 11;
 int QUEEN = 12;
 int KING = 13;
 int ACE = 1;
-ArrayList< ArrayList<Integer> > cardHand;//right now this is preset for testing purposes
+ArrayList< ArrayList<Integer> > cardHand;//Will hold the information from the funcitonal cards passed into the constructor
 
 class CardDisplay {//right now this just creates a preset hand for testing purposes
   CardDisplay() {
