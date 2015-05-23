@@ -83,16 +83,19 @@ void cardContent(float x, float y, int number, int suit) {
   stroke(0);
   fill(0);
   if (number==JACK) {
+    translate(width/2, height/2);
+    rotate(radians(180));
+    text("J", -200+((13-numCards)*15), -300);
+    translate(width/2, height/2);
+    rotate(radians(180));
     text("J", x-cardWidth/2+10, y-cardHeight/2+10);
-    //translate(width/2,height/2);
-    rotate(radians(180));
-    text("test",200,200);
-    //translate(x, height/2);
-    rotate(radians(180));
-    text("J", x+cardWidth/2-10, y+cardHeight/2-10);
   } else if (number==QUEEN) {
+    translate(width/2, height/2);
+    rotate(radians(180));
+    text("Q", -200, -300);
+    translate(width/2, height/2);
+    rotate(radians(180));
     text("Q", x-cardWidth/2+10, y-cardHeight/2+10);
-    text("Q", x+cardWidth/2-10, y+cardHeight/2-10);
   } else if (number==KING) {
     text("K", x-cardWidth/2+10, y-cardHeight/2+10);
     text("K", x+cardWidth/2-10, y+cardHeight/2-10);
