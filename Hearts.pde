@@ -26,19 +26,59 @@ void setup() {
   selected = false;
   cardSelected = numCards-1;
   //this would interact with card class/might not be here, but just for display purposes:
-  int[][] cH = {  {ACE , SPADES},
-                {2,CLUBS},
-                {3,HEARTS},
-                {4,DIAMONDS},
-                {5,CLUBS},
-                {6,DIAMONDS},
-                {7,HEARTS},
-                {8,SPADES},
-                {KING,HEARTS},
-                {10,SPADES},
-                {JACK,DIAMONDS},
-                {QUEEN,CLUBS},
-                {9,HEARTS} };
+  int[][] cH = {  
+    {
+      ACE, SPADES
+    }
+    , 
+    {
+      2, CLUBS
+    }
+    , 
+    {
+      3, HEARTS
+    }
+    , 
+    {
+      4, DIAMONDS
+    }
+    , 
+    {
+      5, CLUBS
+    }
+    , 
+    {
+      6, DIAMONDS
+    }
+    , 
+    {
+      7, HEARTS
+    }
+    , 
+    {
+      8, SPADES
+    }
+    , 
+    {
+      KING, HEARTS
+    }
+    , 
+    {
+      10, SPADES
+    }
+    , 
+    {
+      JACK, DIAMONDS
+    }
+    , 
+    {
+      QUEEN, CLUBS
+    }
+    , 
+    {
+      9, HEARTS
+    }
+  };
   cardHand = cH;
 }
 
@@ -49,51 +89,51 @@ void draw() {
   }
 }
 
-void heartSmall(float x, float y){
-  fill(195,0,0);
+void heartSmall(float x, float y) {
+  fill(195, 0, 0);
   noStroke();
-  ellipse(x-1.5,y,2,2);
-  ellipse(x+1.5,y,2,2);
-  triangle(x-3,y,x+3,y,x,y+4);
+  ellipse(x-1.5, y, 2, 2);
+  ellipse(x+1.5, y, 2, 2);
+  triangle(x-3, y, x+3, y, x, y+4);
 }
 
-void heartSmall2(float x, float y){
-  fill(195,0,0);
+void heartSmall2(float x, float y) {
+  fill(195, 0, 0);
   noStroke();
-  ellipse(x-1.5,y,2,2);
-  ellipse(x+1.5,y,2,2);
-  triangle(x-3,y,x+3,y,x,y-4);
+  ellipse(x-1.5, y, 2, 2);
+  ellipse(x+1.5, y, 2, 2);
+  triangle(x-3, y, x+3, y, x, y-4);
 }
 
-void heart(float x, float y){
-  fill(195,0,0);
+void heart(float x, float y) {
+  fill(195, 0, 0);
   noStroke();
-  ellipse(x-1.75,y,3.5,3.5);
-  ellipse(x+1.75,y,3,3);
-  triangle(x-3.5,y,x+3.5,y,x,y+5);
+  ellipse(x-1.75, y, 3.5, 3.5);
+  ellipse(x+1.75, y, 3, 3);
+  triangle(x-3.5, y, x+3.5, y, x, y+5);
 }
 
-void heart2(float x, float y){
-  fill(195,0,0);
+void heart2(float x, float y) {
+  fill(195, 0, 0);
   noStroke();
-  ellipse(x-1.75,y,3.5,3.5);
-  ellipse(x+1.75,y,3.5,3.5);
-  triangle(x-3.5,y,x+3.5,y,x,y-5);
+  ellipse(x-1.75, y, 3.5, 3.5);
+  ellipse(x+1.75, y, 3.5, 3.5);
+  triangle(x-3.5, y, x+3.5, y, x, y-5);
 }
 
-void nine(float x, float y, int suit){
-  if(suit==HEARTS){
-    heart(x,y);
-    heart(x-7,y-10);
-    heart(x+7,y-10);
-    heart(x-7,y-20);
-    heart(x+7,y-20);
-    heart2(x-7,y+10);
-    heart2(x+7,y+10);
-    heart2(x-7,y+20);
-    heart2(x+7,y+20);
-    heartSmall(x-17,y-18);
-    heartSmall2(x+17,y+18);
+void nine(float x, float y, int suit) {
+  if (suit==HEARTS) {
+    heart(x, y);
+    heart(x-7, y-10);
+    heart(x+7, y-10);
+    heart(x-7, y-20);
+    heart(x+7, y-20);
+    heart2(x-7, y+10);
+    heart2(x+7, y+10);
+    heart2(x-7, y+20);
+    heart2(x+7, y+20);
+    heartSmall(x-17, y-18);
+    heartSmall2(x+17, y+18);
   }
 }
 
@@ -129,6 +169,26 @@ void hand(int place) {
   rectMode(CORNER);
 }
 
+void symbols(float x, float y, int number, int suit) {
+  if (number==ACE) {
+    nine(x, y, HEARTS);
+  } else if (number==1) {
+  } else if (number==2) {
+  } else if (number==3) {
+  } else if (number==4) {
+  } else if (number==5) {
+  } else if (number==6) {
+  } else if (number==7) {
+  } else if (number==8) {
+  } else if (number==9) {
+    nine(x,y,suit);
+  } else if (number==10) {
+  } else if (number == JACK) {
+  } else if (number == QUEEN) {
+  } else if (number == KING) {
+  }
+}
+
 void cardFront(float x, float y, int number, int suit) {
   rectMode(CENTER);
   cardHighlight(x, y);
@@ -145,15 +205,13 @@ void cardFront(float x, float y, int number, int suit) {
 void cardContent(float x, float y, int number, int suit) {
   textSize(12);
   textAlign(CENTER, CENTER);
-  if(suit==SPADES || suit==CLUBS){
+  if (suit==SPADES || suit==CLUBS) {
     fill(0);
     stroke(0);
-  }else{
-    if(suit==HEARTS){
-     nine(x,y,HEARTS); 
-    }
-     fill(195,0,0);
-     stroke(195,0,0);
+  } else {
+    symbols(x, y,number,suit);
+    fill(195, 0, 0);
+    stroke(195, 0, 0);
   }
   if (number==JACK) {
     translate(width/2, height/2);
