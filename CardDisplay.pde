@@ -437,7 +437,8 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x-3.5, y, 7, 7);
     ellipse(x+3.5, y, 7, 7);
     triangle(x-7, y, x+7, y, x, y-10);
-    rect(x, y, 3, 16);
+    //rect(x, y, 3, 16);
+    triangle(x, y, x+2, y+8, x-2, y+8);
   }
   ///////////DIAMOND SYMBOLS///////////
   void diamondSmall(float x, float y) {//diamonds under the number
