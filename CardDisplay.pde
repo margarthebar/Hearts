@@ -15,7 +15,7 @@ int JACK = 11;
 int QUEEN = 12;
 int KING = 13;
 int ACE = 1;
-int[][] cardHand;
+ArrayList< ArrayList<Integer> > cardHand;
 
 class CardDisplay {
   CardDisplay() {
@@ -24,61 +24,49 @@ class CardDisplay {
     numCards = 13;
     selected = false;
     cardSelected = numCards-1;
-    //this would interact with card class/might not be here, but just for display purposes:
-    int[][] cH = {  
-      {
-        ACE, SPADES
-      }
-      , 
-      {
-        2, CLUBS
-      }
-      , 
-      {
-        3, HEARTS
-      }
-      , 
-      {
-        4, DIAMONDS
-      }
-      , 
-      {
-        5, CLUBS
-      }
-      , 
-      {
-        6, DIAMONDS
-      }
-      , 
-      {
-        7, HEARTS
-      }
-      , 
-      {
-        8, SPADES
-      }
-      , 
-      {
-        KING, HEARTS
-      }
-      , 
-      {
-        10, SPADES
-      }
-      , 
-      {
-        JACK, DIAMONDS
-      }
-      , 
-      {
-        QUEEN, CLUBS
-      }
-      , 
-      {
-        9, HEARTS
-      }
-    };
-    cardHand = cH;
+
+    cardHand = new ArrayList();
+    for (int i=0; i<13; i++) {
+      cardHand.add(new ArrayList());
+    }
+    cardHand.get(0).add(0,ACE);
+    cardHand.get(0).add(1,SPADES);
+    
+    cardHand.get(1).add(0,2);
+    cardHand.get(1).add(1,CLUBS);
+    
+    cardHand.get(2).add(0,3);
+    cardHand.get(2).add(1,HEARTS);
+    
+    cardHand.get(3).add(0,4);
+    cardHand.get(3).add(1,DIAMONDS);
+    
+    cardHand.get(4).add(0,5);
+    cardHand.get(4).add(1,CLUBS);
+    
+    cardHand.get(5).add(0,6);
+    cardHand.get(5).add(1,DIAMONDS);
+    
+    cardHand.get(6).add(0,7);
+    cardHand.get(6).add(1,HEARTS);
+    
+    cardHand.get(7).add(0,8);
+    cardHand.get(7).add(1,SPADES);
+    
+    cardHand.get(8).add(0,KING);
+    cardHand.get(8).add(1,HEARTS);
+    
+    cardHand.get(9).add(0,10);
+    cardHand.get(9).add(1,SPADES);
+    
+    cardHand.get(10).add(0,JACK);
+    cardHand.get(10).add(1,DIAMONDS);
+    
+    cardHand.get(11).add(0,QUEEN);
+    cardHand.get(11).add(1,CLUBS);
+    
+    cardHand.get(12).add(0,9);
+    cardHand.get(12).add(1,HEARTS);
   }
 
   void draw() {
@@ -87,24 +75,25 @@ class CardDisplay {
       hand(i);
     }
   }
-  
-  void selectRight(){
-   if (cardSelected<numCards-1) {
+
+  void selectRight() {
+    if (cardSelected<numCards-1) {
       cardSelected++;
-    } 
+    }
   }
-  
-  void selectLeft(){
+
+  void selectLeft() {
     if (cardSelected>0) {
       cardSelected--;
     }
   }
-  
-  void playCard(){
-   if (cardSelected==numCards-1) {
+
+  void playCard() {
+    if (cardSelected==numCards-1) {
+      cardHand.remove(cardSelected);
       cardSelected--;
     }
-    numCards--; 
+    numCards--;
   }
 
   void heartSmall(float x, float y) {
@@ -165,7 +154,7 @@ class CardDisplay {
         if (i==cardSelected) {
           selected = true;
         }
-        cardFront(x, height-75, cardHand[i][0], cardHand[i][1]);
+        cardFront(x, height-75, cardHand.get(i).get(0), cardHand.get(i).get(1));
         selected = false;
       }
     } else if (place==NORTH) {
