@@ -168,7 +168,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       translate(width/2, height/2);
       rotate(radians(180));
       text("A", x-cardWidth/2+8, y-cardHeight/2+8);
-    }else if(number==10){
+    } else if (number==10) {
       translate(width/2, height/2);
       rotate(radians(180));
       text("10", -204+((13-numCards)*15), -304);
@@ -296,12 +296,12 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       rect(x-1, y, 62, 42);
       rect(x-1, y, 60, 40);
       stroke(255);
-      rect(x-1,y,64,44);
+      rect(x-1, y, 64, 44);
     } else {
       rect(x-1, y-1, 62, 42);
       rect(x-1, y-1, 60, 40);
       stroke(255);
-      rect(x-1,y-1,64,44);
+      rect(x-1, y-1, 64, 44);
     }
     stroke(0);
     rectMode(CORNER);
@@ -326,7 +326,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
   ////////////////////////////////////CARD SYMBOLS////////////////////////////////////////////
   void symbols(float x, float y, int number, int suit) {//prints display specific to nuber and suit of card
     if (number==ACE) {
-    } else if (number==1) {
+      ace(x, y, suit);
     } else if (number==2) {
       two(x, y, suit);
     } else if (number==3) {
@@ -372,7 +372,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     fill(195, 0, 0);
     noStroke();
     ellipse(x-1.75, y, 3.5, 3.5);
-    ellipse(x+1.75, y, 3, 3);
+    ellipse(x+1.75, y, 3.5, 3.5);
     triangle(x-3.5, y, x+3.5, y, x, y+5);
   }
 
@@ -382,6 +382,14 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x-1.75, y, 3.5, 3.5);
     ellipse(x+1.75, y, 3.5, 3.5);
     triangle(x-3.5, y, x+3.5, y, x, y-5);
+  }
+  
+  void heartBig(float x, float y) {//rightside up heart for Ace
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x-3.5, y, 7, 7);
+    ellipse(x+3.5, y, 7, 7);
+    triangle(x-7, y, x+7, y, x, y+10);
   }
 
   ///////////SPADE SYMBOLS///////////
@@ -422,7 +430,15 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     triangle(x-3.5, y, x+3.5, y, x, y+5);
     rect(x, y, 1.5, 8);
   }
-  
+
+  void spadeBig(float x, float y) {//rightside up spade for Ace
+    fill(0);
+    noStroke();
+    ellipse(x-3.5, y, 7, 7);
+    ellipse(x+3.5, y, 7, 7);
+    triangle(x-7, y, x+7, y, x, y-10);
+    rect(x, y, 3, 16);
+  }
   ///////////DIAMOND SYMBOLS///////////
   void diamondSmall(float x, float y) {//diamonds under the number
     fill(195, 0, 0);
@@ -433,7 +449,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
   }
 
   void diamondSmall2(float x, float y) {//upside down diamonds under the number
-    diamondSmall(x,y-4);
+    diamondSmall(x, y-4);
   }
 
   void diamond(float x, float y) {//rightside up diamonds representing the number
@@ -444,7 +460,14 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
   }
 
   void diamond2(float x, float y) {//upside down diamonds representing the number
-    diamond(x,y);
+    diamond(x, y);
+  }
+  
+  void diamondBig(float x, float y) {//rightside up diamond for Ace
+    fill(195, 0, 0);
+    noStroke();
+    triangle(x-6, y, x+6, y, x, y-9);
+    triangle(x-6, y, x+6, y, x, y+9);
   }
 
   ///////////CLUB SYMBOLS///////////
@@ -454,8 +477,8 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     y+=2;
     ellipse(x-1.5, y, 2.5, 2.5);
     ellipse(x+1.5, y, 2.5, 2.5);
-    ellipse(x,y-1.5,2.5,2.5);
-    triangle(x,y,x+1,y+3,x-1,y+3);
+    ellipse(x, y-1.5, 2.5, 2.5);
+    triangle(x, y, x+1, y+3, x-1, y+3);
   }
 
   void clubSmall2(float x, float y) {//upside down clubs under the number
@@ -464,8 +487,8 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     y-=2;
     ellipse(x-1.5, y, 2.5, 2.5);
     ellipse(x+1.5, y, 2.5, 2.5);
-    ellipse(x,y+1.5,2.5,2.5);
-    triangle(x,y,x+1,y-3,x-1,y-3);
+    ellipse(x, y+1.5, 2.5, 2.5);
+    triangle(x, y, x+1, y-3, x-1, y-3);
   }
 
   void club(float x, float y) {//rightside up clubs representing the number
@@ -473,9 +496,9 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     noStroke();
     ellipse(x-2, y, 3.3, 3.3);
     ellipse(x+2, y, 3.3, 3.3);
-    ellipse(x,y-3,3.3,3.3);
-    triangle(x,y,x+1,y+4,x-1,y+4);
-    rect(x,y,2,3);
+    ellipse(x, y-3, 3.3, 3.3);
+    triangle(x, y, x+1, y+4, x-1, y+4);
+    rect(x, y, 2, 3);
   }
 
   void club2(float x, float y) {//upside down clubs representing the number
@@ -483,12 +506,43 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     noStroke();
     ellipse(x-2, y, 3.3, 3.3);
     ellipse(x+2, y, 3.3, 3.3);
-    ellipse(x,y+3,3.3,3.3);
-    triangle(x,y,x+1,y-4,x-1,y-4);
-    rect(x,y,2,3);
+    ellipse(x, y+3, 3.3, 3.3);
+    triangle(x, y, x+1, y-4, x-1, y-4);
+    rect(x, y, 2, 3);
+  }
+  
+  void clubBig(float x, float y) {//rightside up club for Ace
+    fill(0);
+    noStroke();
+    ellipse(x-4, y, 6.6, 6.6);
+    ellipse(x+4, y, 6.6, 6.6);
+    ellipse(x, y-6, 6.6, 6.6);
+    triangle(x, y, x+2, y+8, x-2, y+8);
+    ellipse(x,y-1,3,3);
+    ellipse(x,y-2,3,3);
   }
 
   //////////////NUMBERS///////////
+  void ace(float x, float y, int suit) {//prints correct number of symbols for Ace cards
+    if (suit==HEARTS) {
+      heartBig(x, y);
+      heartSmall(x-17, y-18);
+      heartSmall2(x+17, y+18);
+    } else if (suit==SPADES) {
+      spadeBig(x,y);
+      spadeSmall(x-17, y-18);
+      spadeSmall2(x+17, y+18);
+    } else if (suit==DIAMONDS) {
+      diamondBig(x,y);
+      diamondSmall(x-17, y-18);
+      diamondSmall2(x+17, y+18);
+    } else if (suit==CLUBS) {
+      clubBig(x,y);
+      clubSmall(x-17, y-18);
+      clubSmall2(x+17, y+18);
+    }
+  }
+
   void two(float x, float y, int suit) {//prints correct number of symbols for 2 cards
     if (suit==HEARTS) {
       heart(x, y-20);
@@ -500,7 +554,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       spade2(x, y+20);
       spadeSmall(x-17, y-18);
       spadeSmall2(x+17, y+18);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x, y-20);
       diamond2(x, y+20);
       diamondSmall(x-17, y-18);
@@ -512,20 +566,20 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       clubSmall2(x+17, y+18);
     }
   }
-  
+
   void three(float x, float y, int suit) {//prints correct number of symbols for 3 cards
     two(x, y, suit);
     if (suit==HEARTS) {
       heart(x, y);
     } else if (suit==SPADES) {
       spade(x, y);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x, y);
     } else if (suit==CLUBS) {
       club(x, y);
     }
   }
-  
+
   void four(float x, float y, int suit) {//prints correct number of symbols for 4 cards
     if (suit==HEARTS) {
       heart(x-7, y-20);
@@ -541,7 +595,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       spade2(x+7, y+20);
       spadeSmall(x-17, y-18);
       spadeSmall2(x+17, y+18);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x-7, y-20);
       diamond(x+7, y-20);
       diamond2(x-7, y+20);
@@ -557,20 +611,20 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       clubSmall2(x+17, y+18);
     }
   }
-  
+
   void five(float x, float y, int suit) {//prints correct number of symbols for 5 cards
-    four(x,y,suit);
+    four(x, y, suit);
     if (suit==HEARTS) {
       heart(x, y);
     } else if (suit==SPADES) {
       spade(x, y);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x, y);
     } else if (suit==CLUBS) {
       club(x, y);
     }
   }
-  
+
   void six(float x, float y, int suit) {//prints correct number of symbols for 6 cards
     four(x, y, suit);
     if (suit==HEARTS) {
@@ -579,7 +633,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     } else if (suit==SPADES) {
       spade(x-7, y);
       spade(x+7, y);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x-7, y);
       diamond(x+7, y);
     } else if (suit==CLUBS) {
@@ -587,33 +641,33 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       club(x+7, y);
     }
   }
-  
+
   void seven(float x, float y, int suit) {//prints correct number of symbols for 7 cards
     six(x, y, suit);
     if (suit==HEARTS) {
       heart(x, y-10);
     } else if (suit==SPADES) {
       spade(x, y-10);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x, y-10);
     } else if (suit==CLUBS) {
       club(x, y-10);
     }
   }
-  
+
   void eight(float x, float y, int suit) {//prints correct number of symbols for 8 cards
     seven(x, y, suit);
     if (suit==HEARTS) {
       heart2(x, y+10);
     } else if (suit==SPADES) {
       spade2(x, y+10);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond2(x, y+10);
     } else if (suit==CLUBS) {
       club2(x, y+10);
     }
   }
-  
+
   void nine(float x, float y, int suit) {//prints correct number of symbols for 9 cards
     five(x, y, suit);
     if (suit==HEARTS) {
@@ -627,7 +681,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       spade(x+7, y-8);
       spade2(x-7, y+8);
       spade2(x+7, y+8);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x, y);
       diamond(x-7, y-8);
       diamond(x+7, y-8);
@@ -641,7 +695,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       club2(x+7, y+8);
     }
   }
-  
+
   void ten(float x, float y, int suit) {//prints correct number of symbols for 10 cards
     four(x, y, suit);
     if (suit==HEARTS) {
@@ -658,9 +712,9 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       spade(x+7, y-8);
       spade2(x-7, y+8);
       spade2(x+7, y+8);
-    }else if(suit==DIAMONDS){
+    } else if (suit==DIAMONDS) {
       diamond(x, y-14);
-      diamond2(x,y+14);
+      diamond2(x, y+14);
       diamond(x-7, y-8);
       diamond(x+7, y-8);
       diamond2(x-7, y+8);
