@@ -72,7 +72,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     cardHand.get(11).add(1, CLUBS);
 
     cardHand.get(12).add(0, 9);
-    cardHand.get(12).add(1, CLUBS);
+    cardHand.get(12).add(1, SPADES);
   }
 
   void draw() {
@@ -405,6 +405,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x-1.75, y, 3.5, 3.5);
     ellipse(x+1.75, y, 3, 3);
     triangle(x-3.5, y, x+3.5, y, x, y+5);
+    rect(x, y, 1.5, 8);
   }
 
   ///////////CLUB SYMBOLS///////////
