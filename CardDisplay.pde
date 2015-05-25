@@ -383,7 +383,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x+1.75, y, 3.5, 3.5);
     triangle(x-3.5, y, x+3.5, y, x, y-5);
   }
-  
+
   void heartBig(float x, float y) {//rightside up heart for Ace
     fill(195, 0, 0);
     noStroke();
@@ -463,7 +463,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
   void diamond2(float x, float y) {//upside down diamonds representing the number
     diamond(x, y);
   }
-  
+
   void diamondBig(float x, float y) {//rightside up diamond for Ace
     fill(195, 0, 0);
     noStroke();
@@ -511,7 +511,7 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     triangle(x, y, x+1, y-4, x-1, y-4);
     rect(x, y, 2, 3);
   }
-  
+
   void clubBig(float x, float y) {//rightside up club for Ace
     fill(0);
     noStroke();
@@ -519,8 +519,8 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     ellipse(x+4, y, 6.6, 6.6);
     ellipse(x, y-6, 6.6, 6.6);
     triangle(x, y, x+2, y+8, x-2, y+8);
-    ellipse(x,y-1,3,3);
-    ellipse(x,y-2,3,3);
+    ellipse(x, y-1, 3, 3);
+    ellipse(x, y-2, 3, 3);
   }
 
   //////////////NUMBERS///////////
@@ -530,15 +530,15 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
       heartSmall(x-17, y-18);
       heartSmall2(x+17, y+18);
     } else if (suit==SPADES) {
-      spadeBig(x,y);
+      spadeBig(x, y);
       spadeSmall(x-17, y-18);
       spadeSmall2(x+17, y+18);
     } else if (suit==DIAMONDS) {
-      diamondBig(x,y);
+      diamondBig(x, y);
       diamondSmall(x-17, y-18);
       diamondSmall2(x+17, y+18);
     } else if (suit==CLUBS) {
-      clubBig(x,y);
+      clubBig(x, y);
       clubSmall(x-17, y-18);
       clubSmall2(x+17, y+18);
     }
