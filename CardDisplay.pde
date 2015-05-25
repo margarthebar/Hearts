@@ -23,8 +23,8 @@ int KING = 13;
 int ACE = 1;
 ArrayList< ArrayList<Integer> > cardHand;//Will hold the information from the funcitonal cards passed into the constructor
 
-class CardDisplay {//right now this just creates a preset hand for testing purposes
-  CardDisplay() {
+class CardDisplay {
+  CardDisplay(ArrayList<Card> hand) {
     cardWidth = 50;
     cardHeight = 70;
     numCards = 13;
@@ -34,45 +34,10 @@ class CardDisplay {//right now this just creates a preset hand for testing purpo
     cardHand = new ArrayList();
     for (int i=0; i<13; i++) {
       cardHand.add(new ArrayList());
+      Card current = hand.get(i);
+      cardHand.get(i).add(0, current.number);
+      cardHand.get(i).add(1, current.suit);
     }
-    cardHand.get(0).add(0, ACE);
-    cardHand.get(0).add(1, SPADES);
-
-    cardHand.get(1).add(0, 2);
-    cardHand.get(1).add(1, CLUBS);
-
-    cardHand.get(2).add(0, 3);
-    cardHand.get(2).add(1, HEARTS);
-
-    cardHand.get(3).add(0, 4);
-    cardHand.get(3).add(1, DIAMONDS);
-
-    cardHand.get(4).add(0, 5);
-    cardHand.get(4).add(1, CLUBS);
-
-    cardHand.get(5).add(0, 6);
-    cardHand.get(5).add(1, DIAMONDS);
-
-    cardHand.get(6).add(0, 7);
-    cardHand.get(6).add(1, HEARTS);
-
-    cardHand.get(7).add(0, 8);
-    cardHand.get(7).add(1, SPADES);
-
-    cardHand.get(8).add(0, KING);
-    cardHand.get(8).add(1, HEARTS);
-
-    cardHand.get(9).add(0, 10);
-    cardHand.get(9).add(1, SPADES);
-
-    cardHand.get(10).add(0, JACK);
-    cardHand.get(10).add(1, DIAMONDS);
-
-    cardHand.get(11).add(0, QUEEN);
-    cardHand.get(11).add(1, CLUBS);
-
-    cardHand.get(12).add(0, 9);
-    cardHand.get(12).add(1, HEARTS);
   }
 
   void draw() {
