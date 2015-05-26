@@ -3,17 +3,17 @@ Team <3's
 
 Description: This project will be the card game Hearts. The user will play against three AI opponents.
 
-Development Log
+Development Log 
 5/25/15:
  - Each player is dealt a random hand of 13 cards
  - The cards the user is dealt are displayed
  - The user can select a card to play using the arrow keys
 
-Project Plan
+Project Plan 
 Done:
  - Build the basic playing area in Processing. Allow the user to select a card to play into the center.
  - Card class
- - Display of cards on screen
+ - Display of cards on screen 
 To do:
  - Mouse interaction with cards
  - Restrict the user to playing cards that follow the rules of the game. Have the computer play random cards that follow these rules. Declare a winner at the end of the game and restart.
@@ -30,7 +30,7 @@ To do:
  - Polished display
  - Animation (when dealing, playing)
  
-Demo Versions
-6/1/15:
-6/8/15:
-6/15/15:
+Demo Versions 
+6/1/15: 
+6/8/15: 
+6/15/15: 
