@@ -1,5 +1,6 @@
 CardDisplay display;
 ArrayList<Card> deck; //The deck of cards
+Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
 //The 4 players
 Player south;
 Player north;
@@ -12,10 +13,14 @@ void setup() {
   size(700, 700);
   background(0, 100, 0);
   deck = new ArrayList();
-  south = new Player();
-  north = new Player();
-  east = new Player();
-  west = new Player();
+  playedCards = new Card[4];
+  for (int i = 0; i < 4; i++){
+    playedCards[i] = new Card(1, 0);
+  }
+  south = new Player(SOUTH);
+  north = new Player(NORTH);
+  east = new Player(EAST);
+  west = new Player(WEST);
   setDeck();
   deal();
   display = new CardDisplay(south.hand);
@@ -24,6 +29,10 @@ void setup() {
 void draw() {
   //displays cards
   display.draw();
+  println(playedCards[0].number + " " + playedCards[0].suit);
+  println(playedCards[1].number + " " + playedCards[1].suit);
+  println(playedCards[2].number + " " + playedCards[2].suit);
+  println(playedCards[3].number + " " + playedCards[3].suit);
 }
 
 void keyPressed() {

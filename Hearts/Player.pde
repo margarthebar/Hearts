@@ -1,9 +1,12 @@
 class Player {
   //The player's hand
   ArrayList<Card> hand;
+  //The player's number (0, 1, 2, or 3)
+  int playerNumber;
 
-  Player() {
+  Player(int num) {
     hand = new ArrayList();
+    playerNumber = num;
   }
 
   //Adds a card to the player's hand
@@ -14,7 +17,7 @@ class Player {
   //Plays a card
   void playCard(int cardNumber, boolean isUser) {
     if (isLegalMove(cardNumber)) {
-      hand.remove(cardNumber);
+      playedCards[playerNumber] = hand.remove(cardNumber);
       if (isUser) {
         display.playCard();
       }
