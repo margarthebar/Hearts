@@ -5,6 +5,8 @@ Player south;
 Player north;
 Player east;
 Player west;
+//The number of the player that will start (is dealt the 2 of clubs)
+int startingPlayer;
 
 void setup() {
   size(700, 700);
@@ -55,12 +57,22 @@ void setDeck() {
 
 
 //Separates the deck into 4 hands
-void deal(){
-  while (deck.size() > 0){
-    south.addCard(deck.remove((int)random(deck.size())));
-    north.addCard(deck.remove((int)random(deck.size())));
-    east.addCard(deck.remove((int)random(deck.size())));
-    west.addCard(deck.remove((int)random(deck.size())));
+void deal() {
+  while (deck.size () > 0) {
+    Card randomCard = deck.remove((int)random(deck.size()));
+    int playerDealtTo = deck.size() % 4;
+    if (randomCard.number == 2 && randomCard.suit == CLUBS) {
+      startingPlayer = playerDealtTo;
+    }
+    if (playerDealtTo == NORTH) {
+      north.addCard(randomCard);
+    } else if (playerDealtTo == SOUTH) {
+      south.addCard(randomCard);
+    } else if (playerDealtTo == EAST) {
+      east.addCard(randomCard);
+    } else {
+      west.addCard(randomCard);
+    }
   }
 }
 
