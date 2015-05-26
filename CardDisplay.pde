@@ -311,8 +311,11 @@ class CardDisplay {
     } else if (number==10) {
       ten(x, y, suit);
     } else if (number == JACK) {
+      jack(x, y, suit);
     } else if (number == QUEEN) {
+      queen(x, y, suit);
     } else if (number == KING) {
+      king(x, y, suit);
     }
   }
 
@@ -692,6 +695,52 @@ class CardDisplay {
       club(x+7, y-8);
       club2(x-7, y+8);
       club2(x+7, y+8);
+    }
+  }
+  
+  void jack(float x, float y, int suit){
+    if(suit==HEARTS){
+      heartSmall(x-17,y-18);
+      heartSmall2(x+17,y+18);
+    }else if(suit==SPADES){
+      spadeSmall(x-17,y-18);
+      spadeSmall2(x+17,y+18);
+    }else if(suit==DIAMONDS){
+      diamondSmall(x-17,y-18);
+      diamondSmall2(x+17,y+18);
+    }else if(suit==CLUBS){
+      clubSmall(x-17,y+18);
+      clubSmall2(x-17,y+18);
+    }
+  }
+  void queen(float x, float y, int suit){
+    if(suit==HEARTS){
+      heartSmall(x-17,y-18);
+      heartSmall2(x+17,y+18);
+    }else if(suit==SPADES){
+      spadeSmall(x-17,y-18);
+      spadeSmall2(x+17,y+18);
+    }else if(suit==DIAMONDS){
+      diamondSmall(x-17,y-18);
+      diamondSmall2(x+17,y+18);
+    }else if(suit==CLUBS){
+      clubSmall(x-17,y+18);
+      clubSmall2(x-17,y+18);
+    }
+  }
+  void king(float x, float y, int suit){
+    if(suit==HEARTS){
+      heartSmall(x-17,y-18);
+      heartSmall2(x+17,y+18);
+    }else if(suit==SPADES){
+      spadeSmall(x-17,y-18);
+      spadeSmall2(x+17,y+18);
+    }else if(suit==DIAMONDS){
+      diamondSmall(x-17,y-18);
+      diamondSmall2(x+17,y+18);
+    }else if(suit==CLUBS){
+      clubSmall(x-17,y+18);
+      clubSmall2(x-17,y+18);
     }
   }
 }
