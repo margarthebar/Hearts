@@ -18,17 +18,14 @@ Done:
 
 To do:
  - Mouse interaction with cards
- - Restrict the user to playing cards that follow the rules of the game. Have the computer play random cards that follow these rules. Declare a winner at the end of the game and restart.
  - Restrict user to legal plays only
  - Automatic and random play for the three opponents
  - Turns/normal gameplay
  - End the game and declare a winner
  - Restart game
- - Improve the computer’s decisions so that it plays the ideal move based on the game situation.
  - AI algorithms
  - Allow the user to select a difficulty level for the computer.
  - Create more/less intelligent alternative AIs
- - Polish the game and make it play smoothly. Possibly add animations or card noises. 
  - Polished display
  - Animation (when dealing, playing)
  
