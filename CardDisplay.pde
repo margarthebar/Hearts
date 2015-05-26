@@ -9,10 +9,6 @@ int cardHeight;
 int numCards;//says how many cards are currently in a player's hand
 boolean selected;//says if a card has been selected
 int cardSelected;//says which card has been selected
-int NORTH = 0;
-int SOUTH = 1;
-int EAST = 2;
-int WEST = 3;
 int HEARTS = 0;
 int SPADES = 1;
 int DIAMONDS = 2;
@@ -24,20 +20,20 @@ int ACE = 1;
 ArrayList<Card> hand;
 
 class CardDisplay {
-  CardDisplay(ArrayList<Card> cardHand) {
+  int place;
+  CardDisplay(ArrayList<Card> cardHand, int p) {
+    println(p);
     cardWidth = 50;
     cardHeight = 70;
     numCards = 13;
     selected = false;
     cardSelected = numCards-1;
     hand = cardHand;
+    place = p;
   }
 
   void draw() {
-    background(0, 100, 0);
-    for (int i=0; i<4; i++) {
-      hand(i);
-    }
+    hand();
   }
 
 
@@ -53,18 +49,19 @@ class CardDisplay {
     }
   }
 
-  Card playCard() {//plays card highlighted (right now this just removes it)
-    Card played = hand.remove(cardSelected);
+  void playCard() {//plays card highlighted (right now this just removes it)
+    Card played = hand.get(cardSelected);
+    cardsPlayed.add(played);
+    hand.remove(cardSelected);
     if (cardSelected<=numCards-1 && cardSelected>0) {
       cardSelected--;
     }
     numCards--;
-    return played;
   }
 
   ////////////////////////////////PHYSICAL CARD REPRESENTATIONS////////////////////////////////////////
 
-  void hand(int place) {//creates hands for all four players
+  void hand() {//creates hands for all four players
     rectMode(CENTER);
     int cardsWidth = cardWidth + (numCards-2)*30;
     int cardsHeight = cardHeight + (numCards-3)*30;
