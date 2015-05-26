@@ -1,22 +1,22 @@
 CardDisplay display;
 ArrayList<Card> deck; //The deck of cards
-//The hands for the 4 players
-ArrayList<Card> southHand;
-ArrayList<Card> northHand;
-ArrayList<Card> eastHand;
-ArrayList<Card> westHand;
+//The 4 players
+Player south;
+Player north;
+Player east;
+Player west;
 
 void setup() {
   size(700, 700);
   background(0, 100, 0);
   deck = new ArrayList();
-  southHand = new ArrayList();
-  northHand = new ArrayList();
-  eastHand = new ArrayList();
-  westHand = new ArrayList();
+  south = new Player();
+  north = new Player();
+  east = new Player();
+  west = new Player();
   setDeck();
   deal();
-  display = new CardDisplay(southHand);
+  display = new CardDisplay(south.hand);
 }
 
 void draw() {
@@ -53,10 +53,10 @@ void setDeck() {
 //Separates the deck into 4 hands
 void deal(){
   while (deck.size() > 0){
-    southHand.add(deck.remove((int)random(deck.size())));
-    northHand.add(deck.remove((int)random(deck.size())));
-    eastHand.add(deck.remove((int)random(deck.size())));
-    westHand.add(deck.remove((int)random(deck.size())));
+    south.addCard(deck.remove((int)random(deck.size())));
+    north.addCard(deck.remove((int)random(deck.size())));
+    east.addCard(deck.remove((int)random(deck.size())));
+    west.addCard(deck.remove((int)random(deck.size())));
   }
 }
 
