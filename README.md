@@ -12,9 +12,10 @@ Development Log
 Project Plan
 
 Done:
- - Build the basic playing area in Processing. Allow the user to select a card to play into the center.
+ - Build the basic playing area in Processing 
  - Card class
  - Display of cards on screen
+ - Allow the user to select a card to play into the center
 
 To do:
  - Mouse interaction with cards
