@@ -12,7 +12,7 @@ int NORTH = 0;
 int SOUTH = 1;
 int EAST = 2;
 int WEST = 3;
-ArrayList<Card> cardsPlayed;
+Card[] cardsPlayed;
 
 void setup() {
   size(700, 700);
@@ -22,7 +22,7 @@ void setup() {
   northHand = new ArrayList();
   eastHand = new ArrayList();
   westHand = new ArrayList();
-  cardsPlayed = new ArrayList();
+  cardsPlayed = new Card[4];
   setDeck();
   deal();
   displaySouth = new CardDisplay(southHand, 1);
@@ -38,6 +38,7 @@ void draw() {
   displayNorth.draw();
   displayEast.draw();
   displayWest.draw();
+  playedCards();
 }
 
 void keyPressed() {
@@ -75,4 +76,27 @@ void deal(){
     westHand.add(deck.remove((int)random(deck.size())));
   }
 }
+
+//displays cards played by all four players;
+void playedCards(){
+    int x = 0;
+    int y = 0;
+    if(cardsPlayed[1]!=null){
+      x = width/2;
+      y = height/2 + 50;
+      displaySouth.cardFront(x, y, cardsPlayed[1].number, cardsPlayed[1].suit);
+    }else if(cardsPlayed[0]!=null){
+      x = width/2;
+      y = height/2 - 50;
+      displayNorth.cardFront(x, y, cardsPlayed[0].number, cardsPlayed[1].suit);
+    }else if(cardsPlayed[2]!=null){
+      x = width/2 + 50;
+      y = height/2;
+      displayEast.cardFront(x, y, cardsPlayed[2].number, cardsPlayed[1].suit);
+    }else if(cardsPlayed[3]!=null){
+      x = width/2 - 50;
+      y = height/2;
+      displayWest.cardFront(x, y, cardsPlayed[3].number, cardsPlayed[1].suit);
+    }
+  }
 

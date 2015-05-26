@@ -51,7 +51,7 @@ class CardDisplay {
 
   void playCard() {//plays card highlighted (right now this just removes it)
     Card played = hand.get(cardSelected);
-    cardsPlayed.add(played);
+    cardsPlayed[place] = played;
     hand.remove(cardSelected);
     if (cardSelected<=numCards-1 && cardSelected>0) {
       cardSelected--;
