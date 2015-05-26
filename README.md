@@ -10,11 +10,13 @@ Development Log
  - The user can select a card to play using the arrow keys
 
 Project Plan
-<br>Done:
+
+Done:
  - Build the basic playing area in Processing. Allow the user to select a card to play into the center.
  - Card class
  - Display of cards on screen
-<br>To do:
+
+To do:
  - Mouse interaction with cards
  - Restrict the user to playing cards that follow the rules of the game. Have the computer play random cards that follow these rules. Declare a winner at the end of the game and restart.
  - Restrict user to legal plays only
