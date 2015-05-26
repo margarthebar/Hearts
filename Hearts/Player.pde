@@ -10,4 +10,12 @@ class Player{
   void addCard(Card card){
     hand.add(card);
   }
+  
+  //Plays a card
+  void playCard(int cardNumber, boolean isPlayer){
+    hand.remove(cardNumber);
+    if (isPlayer){
+      display.playCard();
+    }
+  }
 }

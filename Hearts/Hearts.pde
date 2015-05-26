@@ -33,7 +33,11 @@ void keyPressed() {
     display.selectLeft();
   }
   if (keyCode==UP) {
-    display.playCard();
+    south.playCard(cardSelected, true);
+    //For now, plays a random card from each opponent's hand
+    north.playCard((int)random(north.hand.size()), false);
+    east.playCard((int)random(east.hand.size()), false);
+    west.playCard((int)random(west.hand.size()), false);
   }
 }
 

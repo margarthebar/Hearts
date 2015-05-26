@@ -84,17 +84,17 @@ class CardDisplay {
         selected = false;
       }
     } else if (place==NORTH) {
-      for (int i=numCards-1; i>=0; i--) {
+      for (int i=north.hand.size()-1; i>=0; i--) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
         cardBack(x, 75);
       }
     } else if (place==EAST) {
-      for (int i=numCards-1; i>=0; i--) {
+      for (int i=east.hand.size()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
         cardBack2(width-75, y);
       }
     } else if (place==WEST) {
-      for (int i=0; i<numCards; i++) {
+      for (int i=0; i<west.hand.size(); i++) {
         int y = height/2 - cardsHeight/2 + i*30;
         cardBack2(75, y);
       }
