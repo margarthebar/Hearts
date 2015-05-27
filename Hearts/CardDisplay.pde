@@ -6,13 +6,8 @@
 
 int cardWidth;
 int cardHeight;
-int numCards;//says how many cards are currently in a player's hand
 boolean selected;//says if a card has been selected
 int cardSelected;//says which card has been selected
-int NORTH = 0;
-int SOUTH = 1;
-int EAST = 2;
-int WEST = 3;
 int HEARTS = 0;
 int SPADES = 1;
 int DIAMONDS = 2;
@@ -21,30 +16,26 @@ int JACK = 11;
 int QUEEN = 12;
 int KING = 13;
 int ACE = 1;
-ArrayList< ArrayList<Integer> > cardHand;//Will hold the information from the funcitonal cards passed into the constructor
 
 class CardDisplay {
-  CardDisplay(ArrayList<Card> hand) {
+  int numCards;//says how many cards are currently in a player's hand
+  int cardSelected;//says which card has been selected
+  int place;
+  ArrayList<Card> hand;
+  CardDisplay(ArrayList<Card> cardHand, int p) {
+    println(p);
     cardWidth = 50;
     cardHeight = 70;
     numCards = 13;
     selected = false;
     cardSelected = numCards-1;
-
-    cardHand = new ArrayList();
-    for (int i=0; i<13; i++) {
-      cardHand.add(new ArrayList());
-      Card current = hand.get(i);
-      cardHand.get(i).add(0, current.number);
-      cardHand.get(i).add(1, current.suit);
-    }
+    hand = cardHand;
+    place = p;
+    println("P"+place+"hs"+hand.size());
   }
 
   void draw() {
-    background(0, 100, 0);
-    for (int i=0; i<4; i++) {
-      hand(i);
-    }
+    hand();
   }
 
 
@@ -61,7 +52,10 @@ class CardDisplay {
   }
 
   void playCard() {//plays card highlighted (right now this just removes it)
-    cardHand.remove(cardSelected);
+    //until each player plays in turn
+    Card played = hand.get(cardSelected);
+    cardsPlayed[place] = played;
+    hand.remove(cardSelected);
     if (cardSelected<=numCards-1 && cardSelected>0) {
       cardSelected--;
     }
@@ -70,7 +64,7 @@ class CardDisplay {
 
   ////////////////////////////////PHYSICAL CARD REPRESENTATIONS////////////////////////////////////////
 
-  void hand(int place) {//creates hands for all four players
+  void hand() {//creates hands for all four players
     rectMode(CENTER);
     int cardsWidth = cardWidth + (numCards-2)*30;
     int cardsHeight = cardHeight + (numCards-3)*30;
@@ -80,7 +74,7 @@ class CardDisplay {
         if (i==cardSelected) {
           selected = true;
         }
-        cardFront(x, height-75, cardHand.get(i).get(0), cardHand.get(i).get(1));
+        cardFront(x, height-75, hand.get(i).number, hand.get(i).suit);
         selected = false;
       }
     } else if (place==NORTH) {
@@ -129,42 +123,66 @@ class CardDisplay {
     if (number==ACE) {
       translate(width/2, height/2);
       rotate(radians(180));
-      text("A", -204+((13-numCards)*15), -304);
+      float x2 = -204+((13-numCards)*15);
+      if (y<height-75) {
+        x2 = -18+(x-width/2);
+      }
+      text("A", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("A", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==10) {
       translate(width/2, height/2);
       rotate(radians(180));
-      text("10", -204+((13-numCards)*15), -304);
+      float x2 = -204+((13-numCards)*15);
+      if (y<height-75) {
+        x2 = -18+(x-width/2);
+      }
+      text("10", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("10", x-cardWidth/2+6, y-cardHeight/2+8);
     } else if (number==JACK) {
       translate(width/2, height/2);
       rotate(radians(180));
-      text("J", -204+((13-numCards)*15), -304);
+      float x2 = -204+((13-numCards)*15);
+      if (y<height-75) {
+        x2 = -18+(x-width/2);
+      }
+      text("J", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("J", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==QUEEN) {
       translate(width/2, height/2);
       rotate(radians(180));
-      text("Q", -204+((13-numCards)*15), -304);
+      float x2 = -204+((13-numCards)*15);
+      if (y<height-75) {
+        x2 = -18+(x-width/2);
+      }
+      text("Q", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("Q", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==KING) {
       translate(width/2, height/2);
       rotate(radians(180));
-      text("K", -204+((13-numCards)*15), -304);
+      float x2 = -204+((13-numCards)*15);
+      if (y<height-75) {
+        x2 = -18+(x-width/2);
+      }
+      text("K", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("K", x-cardWidth/2+8, y-cardHeight/2+8);
     } else {
       translate(width/2, height/2);
       rotate(radians(180));
-      text(""+number, -203+((13-numCards)*15), -303);
+      float x2 = -203+((13-numCards)*15);
+      if (y<height-75) {
+        x2 = -18+(x-width/2);
+      }
+      text(""+number, x2, -303+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text(""+number, x-cardWidth/2+8, y-cardHeight/2+8);
@@ -697,50 +715,50 @@ class CardDisplay {
       club2(x+7, y+8);
     }
   }
-  
-  void jack(float x, float y, int suit){
-    if(suit==HEARTS){
-      heartSmall(x-17,y-18);
-      heartSmall2(x+17,y+18);
-    }else if(suit==SPADES){
-      spadeSmall(x-17,y-18);
-      spadeSmall2(x+17,y+18);
-    }else if(suit==DIAMONDS){
-      diamondSmall(x-17,y-18);
-      diamondSmall2(x+17,y+18);
-    }else if(suit==CLUBS){
-      clubSmall(x-17,y+18);
-      clubSmall2(x-17,y+18);
+
+  void jack(float x, float y, int suit) {
+    if (suit==HEARTS) {
+      heartSmall(x-17, y-18);
+      heartSmall2(x+17, y+18);
+    } else if (suit==SPADES) {
+      spadeSmall(x-17, y-18);
+      spadeSmall2(x+17, y+18);
+    } else if (suit==DIAMONDS) {
+      diamondSmall(x-17, y-18);
+      diamondSmall2(x+17, y+18);
+    } else if (suit==CLUBS) {
+      clubSmall(x-17, y-18);
+      clubSmall2(x+17, y+18);
     }
   }
-  void queen(float x, float y, int suit){
-    if(suit==HEARTS){
-      heartSmall(x-17,y-18);
-      heartSmall2(x+17,y+18);
-    }else if(suit==SPADES){
-      spadeSmall(x-17,y-18);
-      spadeSmall2(x+17,y+18);
-    }else if(suit==DIAMONDS){
-      diamondSmall(x-17,y-18);
-      diamondSmall2(x+17,y+18);
-    }else if(suit==CLUBS){
-      clubSmall(x-17,y+18);
-      clubSmall2(x-17,y+18);
+  void queen(float x, float y, int suit) {
+    if (suit==HEARTS) {
+      heartSmall(x-17, y-18);
+      heartSmall2(x+17, y+18);
+    } else if (suit==SPADES) {
+      spadeSmall(x-17, y-18);
+      spadeSmall2(x+17, y+18);
+    } else if (suit==DIAMONDS) {
+      diamondSmall(x-17, y-18);
+      diamondSmall2(x+17, y+18);
+    } else if (suit==CLUBS) {
+      clubSmall(x-17, y-18);
+      clubSmall2(x+17, y+18);
     }
   }
-  void king(float x, float y, int suit){
-    if(suit==HEARTS){
-      heartSmall(x-17,y-18);
-      heartSmall2(x+17,y+18);
-    }else if(suit==SPADES){
-      spadeSmall(x-17,y-18);
-      spadeSmall2(x+17,y+18);
-    }else if(suit==DIAMONDS){
-      diamondSmall(x-17,y-18);
-      diamondSmall2(x+17,y+18);
-    }else if(suit==CLUBS){
-      clubSmall(x-17,y+18);
-      clubSmall2(x-17,y+18);
+  void king(float x, float y, int suit) {
+    if (suit==HEARTS) {
+      heartSmall(x-17, y-18);
+      heartSmall2(x+17, y+18);
+    } else if (suit==SPADES) {
+      spadeSmall(x-17, y-18);
+      spadeSmall2(x+17, y+18);
+    } else if (suit==DIAMONDS) {
+      diamondSmall(x-17, y-18);
+      diamondSmall2(x+17, y+18);
+    } else if (suit==CLUBS) {
+      clubSmall(x-17, y-18);
+      clubSmall2(x+17, y+18);
     }
   }
 }
