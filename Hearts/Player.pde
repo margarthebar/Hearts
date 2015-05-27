@@ -18,6 +18,7 @@ class Player {
   void playCard(int cardNumber, boolean isUser) {
     if (isLegalMove(cardNumber)) {
       playedCards[playerNumber] = hand.remove(cardNumber);
+<<<<<<< HEAD
       if(playerNumber==NORTH){
         displayNorth.playCard();
       }else if(playerNumber==SOUTH){
@@ -32,6 +33,16 @@ class Player {
 
   //Checks if the card being played is legal
   boolean isLegalMove(int cardNumber) {
+=======
+      if (isUser) {
+        display.playCard();
+      }
+    }
+  }
+  
+  //Checks if the card being played is legal
+  boolean isLegalMove(int cardNumber){
+>>>>>>> Isaac
     Card card = hand.get(cardNumber);
     return true;
   }
