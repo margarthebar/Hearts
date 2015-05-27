@@ -18,8 +18,14 @@ class Player {
   void playCard(int cardNumber, boolean isUser) {
     if (isLegalMove(cardNumber)) {
       playedCards[playerNumber] = hand.remove(cardNumber);
-      if (isUser) {
+      if(playerNumber==NORTH){
+        displayNorth.playCard();
+      }else if(playerNumber==SOUTH){
         displaySouth.playCard();
+      }else if(playerNumber==EAST){
+        displayEast.playCard();
+      }else if(playerNumber==WEST){
+        displayWest.playCard();
       }
     }
   }

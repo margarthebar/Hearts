@@ -22,14 +22,14 @@ class CardDisplay {
   int cardSelected;//says which card has been selected
   int place;
   ArrayList<Card> hand;
-  
+
   CardDisplay(Player p) {
     cardWidth = 50;
     cardHeight = 70;
     numCards = 13;
     selected = false;
     cardSelected = numCards-1;
-    
+
     hand = p.hand;
     place = p.playerNumber;
   }
@@ -52,10 +52,6 @@ class CardDisplay {
   }
 
   void playCard() {//plays card highlighted (right now this just removes it)
-    //until each player plays in turn
-    Card played = hand.get(cardSelected);
-    playedCards[place] = played;
-    hand.remove(cardSelected);
     if (cardSelected<=numCards-1 && cardSelected>0) {
       cardSelected--;
     }
@@ -120,68 +116,46 @@ class CardDisplay {
       fill(195, 0, 0);
       stroke(195, 0, 0);
     }
-    if (number==ACE) {
-      translate(width/2, height/2);
-      rotate(radians(180));
-      float x2 = -204+((13-numCards)*15);
-      if (y<height-75) {
+    translate(width/2, height/2);
+    rotate(radians(180));
+    float x2 = -203+((13-numCards)*15);
+    if (y<height-75) {
+      if (x==width/2) {
         x2 = -18+(x-width/2);
+      } else {
+        if (x>width/2) {
+          x2 = x-width/2-118;
+        } else {
+          x2 = x-width/2+100-18;
+        }
       }
+    }
+    if (number==ACE) {
       text("A", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("A", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==10) {
-      translate(width/2, height/2);
-      rotate(radians(180));
-      float x2 = -204+((13-numCards)*15);
-      if (y<height-75) {
-        x2 = -18+(x-width/2);
-      }
       text("10", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("10", x-cardWidth/2+6, y-cardHeight/2+8);
     } else if (number==JACK) {
-      translate(width/2, height/2);
-      rotate(radians(180));
-      float x2 = -204+((13-numCards)*15);
-      if (y<height-75) {
-        x2 = -18+(x-width/2);
-      }
       text("J", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("J", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==QUEEN) {
-      translate(width/2, height/2);
-      rotate(radians(180));
-      float x2 = -204+((13-numCards)*15);
-      if (y<height-75) {
-        x2 = -18+(x-width/2);
-      }
       text("Q", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("Q", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==KING) {
-      translate(width/2, height/2);
-      rotate(radians(180));
-      float x2 = -204+((13-numCards)*15);
-      if (y<height-75) {
-        x2 = -18+(x-width/2);
-      }
       text("K", x2, -304+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
       text("K", x-cardWidth/2+8, y-cardHeight/2+8);
     } else {
-      translate(width/2, height/2);
-      rotate(radians(180));
-      float x2 = -203+((13-numCards)*15);
-      if (y<height-75) {
-        x2 = -18+(x-width/2);
-      }
       text(""+number, x2, -303+((height-75)-y));
       translate(width/2, height/2);
       rotate(radians(180));
