@@ -48,6 +48,8 @@ void setup() {
   displayEast = new CardDisplay(east);
   displayWest = new CardDisplay(west);
   
+  cardSelected = 12;
+  
   setDeck();
   deal();
 }
@@ -60,10 +62,10 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  println(playedCards[0].number + " " + playedCards[0].suit);
-  println(playedCards[1].number + " " + playedCards[1].suit);
-  println(playedCards[2].number + " " + playedCards[2].suit);
-  println(playedCards[3].number + " " + playedCards[3].suit);
+//  println(playedCards[0].number + " " + playedCards[0].suit);
+//  println(playedCards[1].number + " " + playedCards[1].suit);
+//  println(playedCards[2].number + " " + playedCards[2].suit);
+//  println(playedCards[3].number + " " + playedCards[3].suit);
 }
 
 void keyPressed() {
@@ -75,6 +77,7 @@ void keyPressed() {
     displaySouth.selectLeft();
   }
   if (keyCode==UP) {
+    println("cardSelected"+cardSelected);
     south.playCard(cardSelected, true);
     //For now, plays a random card from each opponent's hand
     north.playCard((int)random(north.hand.size()), false);

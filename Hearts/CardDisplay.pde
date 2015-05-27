@@ -19,18 +19,16 @@ int ACE = 1;
 
 class CardDisplay {
   int numCards;//says how many cards are currently in a player's hand
-  int cardSelected;//says which card has been selected
   int place;
-  ArrayList<Card> hand;
+  //ArrayList<Card> hand;
 
   CardDisplay(Player p) {
     cardWidth = 50;
     cardHeight = 70;
     numCards = 13;
     selected = false;
-    cardSelected = numCards-1;
 
-    hand = p.hand;
+    //hand = p.hand;
     place = p.playerNumber;
   }
 
@@ -40,7 +38,7 @@ class CardDisplay {
 
 
   void selectRight() {//moves highlight (cardSelected) right
-    if (cardSelected<numCards-1) {
+    if (cardSelected<south.hand.size()-1) {
       cardSelected++;
     }
   }
@@ -52,7 +50,7 @@ class CardDisplay {
   }
 
   void playCard() {//plays card highlighted (right now this just removes it)
-    if (cardSelected<=numCards-1 && cardSelected>0) {
+    if (cardSelected>numCards-1 || cardSelected>=south.hand.size()) {
       cardSelected--;
     }
     numCards--;
@@ -65,12 +63,12 @@ class CardDisplay {
     int cardsWidth = cardWidth + (numCards-2)*30;
     int cardsHeight = cardHeight + (numCards-3)*30;
     if (place==SOUTH) {
-      for (int i=0; i<numCards; i++) {
+      for (int i=0; i<south.hand.size(); i++) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
         if (i==cardSelected) {
           selected = true;
         }
-        cardFront(x, height-75, hand.get(i).number, hand.get(i).suit);
+        cardFront(x, height-75, south.hand.get(i).number, south.hand.get(i).suit);
         selected = false;
       }
     } else if (place==NORTH) {
