@@ -5,7 +5,6 @@ Player south;
 Player north;
 Player east;
 Player west;
-<<<<<<< HEAD
 //The on-screen display of the four hands
 CardDisplay displaySouth;
 CardDisplay displayNorth;
@@ -20,10 +19,6 @@ ArrayList<Card> southHand;
 ArrayList<Card> northHand;
 ArrayList<Card> eastHand;
 ArrayList<Card> westHand;
-=======
-//The number of the player that will start (is dealt the 2 of clubs)
-int startingPlayer;
->>>>>>> Isaac
 
 //constants
 int NORTH = 0;
@@ -35,7 +30,6 @@ void setup() {
   size(700, 700);
   background(0, 100, 0);
   deck = new ArrayList();
-<<<<<<< HEAD
   southHand = new ArrayList();
   northHand = new ArrayList();
   eastHand = new ArrayList();
@@ -44,48 +38,34 @@ void setup() {
   for (int i = 0; i < 4; i++) {
     playedCards[i] = new Card(0, 0);
   }  
-=======
-  playedCards = new Card[4];
-  for (int i = 0; i < 4; i++){
-    playedCards[i] = new Card(1, 0);
-  }
->>>>>>> Isaac
   south = new Player(SOUTH);
   north = new Player(NORTH);
   east = new Player(EAST);
   west = new Player(WEST);
-<<<<<<< HEAD
   
   displaySouth = new CardDisplay(south);
   displayNorth = new CardDisplay(north);
   displayEast = new CardDisplay(east);
   displayWest = new CardDisplay(west);
   
+  cardSelected = 12;
+  
   setDeck();
   deal();
-=======
-  setDeck();
-  deal();
-  display = new CardDisplay(south.hand);
->>>>>>> Isaac
 }
 
 void draw() {
   background(0, 100, 0);
   //displays cards
-<<<<<<< HEAD
   displaySouth.draw();
   displayNorth.draw();
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-=======
-  display.draw();
->>>>>>> Isaac
-  println(playedCards[0].number + " " + playedCards[0].suit);
-  println(playedCards[1].number + " " + playedCards[1].suit);
-  println(playedCards[2].number + " " + playedCards[2].suit);
-  println(playedCards[3].number + " " + playedCards[3].suit);
+//  println(playedCards[0].number + " " + playedCards[0].suit);
+//  println(playedCards[1].number + " " + playedCards[1].suit);
+//  println(playedCards[2].number + " " + playedCards[2].suit);
+//  println(playedCards[3].number + " " + playedCards[3].suit);
 }
 
 void keyPressed() {
@@ -97,6 +77,7 @@ void keyPressed() {
     displaySouth.selectLeft();
   }
   if (keyCode==UP) {
+    println("cardSelected"+cardSelected);
     south.playCard(cardSelected, true);
     //For now, plays a random card from each opponent's hand
     north.playCard((int)random(north.hand.size()), false);
@@ -135,7 +116,6 @@ void deal() {
     } else {
       west.addCard(randomCard);
     }
-<<<<<<< HEAD
   }
 }
 
@@ -162,8 +142,5 @@ void drawPlayedCards() {
     x = width/2 + 50;
     y = height/2;
     displayWest.cardFront(x, y, playedCards[3].number, playedCards[3].suit);
-=======
->>>>>>> Isaac
   }
 }
-
