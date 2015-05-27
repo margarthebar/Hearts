@@ -22,16 +22,16 @@ class CardDisplay {
   int cardSelected;//says which card has been selected
   int place;
   ArrayList<Card> hand;
-  CardDisplay(ArrayList<Card> cardHand, int p) {
-    println(p);
+  
+  CardDisplay(Player p) {
     cardWidth = 50;
     cardHeight = 70;
     numCards = 13;
     selected = false;
     cardSelected = numCards-1;
-    hand = cardHand;
-    place = p;
-    println("P"+place+"hs"+hand.size());
+    
+    hand = p.hand;
+    place = p.playerNumber;
   }
 
   void draw() {
@@ -54,7 +54,7 @@ class CardDisplay {
   void playCard() {//plays card highlighted (right now this just removes it)
     //until each player plays in turn
     Card played = hand.get(cardSelected);
-    cardsPlayed[place] = played;
+    playedCards[place] = played;
     hand.remove(cardSelected);
     if (cardSelected<=numCards-1 && cardSelected>0) {
       cardSelected--;
@@ -78,17 +78,17 @@ class CardDisplay {
         selected = false;
       }
     } else if (place==NORTH) {
-      for (int i=numCards-1; i>=0; i--) {
+      for (int i=north.hand.size ()-1; i>=0; i--) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
         cardBack(x, 75);
       }
     } else if (place==EAST) {
-      for (int i=numCards-1; i>=0; i--) {
+      for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
         cardBack2(width-75, y);
       }
     } else if (place==WEST) {
-      for (int i=0; i<numCards; i++) {
+      for (int i=0; i<west.hand.size (); i++) {
         int y = height/2 - cardsHeight/2 + i*30;
         cardBack2(75, y);
       }

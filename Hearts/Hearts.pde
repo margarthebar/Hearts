@@ -1,35 +1,57 @@
+ArrayList<Card> deck; //The deck of cards
+Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
+//The 4 players
+Player south;
+Player north;
+Player east;
+Player west;
+//The on-screen display of the four hands
 CardDisplay displaySouth;
 CardDisplay displayNorth;
 CardDisplay displayEast;
 CardDisplay displayWest;
-ArrayList<Card> deck; //The deck of cards
+//The number of the player that will start (is dealt the 2 of clubs)
+int startingPlayer;
+
+
 //The hands for the 4 players
 ArrayList<Card> southHand;
 ArrayList<Card> northHand;
 ArrayList<Card> eastHand;
 ArrayList<Card> westHand;
+
+//constants
 int NORTH = 0;
 int SOUTH = 1;
 int EAST = 2;
 int WEST = 3;
-Card[] cardsPlayed;
-int cardTurn = 13;
+int cardTurn;
 
 void setup() {
   size(700, 700);
   background(0, 100, 0);
+  cardTurn = 13;
   deck = new ArrayList();
   southHand = new ArrayList();
   northHand = new ArrayList();
   eastHand = new ArrayList();
   westHand = new ArrayList();
-  cardsPlayed = new Card[4];
+  playedCards = new Card[4];
+  for (int i = 0; i < 4; i++) {
+    playedCards[i] = new Card(1, 0);
+  }  
+  south = new Player(SOUTH);
+  north = new Player(NORTH);
+  east = new Player(EAST);
+  west = new Player(WEST);
+  
+  displaySouth = new CardDisplay(south);
+  displayNorth = new CardDisplay(north);
+  displayEast = new CardDisplay(east);
+  displayWest = new CardDisplay(west);
+  
   setDeck();
   deal();
-  displaySouth = new CardDisplay(southHand, SOUTH);
-  displayNorth = new CardDisplay(northHand, NORTH);
-  displayEast = new CardDisplay(eastHand, EAST);
-  displayWest = new CardDisplay(westHand, WEST);
 }
 
 void draw() {
@@ -39,7 +61,11 @@ void draw() {
   displayNorth.draw();
   displayEast.draw();
   displayWest.draw();
-  playedCards();
+  drawPlayedCards();
+  println(playedCards[0].number + " " + playedCards[0].suit);
+  println(playedCards[1].number + " " + playedCards[1].suit);
+  println(playedCards[2].number + " " + playedCards[2].suit);
+  println(playedCards[3].number + " " + playedCards[3].suit);
 }
 
 void keyPressed() {
@@ -65,6 +91,11 @@ void keyPressed() {
     displayEast.playCard();
     displayWest.playCard();
 
+    //For now, plays a random card from each opponent's hand
+    north.playCard((int)random(north.hand.size()), false);
+    east.playCard((int)random(east.hand.size()), false);
+    west.playCard((int)random(west.hand.size()), false);
+
     cardTurn --;
   }
 }
@@ -85,36 +116,46 @@ void setDeck() {
 //Separates the deck into 4 hands
 void deal() {
   while (deck.size () > 0) {
-    southHand.add(deck.remove((int)random(deck.size())));
-    northHand.add(deck.remove((int)random(deck.size())));
-    eastHand.add(deck.remove((int)random(deck.size())));
-    westHand.add(deck.remove((int)random(deck.size())));
+    Card randomCard = deck.remove((int)random(deck.size()));
+    int playerDealtTo = deck.size() % 4;
+    if (randomCard.number == 2 && randomCard.suit == CLUBS) {
+      startingPlayer = playerDealtTo;
+    }
+    if (playerDealtTo == NORTH) {
+      north.addCard(randomCard);
+    } else if (playerDealtTo == SOUTH) {
+      south.addCard(randomCard);
+    } else if (playerDealtTo == EAST) {
+      east.addCard(randomCard);
+    } else {
+      west.addCard(randomCard);
+    }
   }
 }
 
 //displays cards played by all four players;
-void playedCards() {
+void drawPlayedCards() {
   int x = 0;
   int y = 0;
-  if (cardsPlayed[1]!=null) {
+  if (playedCards[1]!=null) {
     x = width/2;
     y = height/2 + 50;
-    displaySouth.cardFront(x, y, cardsPlayed[1].number, cardsPlayed[1].suit);
+    displaySouth.cardFront(x, y, playedCards[1].number, playedCards[1].suit);
   }
-  if (cardsPlayed[0]!=null) {
+  if (playedCards[0]!=null) {
     x = width/2;
     y = height/2 - 50;
-    displayNorth.cardFront(x, y, cardsPlayed[0].number, cardsPlayed[0].suit);
+    displayNorth.cardFront(x, y, playedCards[0].number, playedCards[0].suit);
   }
-  if (cardsPlayed[2]!=null) {
+  if (playedCards[2]!=null) {
     x = width/2 + 50;
     y = height/2;
-    displayEast.cardFront(x, y, cardsPlayed[2].number, cardsPlayed[2].suit);
+    displayEast.cardFront(x, y, playedCards[2].number, playedCards[2].suit);
   }
-  if (cardsPlayed[3]!=null) {
+  if (playedCards[3]!=null) {
     x = width/2 - 50;
     y = height/2;
-    displayWest.cardFront(x, y, cardsPlayed[3].number, cardsPlayed[3].suit);
+    displayWest.cardFront(x, y, playedCards[3].number, playedCards[3].suit);
   }
 }
 
