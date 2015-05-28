@@ -17,7 +17,7 @@ class Player {
   //Plays a card
   void playCard(int cardNumber) {
     if (isLegalMove(cardNumber)) {
-      if (!firstPlayed){
+      if (!firstPlayed) {
         firstPlayed = true;
       }
       Card played = hand.get(cardNumber);

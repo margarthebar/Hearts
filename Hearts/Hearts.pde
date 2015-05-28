@@ -1,3 +1,7 @@
+//time thingy
+long time = 0;
+int count = 0;
+
 ArrayList<Card> deck; //The deck of cards
 Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
 //The 4 players
@@ -28,6 +32,7 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
+  time = millis();
   size(700, 700);
   background(0, 100, 0);
   deck = new ArrayList();
@@ -63,8 +68,21 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  if (currentPlayer != south) {
-    currentPlayer.playCard((int)random(currentPlayer.hand.size()));
+  if (millis()>=time+500) {
+    if (currentPlayer != south) {
+      currentPlayer.playCard((int)random(currentPlayer.hand.size()));
+    }
+    count++;
+    if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+      resetPlayedCards();
+    }
+    time = millis();
+  }
+}
+
+void resetPlayedCards() {
+  for (int i=0; i<4; i++) {
+    playedCards[i]=new Card(0, 0);
   }
 }
 
@@ -164,4 +182,6 @@ Player getNextPlayer(Player current) {
   }
 }
 
+void wait(int n) {
+}
 
