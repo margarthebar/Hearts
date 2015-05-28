@@ -12,6 +12,8 @@ CardDisplay displayEast;
 CardDisplay displayWest;
 //The player whose turn it is to play a card
 Player currentPlayer;
+//Whether the first card (two of clubs) has been played
+boolean firstPlayed;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -61,9 +63,8 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  if (currentPlayer != south){
+  if (currentPlayer != south) {
     currentPlayer.playCard((int)random(currentPlayer.hand.size()));
-    currentPlayer = getNextPlayer(currentPlayer);
   }
 }
 
@@ -128,40 +129,39 @@ void drawPlayedCards() {
     displayNorth.cardFront(x, y, playedCards[0].number, playedCards[0].suit);
   }
   if (playedCards[2].number!=0) {
-    x = width/2 - 50;
+    x = width/2 + 50;
     y = height/2;
     displayEast.cardFront(x, y, playedCards[2].number, playedCards[2].suit);
   }
   if (playedCards[3].number!=0) {
-    x = width/2 + 50;
+    x = width/2 - 50;
     y = height/2;
     displayWest.cardFront(x, y, playedCards[3].number, playedCards[3].suit);
   }
 }
 
-Player getPlayer(int num){
-  if (num == NORTH){
+Player getPlayer(int num) {
+  if (num == NORTH) {
     return north;
-  }else if (num == SOUTH){
+  } else if (num == SOUTH) {
     return south;
-  }else if (num == EAST){
+  } else if (num == EAST) {
     return east;
-  }else{
+  } else {
     return west;
   }
 }
 
-Player getNextPlayer(Player current){
-  if (current == north){
+Player getNextPlayer(Player current) {
+  if (current == north) {
     return east;
-  }else if (current == east){
+  } else if (current == east) {
     return south;
-  }else if (current == south){
+  } else if (current == south) {
     return west;
-  }else {
+  } else {
     return north;
   }
 }
-    
-  
+
 

@@ -17,24 +17,34 @@ class Player {
   //Plays a card
   void playCard(int cardNumber) {
     if (isLegalMove(cardNumber)) {
+      if (!firstPlayed){
+        firstPlayed = true;
+      }
       Card played = hand.get(cardNumber);
       playedCards[playerNumber] = played;
       hand.remove(cardNumber);
-      if(playerNumber==NORTH){
+      if (playerNumber==NORTH) {
         displayNorth.playCard();
-      }else if(playerNumber==SOUTH){
+      } else if (playerNumber==SOUTH) {
         displaySouth.playCard();
-      }else if(playerNumber==EAST){
+      } else if (playerNumber==EAST) {
         displayEast.playCard();
-      }else if(playerNumber==WEST){
+      } else if (playerNumber==WEST) {
         displayWest.playCard();
       }
+      currentPlayer = getNextPlayer(currentPlayer);
     }
   }
 
   //Checks if the card being played is legal
   boolean isLegalMove(int cardNumber) {
     Card card = hand.get(cardNumber);
-    return true;
+    if (!firstPlayed && !(card.number == 2 && card.suit == CLUBS)) {
+      println("The two of clubs must be played first");
+      return false;
+    } else {
+      return true;
+    }
   }
 }
+
