@@ -15,7 +15,7 @@ class Player {
   }
 
   //Plays a card
-  void playCard(int cardNumber, boolean isUser) {
+  void playCard(int cardNumber) {
     if (isLegalMove(cardNumber)) {
       Card played = hand.get(cardNumber);
       playedCards[playerNumber] = played;
@@ -35,7 +35,6 @@ class Player {
   //Checks if the card being played is legal
   boolean isLegalMove(int cardNumber) {
     Card card = hand.get(cardNumber);
-    println(card.number + " " + card.suit);
     return true;
   }
 }

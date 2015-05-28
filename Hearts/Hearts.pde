@@ -10,9 +10,8 @@ CardDisplay displaySouth;
 CardDisplay displayNorth;
 CardDisplay displayEast;
 CardDisplay displayWest;
-//The number of the player that will start (is dealt the 2 of clubs)
-int startingPlayer;
-
+//The player whose turn it is to play a card
+Player currentPlayer;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -42,14 +41,14 @@ void setup() {
   north = new Player(NORTH);
   east = new Player(EAST);
   west = new Player(WEST);
-  
+
   displaySouth = new CardDisplay(south);
   displayNorth = new CardDisplay(north);
   displayEast = new CardDisplay(east);
   displayWest = new CardDisplay(west);
-  
+
   cardSelected = 12;
-  
+
   setDeck();
   deal();
 }
@@ -62,10 +61,10 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-//  println(playedCards[0].number + " " + playedCards[0].suit);
-//  println(playedCards[1].number + " " + playedCards[1].suit);
-//  println(playedCards[2].number + " " + playedCards[2].suit);
-//  println(playedCards[3].number + " " + playedCards[3].suit);
+  if (currentPlayer != south){
+    currentPlayer.playCard((int)random(currentPlayer.hand.size()));
+    currentPlayer = getNextPlayer(currentPlayer);
+  }
 }
 
 void keyPressed() {
@@ -77,12 +76,7 @@ void keyPressed() {
     displaySouth.selectLeft();
   }
   if (keyCode==UP) {
-    println("cardSelected"+cardSelected);
-    south.playCard(cardSelected, true);
-    //For now, plays a random card from each opponent's hand
-    north.playCard((int)random(north.hand.size()), false);
-    east.playCard((int)random(east.hand.size()), false);
-    west.playCard((int)random(west.hand.size()), false);
+    south.playCard(cardSelected);
   }
 }
 
@@ -105,7 +99,7 @@ void deal() {
     Card randomCard = deck.remove((int)random(deck.size()));
     int playerDealtTo = deck.size() % 4;
     if (randomCard.number == 2 && randomCard.suit == CLUBS) {
-      startingPlayer = playerDealtTo;
+      currentPlayer = getPlayer(playerDealtTo);
     }
     if (playerDealtTo == NORTH) {
       north.addCard(randomCard);
@@ -144,3 +138,30 @@ void drawPlayedCards() {
     displayWest.cardFront(x, y, playedCards[3].number, playedCards[3].suit);
   }
 }
+
+Player getPlayer(int num){
+  if (num == NORTH){
+    return north;
+  }else if (num == SOUTH){
+    return south;
+  }else if (num == EAST){
+    return east;
+  }else{
+    return west;
+  }
+}
+
+Player getNextPlayer(Player current){
+  if (current == north){
+    return east;
+  }else if (current == east){
+    return south;
+  }else if (current == south){
+    return west;
+  }else {
+    return north;
+  }
+}
+    
+  
+
