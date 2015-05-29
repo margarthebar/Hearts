@@ -3,6 +3,8 @@ class Player {
   ArrayList<Card> hand;
   //The player's number (0, 1, 2, or 3)
   int playerNumber;
+  //The number of each suit in the player's hand
+  int numHearts, numSpades, numDiamonds, numClubs;
 
   Player(int num) {
     hand = new ArrayList();
@@ -12,6 +14,29 @@ class Player {
   //Adds a card to the player's hand
   void addCard(Card card) {
     hand.add(card);
+    int suit = card.suit;
+    if (suit == HEARTS){
+      numHearts++;
+    }else if (suit == SPADES){
+      numSpades++;
+    }else if (suit == DIAMONDS){
+      numDiamonds++;
+    }else{
+      numClubs++;
+    }
+  }
+  
+  void removeCard(int cardNumber) {
+    int suit = hand.get(cardNumber).suit;
+    if (suit == HEARTS){
+      numHearts--;
+    }else if (suit == SPADES){
+      numSpades--;
+    }else if (suit == DIAMONDS){
+      numDiamonds--;
+    }else{
+      numClubs--;
+    }
   }
 
   //Plays a card
@@ -28,8 +53,11 @@ class Player {
       if (isUser || time + 500 < millis()) {
         turnPending = false;
         Card played = hand.get(cardNumber);
+        if (playedCards[0].number == 0 && playedCards[1].number == 0 && playedCards[2].number == 0 && playedCards[3].number == 0) {
+          leadCard = played;
+        }
         playedCards[playerNumber] = played;
-        hand.remove(cardNumber);
+        removeCard(cardNumber);
         if (playerNumber==NORTH) {
           displayNorth.playCard();
         } else if (playerNumber==SOUTH) {

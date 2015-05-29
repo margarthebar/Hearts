@@ -23,6 +23,8 @@ boolean turnPending;
 int lastPlayed;
 //Whether the played cards are about to be reset
 boolean willReset;
+//The card that led the current trick
+Card leadCard;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -72,6 +74,10 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
+  println("Hearts: " + south.numHearts);
+  println("Spades: " + south.numSpades);
+  println("Diamonds: " + south.numDiamonds);
+  println("Clubs: " + south.numClubs);
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3]); 
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
