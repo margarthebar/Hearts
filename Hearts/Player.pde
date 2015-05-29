@@ -15,26 +15,26 @@ class Player {
   void addCard(Card card) {
     hand.add(card);
     int suit = card.suit;
-    if (suit == HEARTS){
+    if (suit == HEARTS) {
       numHearts++;
-    }else if (suit == SPADES){
+    } else if (suit == SPADES) {
       numSpades++;
-    }else if (suit == DIAMONDS){
+    } else if (suit == DIAMONDS) {
       numDiamonds++;
-    }else{
+    } else {
       numClubs++;
     }
   }
-  
+
   void removeCard(int cardNumber) {
     int suit = hand.get(cardNumber).suit;
-    if (suit == HEARTS){
+    if (suit == HEARTS) {
       numHearts--;
-    }else if (suit == SPADES){
+    } else if (suit == SPADES) {
       numSpades--;
-    }else if (suit == DIAMONDS){
+    } else if (suit == DIAMONDS) {
       numDiamonds--;
-    }else{
+    } else {
       numClubs--;
     }
   }
@@ -77,6 +77,8 @@ class Player {
     Card card = hand.get(cardNumber);
     if (!firstPlayed && !(card.number == 2 && card.suit == CLUBS)) {
       //println("The two of clubs must be played first");
+      return false;
+    } else if (leadCard != null && (leadCard.suit == HEARTS && numHearts > 0) || (leadCard.suit == SPADES && numSpades > 0) || (leadCard.suit == DIAMONDS && numDiamonds > 0) || (leadCard.suit == CLUBS && numClubs > 0)) {
       return false;
     } else {
       return true;

@@ -102,6 +102,7 @@ void resetPlayedCards() {
   for (int i=0; i<4; i++) {
     playedCards[i]=new Card(0, 0);
   }
+  leadCard = null;
 }
 
 void keyPressed() {
