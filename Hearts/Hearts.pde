@@ -107,7 +107,9 @@ void keyPressed() {
     displaySouth.selectLeft();
   }
   if (keyCode==UP) {
-    south.playCard(cardSelected, true);
+    if (currentPlayer == south) {
+      south.playCard(cardSelected, true);
+    }
   }
 }
 
