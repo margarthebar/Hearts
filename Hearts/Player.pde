@@ -45,6 +45,16 @@ class Player {
     }
   }
 
+  //Checks to see if the player's hand contains a card of the correct suit
+  boolean hasSuit(int desiredSuit) {
+    for (Card c : hand) {
+      if (c.suit==desiredSuit) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   //Checks if the card being played is legal
   boolean isLegalMove(int cardNumber) {
     Card card = hand.get(cardNumber);
@@ -52,11 +62,15 @@ class Player {
       //println("The two of clubs must be played first");
       return false;
     } else {
-      if(this!=startingPlayer && firstPlayed){
-        //checks if the suit is the same
-        if(card.suit!=playedCards[startingPlayer.playerNumber].suit){
-          println("You must follow suit");
-          return false;
+      if (this!=startingPlayer && firstPlayed) {
+        int suitLed = playedCards[startingPlayer.playerNumber].suit;
+        //checks to see if a card of the correct suit is contained in the hand
+        if (hasSuit(suitLed)) {
+          //checks if the suit is the same
+          if (card.suit!=suitLed) {
+            println("You must follow suit");
+            return false;
+          }
         }
       }
       return true;
