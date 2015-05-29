@@ -71,6 +71,12 @@ class Player {
             println("You must follow suit");
             return false;
           }
+        }else if(card.suit==HEARTS){
+          heartsBroken = true;
+        }
+      }else{
+        if(!heartsBroken && card.suit==HEARTS){
+          return false;
         }
       }
       return true;
