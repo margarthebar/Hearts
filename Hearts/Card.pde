@@ -6,5 +6,9 @@ class Card {
     this.number = number;
     this.suit = suit;
   }
+  
+  String toString(){
+    return number + " of " + suit;
+  }
 }
 

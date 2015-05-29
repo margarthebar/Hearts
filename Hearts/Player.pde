@@ -15,24 +15,32 @@ class Player {
   }
 
   //Plays a card
-  void playCard(int cardNumber) {
+  void playCard(int cardNumber, boolean isUser) {
     if (isLegalMove(cardNumber)) {
       if (!firstPlayed) {
         firstPlayed = true;
       }
-      Card played = hand.get(cardNumber);
-      playedCards[playerNumber] = played;
-      hand.remove(cardNumber);
-      if (playerNumber==NORTH) {
-        displayNorth.playCard();
-      } else if (playerNumber==SOUTH) {
-        displaySouth.playCard();
-      } else if (playerNumber==EAST) {
-        displayEast.playCard();
-      } else if (playerNumber==WEST) {
-        displayWest.playCard();
+      if (!isUser && !turnPending) {
+        lastPlayed = cardNumber;
+        turnPending = true;
+        time = millis();
       }
-      currentPlayer = getNextPlayer(currentPlayer);
+      if (isUser || time + 300 < millis()) {
+        turnPending = false;
+        Card played = hand.get(cardNumber);
+        playedCards[playerNumber] = played;
+        hand.remove(cardNumber);
+        if (playerNumber==NORTH) {
+          displayNorth.playCard();
+        } else if (playerNumber==SOUTH) {
+          displaySouth.playCard();
+        } else if (playerNumber==EAST) {
+          displayEast.playCard();
+        } else if (playerNumber==WEST) {
+          displayWest.playCard();
+        }
+        currentPlayer = getNextPlayer(currentPlayer);
+      }
     }
   }
 

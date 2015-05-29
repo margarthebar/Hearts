@@ -1,9 +1,5 @@
-//time thingy
-long time = 0;
-long timeWhenDone = 0;
-long timeWhenCleared = 0;
-int count = 0;
-long realTime = 0;
+//Time
+int time = 0;
 
 ArrayList<Card> deck; //The deck of cards
 Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
@@ -21,6 +17,10 @@ CardDisplay displayWest;
 Player currentPlayer;
 //Whether the first card (two of clubs) has been played
 boolean firstPlayed;
+//Whether the program is currently waiting for a turn
+boolean turnPending;
+//The number of the card that has most recently been played
+int lastPlayed;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -35,7 +35,6 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
-  time = 2000 + millis();
   size(700, 700);
   background(0, 100, 0);
   deck = new ArrayList();
@@ -71,69 +70,13 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  //
-  //  //play cards
-  //  //if all four, set timeWhenDone
-  //  if (timeWhenDone==0) {
-  //    if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
-  //      timeWhenDone = realTime;
-  //      println("done");
-  //    }
-  //  }
-  //  //if millis()>=timeWhenDone+1000, clear, reset timeWhenDone, set timeWhenCleared
-  //  if (timeWhenDone>0 && realTime>=timeWhenDone+1000) {
-  //    resetPlayedCards();
-  //    timeWhenDone = 0;
-  //    timeWhenCleared = time;
-  //  }
-  //  //if millis()==timeWhenCleared+1000, play
-  //  if ((timeWhenCleared>0 && realTime>=timeWhenCleared+1000) || (timeWhenCleared==0 && realTime>=time+400)) {
-  //    if (currentPlayer != south) {
-  //      currentPlayer.playCard((int)random(currentPlayer.hand.size()));
-  //    }
-  //    timeWhenCleared = 0;
-  //    time = realTime;
-  //  }
-  //  if(currentPlayer!=south){
-  //    realTime=millis();
-  //  }
-
-  long timeNow = time;
-  boolean reset=false;
-  if (!myWait(time, 800)) {
-    if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
-      if (!myWait(timeNow, 600)) {
-        resetPlayedCards();
-        reset = true;
-      }
-    }
-    if (reset) {
-      if (!myWait(timeNow, 2000)) {
-        if (currentPlayer != south) {
-          currentPlayer.playCard((int)random(currentPlayer.hand.size()));
-        }
-        time = millis();
-        reset = false;
-      }
-    } else {
-      if (!myWait(timeNow, 1500)) {
-        if (currentPlayer != south) {
-          currentPlayer.playCard((int)random(currentPlayer.hand.size()));
-        }
-        time = millis();
-      }
+  if (currentPlayer != south) {
+    if (turnPending){
+      currentPlayer.playCard(lastPlayed, false);
+    }else{
+      currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
     }
   }
-}
-
-void resetPlayedCards() {
-  for (int i=0; i<4; i++) {
-    playedCards[i]=new Card(0, 0);
-  }
-}
-
-boolean myWait(long startTime, long howLong) {
-  return millis()-startTime < howLong;
 }
 
 void keyPressed() {
@@ -145,7 +88,7 @@ void keyPressed() {
     displaySouth.selectLeft();
   }
   if (keyCode==UP) {
-    south.playCard(cardSelected);
+    south.playCard(cardSelected, true);
   }
 }
 
