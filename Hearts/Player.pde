@@ -25,7 +25,7 @@ class Player {
         turnPending = true;
         time = millis();
       }
-      if (isUser || time + 300 < millis()) {
+      if (isUser || time + 500 < millis()) {
         turnPending = false;
         Card played = hand.get(cardNumber);
         playedCards[playerNumber] = played;
@@ -48,7 +48,7 @@ class Player {
   boolean isLegalMove(int cardNumber) {
     Card card = hand.get(cardNumber);
     if (!firstPlayed && !(card.number == 2 && card.suit == CLUBS)) {
-      println("The two of clubs must be played first");
+      //println("The two of clubs must be played first");
       return false;
     } else {
       return true;

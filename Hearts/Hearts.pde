@@ -1,5 +1,5 @@
 //Time
-int time = 0;
+int time;
 
 ArrayList<Card> deck; //The deck of cards
 Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
@@ -21,6 +21,8 @@ boolean firstPlayed;
 boolean turnPending;
 //The number of the card that has most recently been played
 int lastPlayed;
+//Whether the played cards are about to be reset
+boolean willReset;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -70,12 +72,29 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  if (currentPlayer != south) {
-    if (turnPending){
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3]); 
+  if (currentPlayer != south && !willReset) {
+    if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);
-    }else{
+    } else {
       currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
     }
+  }
+  if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+    if (!willReset) {
+      willReset = true;
+      time = millis();
+    }
+    if (time + 1200 < millis()) {
+      willReset = false;
+      resetPlayedCards();
+    }
+  }
+}
+
+void resetPlayedCards() {
+  for (int i=0; i<4; i++) {
+    playedCards[i]=new Card(0, 0);
   }
 }
 
