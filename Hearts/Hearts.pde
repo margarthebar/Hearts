@@ -139,6 +139,8 @@ void deal() {
     int playerDealtTo = deck.size() % 4;
     if (randomCard.number == 2 && randomCard.suit == CLUBS) {
       currentPlayer = getPlayer(playerDealtTo);
+      startingPlayer = currentPlayer;
+      println("startingPlayerNumber "+startingPlayer.playerNumber);
     }
     if (playerDealtTo == NORTH) {
       north.addCard(randomCard);
