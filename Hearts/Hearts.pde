@@ -23,6 +23,10 @@ boolean turnPending;
 int lastPlayed;
 //Whether the played cards are about to be reset
 boolean willReset;
+//The Player that starts the trick
+Player startingPlayer;
+//Whether hearts have been broken or not
+boolean heartsBroken;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -62,6 +66,8 @@ void setup() {
 
   setDeck();
   deal();
+  
+  heartsBroken = false;
 }
 
 void draw() {
