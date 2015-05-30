@@ -3,11 +3,16 @@ class Player {
   ArrayList<Card> hand;
   //The player's number (0, 1, 2, or 3)
   int playerNumber;
+  //The cards the player has won
+  ArrayList<Card> cardsWon;
   //The number of each suit in the player's hand
   int numHearts, numSpades, numDiamonds, numClubs;
+  //The number of points the player has won
+  int points;
 
   Player(int num) {
     hand = new ArrayList();
+    cardsWon = new ArrayList();
     playerNumber = num;
   }
 
@@ -38,6 +43,17 @@ class Player {
       numClubs--;
     }
     hand.remove(cardNumber);
+  }
+  
+  //Adds a card to the cards won
+  void addCardWon(Card card){
+    cardsWon.add(card);
+    if (card.suit == HEARTS){
+      points++;
+    }
+    if (card.number == 12 && card.suit == SPADES){
+      points += 13;
+    }
   }
 
   //Plays a card
