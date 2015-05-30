@@ -79,6 +79,7 @@ void draw() {
   displayWest.draw();
   drawPlayedCards();
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3]); 
+  //println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);
@@ -99,9 +100,19 @@ void draw() {
 }
 
 void resetPlayedCards() {
+  Card cardLed = playedCards[startingPlayer.playerNumber];
+  Player trickWinner = startingPlayer;
+  for (int i = 0; i < 4; i++){
+    if (playedCards[i].suit == cardLed.suit && compareCards(playedCards[i], cardLed) > 0){
+      trickWinner = getPlayer(i);
+    }
+  }
   for (int i=0; i<4; i++) {
+    trickWinner.addCardWon(playedCards[i]);
     playedCards[i]=new Card(0, 0);
   }
+  startingPlayer = trickWinner;
+  currentPlayer = trickWinner;
 }
 
 void keyPressed() {
@@ -202,5 +213,17 @@ Player getNextPlayer(Player current) {
   } else {
     return north;
   }
+}
+
+int compareCards(Card first, Card second){
+  int firstNumber = first.number;
+  int secondNumber = second.number;
+  if (firstNumber == 1){
+    firstNumber = 14;
+  }
+  if (secondNumber == 1){
+    secondNumber = 14;
+  }
+  return firstNumber - secondNumber;
 }
 
