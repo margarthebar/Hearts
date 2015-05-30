@@ -111,6 +111,8 @@ void resetPlayedCards() {
     trickWinner.addCardWon(playedCards[i]);
     playedCards[i]=new Card(0, 0);
   }
+  startingPlayer = trickWinner;
+  currentPlayer = trickWinner;
 }
 
 void keyPressed() {
