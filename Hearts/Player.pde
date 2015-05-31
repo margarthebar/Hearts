@@ -14,19 +14,27 @@ class Player {
     hand = new ArrayList();
     cardsWon = new ArrayList();
     playerNumber = num;
+    numHearts = 0;
+    numSpades = 0;
+    numDiamonds = 0;
+    numClubs = 0;
   }
 
   //Adds a card to the player's hand
   void addCard(Card card) {
-    hand.add(card);
+    //hand.add(card);
     int suit = card.suit;
     if (suit == HEARTS) {
+      hand.add(numHearts,card);
       numHearts++;
     } else if (suit == SPADES) {
+      hand.add(numHearts+numSpades,card);
       numSpades++;
     } else if (suit == DIAMONDS) {
+      hand.add(numHearts+numSpades+numDiamonds,card);
       numDiamonds++;
     } else {
+      hand.add(numHearts+numSpades+numDiamonds+numClubs,card);
       numClubs++;
     }
   }
