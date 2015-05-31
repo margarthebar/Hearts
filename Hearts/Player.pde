@@ -44,14 +44,14 @@ class Player {
     }
     hand.remove(cardNumber);
   }
-  
+
   //Adds a card to the cards won
-  void addCardWon(Card card){
+  void addCardWon(Card card) {
     cardsWon.add(card);
-    if (card.suit == HEARTS){
+    if (card.suit == HEARTS) {
       points++;
     }
-    if (card.number == 12 && card.suit == SPADES){
+    if (card.number == 12 && card.suit == SPADES) {
       points += 13;
     }
   }
@@ -75,6 +75,9 @@ class Player {
           startingPlayer = this;
         }
         playedCards[playerNumber] = played;
+        if(played.suit==HEARTS && !heartsBroken){
+          breakHearts();
+        }
         removeCard(cardNumber);
         if (playerNumber==NORTH) {
           displayNorth.playCard();
@@ -143,12 +146,6 @@ class Player {
     return false;
   }
 
-  //Breaks hearts (later this may lead to a more complicated display)
-  void breakHearts() {
-    println("Hearts have been broken!");
-    heartsBroken = true;
-  }
-
   //Checks to see if the player's hand contains a card of the correct suit
   boolean hasSuit(int desiredSuit) {
     if (desiredSuit == HEARTS && numHearts > 0) {
@@ -212,6 +209,9 @@ class Player {
         //the player's hand contains only hearts and has no choice but to play one.
         breakHearts();
       } else {
+        if (!heartsBroken) {
+          breakHearts();
+        }
         return true;
       }
     } else {//if player isn't the starting player
@@ -226,6 +226,10 @@ class Player {
       }
     }
     //it isn't illegal to play a heart, therefore it is legal
+    if (!heartsBroken) {
+      breakHearts();
+    }
     return true;
   }
 }
+

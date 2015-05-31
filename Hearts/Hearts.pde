@@ -66,7 +66,7 @@ void setup() {
 
   setDeck();
   deal();
-  
+
   heartsBroken = false;
 }
 
@@ -78,7 +78,7 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3]); 
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
   //println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
@@ -100,10 +100,11 @@ void draw() {
 }
 
 void resetPlayedCards() {
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
   Card cardLed = playedCards[startingPlayer.playerNumber];
   Player trickWinner = startingPlayer;
-  for (int i = 0; i < 4; i++){
-    if (playedCards[i].suit == cardLed.suit && compareCards(playedCards[i], cardLed) > 0){
+  for (int i = 0; i < 4; i++) {
+    if (playedCards[i].suit == cardLed.suit && compareCards(playedCards[i], cardLed) > 0) {
       trickWinner = getPlayer(i);
     }
   }
@@ -214,15 +215,21 @@ Player getNextPlayer(Player current) {
   }
 }
 
-int compareCards(Card first, Card second){
+int compareCards(Card first, Card second) {
   int firstNumber = first.number;
   int secondNumber = second.number;
-  if (firstNumber == 1){
+  if (firstNumber == 1) {
     firstNumber = 14;
   }
-  if (secondNumber == 1){
+  if (secondNumber == 1) {
     secondNumber = 14;
   }
   return firstNumber - secondNumber;
+}
+
+//Breaks hearts (later this may lead to a more complicated display)
+void breakHearts() {
+  println("Hearts have been broken!");
+  heartsBroken = true;
 }
 
