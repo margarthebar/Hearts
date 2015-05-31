@@ -24,17 +24,50 @@ class Player {
   void addCard(Card card) {
     //hand.add(card);
     int suit = card.suit;
+    boolean added = false;
     if (suit == HEARTS) {
-      hand.add(numHearts,card);
+      for (int i=0; i<numHearts; i++) {
+        if (hand.get(i).number>card.number && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts, card);
+      }
       numHearts++;
     } else if (suit == SPADES) {
-      hand.add(numHearts+numSpades,card);
+      for (int i=numHearts; i<numHearts+numSpades; i++) {
+        if (hand.get(i).number>card.number && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts+numSpades, card);
+      }
       numSpades++;
     } else if (suit == DIAMONDS) {
-      hand.add(numHearts+numSpades+numDiamonds,card);
+      for (int i=numHearts+numSpades; i<numHearts+numSpades+numDiamonds; i++) {
+        if (hand.get(i).number>card.number && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts+numSpades+numDiamonds, card);
+      }
       numDiamonds++;
     } else {
-      hand.add(numHearts+numSpades+numDiamonds+numClubs,card);
+      for (int i=numHearts+numSpades+numDiamonds; i<numHearts+numSpades+numDiamonds+numClubs; i++) {
+        if (hand.get(i).number>card.number && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts+numSpades+numDiamonds+numClubs, card);
+      }
       numClubs++;
     }
   }
@@ -83,7 +116,7 @@ class Player {
           startingPlayer = this;
         }
         playedCards[playerNumber] = played;
-        if(played.suit==HEARTS && !heartsBroken){
+        if (played.suit==HEARTS && !heartsBroken) {
           breakHearts();
         }
         removeCard(cardNumber);
