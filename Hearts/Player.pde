@@ -9,15 +9,13 @@ class Player {
   int numHearts, numSpades, numDiamonds, numClubs;
   //The number of points the player has won
   int points;
+  //The number of points over multiple rounds
+  int totalPoints;
 
   Player(int num) {
     hand = new ArrayList();
     cardsWon = new ArrayList();
     playerNumber = num;
-    numHearts = 0;
-    numSpades = 0;
-    numDiamonds = 0;
-    numClubs = 0;
   }
 
   //Adds a card to the player's hand
@@ -271,6 +269,16 @@ class Player {
       breakHearts();
     }
     return true;
+  }
+  
+  void resetPlayer(){
+    hand = new ArrayList();
+    cardsWon = new ArrayList();
+    numHearts = 0;
+    numSpades = 0;
+    numDiamonds = 0;
+    numClubs = 0;
+    points = 0;
   }
 }
 

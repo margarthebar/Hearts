@@ -79,7 +79,6 @@ void draw() {
   displayWest.draw();
   drawPlayedCards();
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
-  println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);
@@ -95,7 +94,12 @@ void draw() {
     if (time + 1200 < millis()) {
       willReset = false;
       resetPlayedCards();
+      println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
     }
+  }
+  if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+    roundResults();
+    newRound();
   }
 }
 
@@ -202,6 +206,18 @@ Player getPlayer(int num) {
   }
 }
 
+String getPlayerString(int num) {
+  if (num == NORTH) {
+    return "North";
+  } else if (num == SOUTH) {
+    return "South";
+  } else if (num == EAST) {
+    return "East";
+  } else {
+    return "West";
+  }
+}
+
 Player getNextPlayer(Player current) {
   if (current == north) {
     return east;
@@ -230,5 +246,41 @@ int compareCards(Card first, Card second) {
 void breakHearts() {
   println("Hearts have been broken!");
   heartsBroken = true;
+}
+
+void roundResults() {
+  int roundWinner = 0;
+  for (int i = 0; i < 4; i++) {
+    getPlayer(i).totalPoints += getPlayer(i).points;
+    if (getPlayer(i).points < getPlayer(roundWinner).points) {
+      roundWinner = i;
+    }
+  }
+  //Display results for the round and overall (later this will be displayed inside the game)
+  println("Round winner: " + getPlayerString(roundWinner));
+  println("Round points:");
+  println("   North: " + getPlayer(NORTH).points);
+  println("   South: " + getPlayer(SOUTH).points);
+  println("   East: " + getPlayer(EAST).points);
+  println("   West: " + getPlayer(WEST).points);
+  println("Overall points:");
+  println("   North: " + getPlayer(NORTH).totalPoints);
+  println("   South: " + getPlayer(SOUTH).totalPoints);
+  println("   East: " + getPlayer(EAST).totalPoints);
+  println("   West: " + getPlayer(WEST).totalPoints);
+}
+
+void newRound() {
+  for (int i = 0; i < 4; i++){
+    getPlayer(i).resetPlayer();
+  }
+  displaySouth = new CardDisplay(south);
+  displayNorth = new CardDisplay(north);
+  displayEast = new CardDisplay(east);
+  displayWest = new CardDisplay(west);
+  cardSelected = 12;
+  setDeck();
+  deal();
+  heartsBroken = false;
 }
 
