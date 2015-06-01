@@ -52,6 +52,7 @@ To do:
  - Animation (when dealing, playing)
  
 Demo Versions 
-<br>6/1/15: 
+<br>6/1/15: https://github.com/margarthebar/Hearts/tree/774a817426dafed94b7b6c1c0dccc41c4d2c24f4/Hearts
+<br>The user can play the game by selecting a card with the left and right arrow keys and pressing up to play that card. The opponents play random cards from their hand that follow the rules of the game. Points earned by each player are counted.
 <br>6/8/15: 
 <br>6/15/15: 
