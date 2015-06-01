@@ -27,7 +27,7 @@ class Player {
     boolean added = false;
     if (suit == HEARTS) {
       for (int i=0; i<numHearts; i++) {
-        if (hand.get(i).number>card.number && !added) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
           hand.add(i, card);
           added = true;
         }
@@ -38,7 +38,7 @@ class Player {
       numHearts++;
     } else if (suit == SPADES) {
       for (int i=numHearts; i<numHearts+numSpades; i++) {
-        if (hand.get(i).number>card.number && !added) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
           hand.add(i, card);
           added = true;
         }
@@ -49,7 +49,7 @@ class Player {
       numSpades++;
     } else if (suit == DIAMONDS) {
       for (int i=numHearts+numSpades; i<numHearts+numSpades+numDiamonds; i++) {
-        if (hand.get(i).number>card.number && !added) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
           hand.add(i, card);
           added = true;
         }
@@ -60,7 +60,7 @@ class Player {
       numDiamonds++;
     } else {
       for (int i=numHearts+numSpades+numDiamonds; i<numHearts+numSpades+numDiamonds+numClubs; i++) {
-        if (hand.get(i).number>card.number && !added) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
           hand.add(i, card);
           added = true;
         }
