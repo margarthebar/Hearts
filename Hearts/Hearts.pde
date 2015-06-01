@@ -78,7 +78,7 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
   //println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
@@ -101,10 +101,9 @@ void draw() {
 
 void resetPlayedCards() {
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
-  Card cardLed = playedCards[startingPlayer.playerNumber];
   Player trickWinner = startingPlayer;
   for (int i = 0; i < 4; i++) {
-    if (playedCards[i].suit == cardLed.suit && compareCards(playedCards[i], cardLed) > 0) {
+    if (playedCards[i].suit == playedCards[trickWinner.playerNumber].suit && compareCards(playedCards[i], playedCards[trickWinner.playerNumber]) > 0) {
       trickWinner = getPlayer(i);
     }
   }
