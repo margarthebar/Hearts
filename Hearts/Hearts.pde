@@ -79,7 +79,7 @@ void draw() {
   displayWest.draw();
   drawPlayedCards();
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
-  //println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
+  println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);
