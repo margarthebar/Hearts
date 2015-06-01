@@ -250,20 +250,37 @@ void breakHearts() {
 
 void roundResults() {
   int roundWinner = 0;
+  //If a player shot the moon, is set to the player's number
+  int moonShotBy = -1;
   for (int i = 0; i < 4; i++) {
-    getPlayer(i).totalPoints += getPlayer(i).points;
-    if (getPlayer(i).points < getPlayer(roundWinner).points) {
+    if (getPlayer(i).points == 26) {
+      moonShotBy = i;
+      roundWinner = i;
+    }
+    getPlayer(i).totalPoints += getPlayer(i).points;   
+    if (moonShotBy == -1 && getPlayer(i).points < getPlayer(roundWinner).points) {
       roundWinner = i;
     }
   }
+  if (moonShotBy != -1) {
+    for (int i = 0; i < 4; i++) {
+      if (i == moonShotBy) {
+        getPlayer(i).points -= 26;
+        getPlayer(i).totalPoints -= 26;
+      } else {
+        getPlayer(i).points += 26;
+        getPlayer(i).totalPoints += 26;
+      }
+    }
+  }
   //Display results for the round and overall (later this will be displayed inside the game)
-  println("Round winner: " + getPlayerString(roundWinner));
-  println("Round points:");
+  println("\nRound winner: " + getPlayerString(roundWinner));
+  println("\nRound points:");
   println("   North: " + getPlayer(NORTH).points);
   println("   South: " + getPlayer(SOUTH).points);
   println("   East: " + getPlayer(EAST).points);
   println("   West: " + getPlayer(WEST).points);
-  println("Overall points:");
+  println("\nOverall points:");
   println("   North: " + getPlayer(NORTH).totalPoints);
   println("   South: " + getPlayer(SOUTH).totalPoints);
   println("   East: " + getPlayer(EAST).totalPoints);
@@ -271,7 +288,7 @@ void roundResults() {
 }
 
 void newRound() {
-  for (int i = 0; i < 4; i++){
+  for (int i = 0; i < 4; i++) {
     getPlayer(i).resetPlayer();
   }
   displaySouth = new CardDisplay(south);
