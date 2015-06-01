@@ -8,25 +8,31 @@ Development Log
  - Each player is dealt a random hand of 13 cards
  - The cards the user is dealt are displayed
  - The user can select a card to play using the arrow keys
-<br>5/26/15:
+
+5/26/15:
  - The user can play a card into the center of the playing area
  - The opponents each select a random card to play
-<br>5/27/15:
+
+5/27/15:
  - The two of clubs must be played first
  - The opponents play cards automatically
  - The game cycles through tricks
-<br>5/28/15:
+
+5/28/15:
  - Played cards are cleared after a trick is finished
  - There are delays between cards being played
  - The player can only play one card during a turn
-<br>5/29/15:
+
+5/29/15:
  - Played cards must follow suit if possible
  - Hearts cannot lead a trick until hearts are broken
-<br>5/30/15:
+
+5/30/15:
  - The correct player wins the trick
  - The player that wins the trick starts the next trick
  - Points are earned
-<br>5/31/15:
+
+5/31/15:
  - The cards are sorted by suit and number in each hand
  - Bug fixes with breaking hearts and trick winning
 
