@@ -276,8 +276,14 @@ void roundResults() {
       }
     }
   }
+  String roundWinnerString = getPlayerString(roundWinner);
+  for (int i = 0; i < 4; i++){
+    if (i != roundWinner && getPlayer(i).points == getPlayer(roundWinner).points){
+      roundWinnerString += " and " + getPlayerString(i);
+    }
+  }
   //Display results for the round and overall (later this will be displayed inside the game)
-  println("\nRound winner: " + getPlayerString(roundWinner));
+  println("\nRound winner: " + roundWinnerString);
   println("\nRound points:");
   println("   North: " + getPlayer(NORTH).points);
   println("   South: " + getPlayer(SOUTH).points);
