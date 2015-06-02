@@ -67,6 +67,10 @@ void setup() {
   setDeck();
   deal();
 
+  firstPlayed = false;
+  turnPending = false;
+  lastPlayed = 0;
+  willReset = false;
   heartsBroken = false;
 }
 
@@ -99,7 +103,6 @@ void draw() {
   }
   if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
     roundResults();
-    newRound();
   }
 }
 
@@ -280,11 +283,16 @@ void roundResults() {
   println("   South: " + getPlayer(SOUTH).points);
   println("   East: " + getPlayer(EAST).points);
   println("   West: " + getPlayer(WEST).points);
-  println("\nOverall points:");
-  println("   North: " + getPlayer(NORTH).totalPoints);
-  println("   South: " + getPlayer(SOUTH).totalPoints);
-  println("   East: " + getPlayer(EAST).totalPoints);
-  println("   West: " + getPlayer(WEST).totalPoints);
+  if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
+    gameResults();
+  } else {
+    println("\nOverall points:");
+    println("   North: " + getPlayer(NORTH).totalPoints);
+    println("   South: " + getPlayer(SOUTH).totalPoints);
+    println("   East: " + getPlayer(EAST).totalPoints);
+    println("   West: " + getPlayer(WEST).totalPoints);
+    newRound();
+  }
 }
 
 void newRound() {
@@ -298,6 +306,42 @@ void newRound() {
   cardSelected = 12;
   setDeck();
   deal();
+  firstPlayed = false;
+  turnPending = false;
+  lastPlayed = 0;
+  willReset = false;
   heartsBroken = false;
+}
+
+void gameResults() {
+  int gameWinner = 0;
+  for (int i = 1; i < 4; i++) {
+    if (getPlayer(i).totalPoints < getPlayer(gameWinner).totalPoints) {
+      gameWinner = i;
+    }
+  }
+  //Display results for the game (will be displayed inside the game later)
+  println("\nGame Winner: " + getPlayerString(gameWinner));
+  println("\nFinal points:");
+  println("   North: " + getPlayer(NORTH).totalPoints);
+  println("   South: " + getPlayer(SOUTH).totalPoints);
+  println("   East: " + getPlayer(EAST).totalPoints);
+  println("   West: " + getPlayer(WEST).totalPoints);
+  setup();
+}
+
+boolean gameTied(){
+  int winningPlayer = 0;
+  for (int i = 1; i < 4; i++){
+    if (getPlayer(i).totalPoints < getPlayer(winningPlayer).totalPoints){
+      winningPlayer = i;
+    }
+  }
+  for (int i = 0; i < 4; i++){
+    if (i != winningPlayer && getPlayer(i).totalPoints == getPlayer(winningPlayer).totalPoints){
+      return true;
+    }
+  }
+  return false;
 }
 
