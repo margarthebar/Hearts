@@ -264,7 +264,6 @@ void roundResults() {
       moonShotBy = i;
       roundWinner = i;
     }
-    getPlayer(i).totalPoints += getPlayer(i).points;   
     if (moonShotBy == -1 && getPlayer(i).points < getPlayer(roundWinner).points) {
       roundWinner = i;
     }

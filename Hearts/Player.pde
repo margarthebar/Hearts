@@ -89,9 +89,11 @@ class Player {
     cardsWon.add(card);
     if (card.suit == HEARTS) {
       points++;
+      totalPoints++;
     }
     if (card.number == 12 && card.suit == SPADES) {
       points += 13;
+      totalPoints += 13;
     }
   }
 
