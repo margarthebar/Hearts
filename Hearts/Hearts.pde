@@ -83,10 +83,18 @@ void draw() {
   displayWest.draw();
   drawPlayedCards();
   fill(255, 255, 255);
-  textAlign(LEFT);
   textSize(20);
-  text("Points: " + west.points, 20, height / 2 - 10);
-  text("Total: " + west.totalPoints, 20, height / 2 + 10);
+  textAlign(CENTER);
+  text("Points: " + north.points, width / 2 - 70, 27);
+  text("Total: " + north.totalPoints, width / 2 + 70, 27);
+  text("Points: " + south.points, width / 2 - 70, height - 13);
+  text("Total: " + south.totalPoints, width / 2 + 70, height - 13);
+  textAlign(LEFT);
+  text("Points: " + west.points, 10, height / 2 - 15);
+  text("Total: " + west.totalPoints, 10, height / 2 + 15);
+  textAlign(RIGHT);
+  text("Points: " + east.points, width - 10, height / 2 - 15);
+  text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);
