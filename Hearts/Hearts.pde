@@ -41,7 +41,7 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
-  size(700, 700);
+  size(850, 700);
   background(0, 100, 0);
   deck = new ArrayList();
   southHand = new ArrayList();
@@ -82,7 +82,11 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
+  fill(255, 255, 255);
+  textAlign(LEFT);
+  textSize(20);
+  text("Points: " + west.points, 20, height / 2 - 10);
+  text("Total: " + west.totalPoints, 20, height / 2 + 10);
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);

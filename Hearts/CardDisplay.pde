@@ -83,14 +83,14 @@ class CardDisplay {
       //for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
         //cardBack2(width-75, y);
-        cardFront(width-75, y, east.hand.get(i).number, east.hand.get(i).suit);
+        cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
       }
     } else if (place==WEST) {
       for (int i=0; i<west.hand.size (); i++) {
         //for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
         //cardBack2(75, y);
-        cardFront(75, y, west.hand.get(i).number, west.hand.get(i).suit);
+        cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
       }
     }
     rectMode(CORNER);
