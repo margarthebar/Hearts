@@ -1,5 +1,6 @@
 //Time
 int time;
+int count = 0;
 
 ArrayList<Card> deck; //The deck of cards
 Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
@@ -82,12 +83,16 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
+  //displays heartsBroken
+  heartsBrokenAnimation();
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
-  if (currentPlayer != south && !willReset) {
-    if (turnPending) {
-      currentPlayer.playCard(lastPlayed, false);
-    } else {
-      currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+  if (count==0 || count>1200) {
+    if (currentPlayer != south && !willReset) {
+      if (turnPending) {
+        currentPlayer.playCard(lastPlayed, false);
+      } else {
+        currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+      }
     }
   }
   if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
@@ -250,6 +255,22 @@ int compareCards(Card first, Card second) {
 void breakHearts() {
   println("Hearts have been broken!");
   heartsBroken = true;
+  displaySouth.heartBigBroken(width/2, height/2, 0);
+}
+
+void heartsBrokenAnimation() {
+  if (heartsBroken) {
+    int dist = count;
+    if (count<=300) {
+      dist = 0;
+    } else if (count<=900) {
+      dist = 25;
+    } else {
+      dist = count-875;
+    }
+    count+=10;
+    displaySouth.heartBigBroken(width/2, height/2, dist);
+  }
 }
 
 void roundResults() {
@@ -278,8 +299,8 @@ void roundResults() {
     }
   }
   String roundWinnerString = getPlayerString(roundWinner);
-  for (int i = 0; i < 4; i++){
-    if (i != roundWinner && getPlayer(i).points == getPlayer(roundWinner).points){
+  for (int i = 0; i < 4; i++) {
+    if (i != roundWinner && getPlayer(i).points == getPlayer(roundWinner).points) {
       roundWinnerString += " and " + getPlayerString(i);
     }
   }
@@ -337,15 +358,15 @@ void gameResults() {
   setup();
 }
 
-boolean gameTied(){
+boolean gameTied() {
   int winningPlayer = 0;
-  for (int i = 1; i < 4; i++){
-    if (getPlayer(i).totalPoints < getPlayer(winningPlayer).totalPoints){
+  for (int i = 1; i < 4; i++) {
+    if (getPlayer(i).totalPoints < getPlayer(winningPlayer).totalPoints) {
       winningPlayer = i;
     }
   }
-  for (int i = 0; i < 4; i++){
-    if (i != winningPlayer && getPlayer(i).totalPoints == getPlayer(winningPlayer).totalPoints){
+  for (int i = 0; i < 4; i++) {
+    if (i != winningPlayer && getPlayer(i).totalPoints == getPlayer(winningPlayer).totalPoints) {
       return true;
     }
   }

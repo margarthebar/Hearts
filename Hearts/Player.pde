@@ -9,6 +9,8 @@ class Player {
   int numHearts, numSpades, numDiamonds, numClubs;
   //The number of points the player has won
   int points;
+  //The number of points over multiple rounds
+  int totalPoints;
 
   Player(int num) {
     hand = new ArrayList();
@@ -18,15 +20,52 @@ class Player {
 
   //Adds a card to the player's hand
   void addCard(Card card) {
-    hand.add(card);
+    //hand.add(card);
     int suit = card.suit;
+    boolean added = false;
     if (suit == HEARTS) {
+      for (int i=0; i<numHearts; i++) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts, card);
+      }
       numHearts++;
     } else if (suit == SPADES) {
+      for (int i=numHearts; i<numHearts+numSpades; i++) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts+numSpades, card);
+      }
       numSpades++;
     } else if (suit == DIAMONDS) {
+      for (int i=numHearts+numSpades; i<numHearts+numSpades+numDiamonds; i++) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts+numSpades+numDiamonds, card);
+      }
       numDiamonds++;
     } else {
+      for (int i=numHearts+numSpades+numDiamonds; i<numHearts+numSpades+numDiamonds+numClubs; i++) {
+        if (compareCards(hand.get(i), card) > 0 && !added) {
+          hand.add(i, card);
+          added = true;
+        }
+      }
+      if (!added) {
+        hand.add(numHearts+numSpades+numDiamonds+numClubs, card);
+      }
       numClubs++;
     }
   }
@@ -44,14 +83,14 @@ class Player {
     }
     hand.remove(cardNumber);
   }
-  
+
   //Adds a card to the cards won
-  void addCardWon(Card card){
+  void addCardWon(Card card) {
     cardsWon.add(card);
-    if (card.suit == HEARTS){
+    if (card.suit == HEARTS) {
       points++;
     }
-    if (card.number == 12 && card.suit == SPADES){
+    if (card.number == 12 && card.suit == SPADES) {
       points += 13;
     }
   }
@@ -75,6 +114,9 @@ class Player {
           startingPlayer = this;
         }
         playedCards[playerNumber] = played;
+        if (played.suit==HEARTS && !heartsBroken) {
+          breakHearts();
+        }
         removeCard(cardNumber);
         if (playerNumber==NORTH) {
           displayNorth.playCard();
@@ -92,7 +134,7 @@ class Player {
 
   //Checks if the card being played is legal
   boolean isLegalMove(int cardNumber) {
-    println("heartsBroken: " + heartsBroken);
+    //println("heartsBroken: " + heartsBroken);
     if (hand.size()>0) {
       Card card = hand.get(cardNumber);
 
@@ -141,12 +183,6 @@ class Player {
     }
     //prevents an error from occurring if there are no more cards to play
     return false;
-  }
-
-  //Breaks hearts (later this may lead to a more complicated display)
-  void breakHearts() {
-    println("Hearts have been broken!");
-    heartsBroken = true;
   }
 
   //Checks to see if the player's hand contains a card of the correct suit
@@ -212,6 +248,9 @@ class Player {
         //the player's hand contains only hearts and has no choice but to play one.
         breakHearts();
       } else {
+        if (!heartsBroken) {
+          breakHearts();
+        }
         return true;
       }
     } else {//if player isn't the starting player
@@ -226,6 +265,20 @@ class Player {
       }
     }
     //it isn't illegal to play a heart, therefore it is legal
+    if (!heartsBroken) {
+      breakHearts();
+    }
     return true;
   }
+  
+  void resetPlayer(){
+    hand = new ArrayList();
+    cardsWon = new ArrayList();
+    numHearts = 0;
+    numSpades = 0;
+    numDiamonds = 0;
+    numClubs = 0;
+    points = 0;
+  }
 }
+

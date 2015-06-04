@@ -388,6 +388,25 @@ class CardDisplay {
     ellipse(x+3.5, y, 7, 7);
     triangle(x-7, y, x+7, y, x, y+10);
   }
+  
+  void heartBigBroken(float x, float y, float dist) {//the heart displayed when hearts are broken
+    heartHalfLeft(x-dist,y);
+    heartHalfRight(x+dist,y);
+  }
+  
+  void heartHalfLeft(float x, float y){
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x-40.5, y, 80, 80);
+    triangle(x-70+1, y+30-1, x, y-2, x, y+100-1);
+  }
+  
+  void heartHalfRight(float x, float y){
+    fill(195, 0, 0);
+    noStroke();
+    ellipse(x+40.5, y, 80, 80);
+    triangle(x, y-2, x+70-1, y+30-1, x, y+100-1);
+  }
 
   ///////////SPADE SYMBOLS///////////
   void spadeSmall(float x, float y) {//spades under the number
