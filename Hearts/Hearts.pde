@@ -66,7 +66,11 @@ void setup() {
 
   setDeck();
   deal();
-  
+
+  firstPlayed = false;
+  turnPending = false;
+  lastPlayed = 0;
+  willReset = false;
   heartsBroken = false;
 }
 
@@ -78,8 +82,7 @@ void draw() {
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
-  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3]); 
-  //println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
   if (currentPlayer != south && !willReset) {
     if (turnPending) {
       currentPlayer.playCard(lastPlayed, false);
@@ -95,15 +98,19 @@ void draw() {
     if (time + 1200 < millis()) {
       willReset = false;
       resetPlayedCards();
+      println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
     }
+  }
+  if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+    roundResults();
   }
 }
 
 void resetPlayedCards() {
-  Card cardLed = playedCards[startingPlayer.playerNumber];
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
   Player trickWinner = startingPlayer;
-  for (int i = 0; i < 4; i++){
-    if (playedCards[i].suit == cardLed.suit && compareCards(playedCards[i], cardLed) > 0){
+  for (int i = 0; i < 4; i++) {
+    if (playedCards[i].suit == playedCards[trickWinner.playerNumber].suit && compareCards(playedCards[i], playedCards[trickWinner.playerNumber]) > 0) {
       trickWinner = getPlayer(i);
     }
   }
@@ -131,6 +138,7 @@ void keyPressed() {
 }
 
 void mouseClicked() {
+  displaySouth.click();
 }
 
 //Creates the deck
@@ -151,7 +159,6 @@ void deal() {
     if (randomCard.number == 2 && randomCard.suit == CLUBS) {
       currentPlayer = getPlayer(playerDealtTo);
       startingPlayer = currentPlayer;
-      println("startingPlayerNumber "+startingPlayer.playerNumber);
     }
     if (playerDealtTo == NORTH) {
       north.addCard(randomCard);
@@ -203,6 +210,18 @@ Player getPlayer(int num) {
   }
 }
 
+String getPlayerString(int num) {
+  if (num == NORTH) {
+    return "North";
+  } else if (num == SOUTH) {
+    return "South";
+  } else if (num == EAST) {
+    return "East";
+  } else {
+    return "West";
+  }
+}
+
 Player getNextPlayer(Player current) {
   if (current == north) {
     return east;
@@ -215,15 +234,121 @@ Player getNextPlayer(Player current) {
   }
 }
 
-int compareCards(Card first, Card second){
+int compareCards(Card first, Card second) {
   int firstNumber = first.number;
   int secondNumber = second.number;
-  if (firstNumber == 1){
+  if (firstNumber == 1) {
     firstNumber = 14;
   }
-  if (secondNumber == 1){
+  if (secondNumber == 1) {
     secondNumber = 14;
   }
   return firstNumber - secondNumber;
+}
+
+//Breaks hearts (later this may lead to a more complicated display)
+void breakHearts() {
+  println("Hearts have been broken!");
+  heartsBroken = true;
+}
+
+void roundResults() {
+  int roundWinner = 0;
+  //If a player shot the moon, is set to the player's number
+  int moonShotBy = -1;
+  for (int i = 0; i < 4; i++) {
+    if (getPlayer(i).points == 26) {
+      moonShotBy = i;
+      roundWinner = i;
+    }
+    getPlayer(i).totalPoints += getPlayer(i).points;   
+    if (moonShotBy == -1 && getPlayer(i).points < getPlayer(roundWinner).points) {
+      roundWinner = i;
+    }
+  }
+  if (moonShotBy != -1) {
+    for (int i = 0; i < 4; i++) {
+      if (i == moonShotBy) {
+        getPlayer(i).points -= 26;
+        getPlayer(i).totalPoints -= 26;
+      } else {
+        getPlayer(i).points += 26;
+        getPlayer(i).totalPoints += 26;
+      }
+    }
+  }
+  String roundWinnerString = getPlayerString(roundWinner);
+  for (int i = 0; i < 4; i++){
+    if (i != roundWinner && getPlayer(i).points == getPlayer(roundWinner).points){
+      roundWinnerString += " and " + getPlayerString(i);
+    }
+  }
+  //Display results for the round and overall (later this will be displayed inside the game)
+  println("\nRound winner: " + roundWinnerString);
+  println("\nRound points:");
+  println("   North: " + getPlayer(NORTH).points);
+  println("   South: " + getPlayer(SOUTH).points);
+  println("   East: " + getPlayer(EAST).points);
+  println("   West: " + getPlayer(WEST).points);
+  if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
+    gameResults();
+  } else {
+    println("\nOverall points:");
+    println("   North: " + getPlayer(NORTH).totalPoints);
+    println("   South: " + getPlayer(SOUTH).totalPoints);
+    println("   East: " + getPlayer(EAST).totalPoints);
+    println("   West: " + getPlayer(WEST).totalPoints);
+    newRound();
+  }
+}
+
+void newRound() {
+  for (int i = 0; i < 4; i++) {
+    getPlayer(i).resetPlayer();
+  }
+  displaySouth = new CardDisplay(south);
+  displayNorth = new CardDisplay(north);
+  displayEast = new CardDisplay(east);
+  displayWest = new CardDisplay(west);
+  cardSelected = 12;
+  setDeck();
+  deal();
+  firstPlayed = false;
+  turnPending = false;
+  lastPlayed = 0;
+  willReset = false;
+  heartsBroken = false;
+}
+
+void gameResults() {
+  int gameWinner = 0;
+  for (int i = 1; i < 4; i++) {
+    if (getPlayer(i).totalPoints < getPlayer(gameWinner).totalPoints) {
+      gameWinner = i;
+    }
+  }
+  //Display results for the game (will be displayed inside the game later)
+  println("\nGame Winner: " + getPlayerString(gameWinner));
+  println("\nFinal points:");
+  println("   North: " + getPlayer(NORTH).totalPoints);
+  println("   South: " + getPlayer(SOUTH).totalPoints);
+  println("   East: " + getPlayer(EAST).totalPoints);
+  println("   West: " + getPlayer(WEST).totalPoints);
+  setup();
+}
+
+boolean gameTied(){
+  int winningPlayer = 0;
+  for (int i = 1; i < 4; i++){
+    if (getPlayer(i).totalPoints < getPlayer(winningPlayer).totalPoints){
+      winningPlayer = i;
+    }
+  }
+  for (int i = 0; i < 4; i++){
+    if (i != winningPlayer && getPlayer(i).totalPoints == getPlayer(winningPlayer).totalPoints){
+      return true;
+    }
+  }
+  return false;
 }
 

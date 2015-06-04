@@ -48,6 +48,27 @@ class CardDisplay {
       cardSelected--;
     }
   }
+  
+  
+  void click() {//selects a card by clicking
+    if (place==SOUTH) {
+      int cardsWidth = cardWidth + (numCards-2)*30;
+      for (int i=0; i<south.hand.size (); i++) {
+        int x = width/2 - cardsWidth/2 + i*30 + 15;
+        if (mouseY>height-75-cardHeight/2 && mouseY<height-75+cardHeight/2) {
+          if (i==south.hand.size()-1) {
+            if (mouseX>x && mouseX<x+cardsWidth) {
+              cardSelected = i;
+            }
+          } else {
+            if (mouseX>x-30 && mouseX<x+cardsWidth) {
+              cardSelected = i;
+            }
+          }
+        }
+      }
+    }
+  }
 
   void playCard() {//plays card highlighted (right now this just removes it)
     if (cardSelected>numCards-1 || cardSelected>=south.hand.size()) {
@@ -63,7 +84,7 @@ class CardDisplay {
     int cardsWidth = cardWidth + (numCards-2)*30;
     int cardsHeight = cardHeight + (numCards-3)*30;
     if (place==SOUTH) {
-      for (int i=0; i<south.hand.size(); i++) {
+      for (int i=0; i<south.hand.size (); i++) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
         if (i==cardSelected) {
           selected = true;
@@ -72,19 +93,25 @@ class CardDisplay {
         selected = false;
       }
     } else if (place==NORTH) {
-      for (int i=north.hand.size ()-1; i>=0; i--) {
+      for (int i=0; i<north.hand.size (); i++) {
+        //for (int i=north.hand.size ()-1; i>=0; i--) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
-        cardBack(x, 75);
+        //cardBack(x, 75);
+        cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
       }
     } else if (place==EAST) {
-      for (int i=east.hand.size ()-1; i>=0; i--) {
+      for (int i=0; i<east.hand.size (); i++) {
+        //for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
-        cardBack2(width-75, y);
+        //cardBack2(width-75, y);
+        cardFront(width-75, y, east.hand.get(i).number, east.hand.get(i).suit);
       }
     } else if (place==WEST) {
       for (int i=0; i<west.hand.size (); i++) {
+        //for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
-        cardBack2(75, y);
+        //cardBack2(75, y);
+        cardFront(75, y, west.hand.get(i).number, west.hand.get(i).suit);
       }
     }
     rectMode(CORNER);
@@ -129,32 +156,44 @@ class CardDisplay {
       }
     }
     if (number==ACE) {
-      text("A", x2, -304+((height-75)-y));
+      if (place==SOUTH) {
+        text("A", x2, -304+((height-75)-y));
+      }
       translate(width/2, height/2);
       rotate(radians(180));
       text("A", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==10) {
-      text("10", x2, -304+((height-75)-y));
+      if (place==SOUTH) {
+        text("10", x2, -304+((height-75)-y));
+      }
       translate(width/2, height/2);
       rotate(radians(180));
       text("10", x-cardWidth/2+6, y-cardHeight/2+8);
     } else if (number==JACK) {
-      text("J", x2, -304+((height-75)-y));
+      if (place==SOUTH) {
+        text("J", x2, -304+((height-75)-y));
+      }
       translate(width/2, height/2);
       rotate(radians(180));
       text("J", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==QUEEN) {
-      text("Q", x2, -304+((height-75)-y));
+      if (place==SOUTH) {
+        text("Q", x2, -304+((height-75)-y));
+      }
       translate(width/2, height/2);
       rotate(radians(180));
       text("Q", x-cardWidth/2+8, y-cardHeight/2+8);
     } else if (number==KING) {
-      text("K", x2, -304+((height-75)-y));
+      if (place==SOUTH) {
+        text("K", x2, -304+((height-75)-y));
+      }
       translate(width/2, height/2);
       rotate(radians(180));
       text("K", x-cardWidth/2+8, y-cardHeight/2+8);
     } else {
-      text(""+number, x2, -303+((height-75)-y));
+      if (place==SOUTH) {
+        text(""+number, x2, -303+((height-75)-y));
+      }
       translate(width/2, height/2);
       rotate(radians(180));
       text(""+number, x-cardWidth/2+8, y-cardHeight/2+8);
@@ -734,3 +773,4 @@ class CardDisplay {
     }
   }
 }
+
