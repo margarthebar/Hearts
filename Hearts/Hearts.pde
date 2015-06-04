@@ -78,7 +78,7 @@ void setup() {
 }
 
 void draw() {
-  if (!displayingResults) {
+  /*if (!displayingResults) {
     background(0, 100, 0);
     //displays cards
     displaySouth.draw();
@@ -120,7 +120,8 @@ void draw() {
       displayingResults = true;
       roundResults();
     }
-  }
+  }*/
+  displayRoundResults("North and South");
 }
 
 void resetPlayedCards() {
@@ -152,7 +153,7 @@ void keyPressed() {
       south.playCard(cardSelected, true);
     }
   }
-  if (displayingResults && keyCode == ENTER){
+  if (displayingResults && keyCode == ENTER) {
     displayingResults = false;
     newRound();
   }
@@ -302,22 +303,20 @@ void roundResults() {
       roundWinnerString += " and " + getPlayerString(i);
     }
   }
-  //Display results for the round and overall (later this will be displayed inside the game)
-  println("\nRound winner: " + roundWinnerString);
-  println("\nRound points:");
-  println("   North: " + getPlayer(NORTH).points);
-  println("   South: " + getPlayer(SOUTH).points);
-  println("   East: " + getPlayer(EAST).points);
-  println("   West: " + getPlayer(WEST).points);
   if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
     gameResults();
   } else {
-    println("\nOverall points:");
-    println("   North: " + getPlayer(NORTH).totalPoints);
-    println("   South: " + getPlayer(SOUTH).totalPoints);
-    println("   East: " + getPlayer(EAST).totalPoints);
-    println("   West: " + getPlayer(WEST).totalPoints);
+    displayRoundResults(roundWinnerString);
   }
+}
+
+void displayRoundResults(String winner){
+  fill(0, 200, 0);
+  rect(width / 2 - 200, height / 2 - 150, 400, 300);
+  fill(255, 255, 255);
+  textSize(24);
+  textAlign(CENTER);
+  text("Round winner: " + winner, width / 2, 230);
 }
 
 void newRound() {
