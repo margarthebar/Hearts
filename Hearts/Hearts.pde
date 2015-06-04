@@ -78,27 +78,8 @@ void setup() {
 }
 
 void draw() {
-  /*if (!displayingResults) {
-    background(0, 100, 0);
-    //displays cards
-    displaySouth.draw();
-    displayNorth.draw();
-    displayEast.draw();
-    displayWest.draw();
-    drawPlayedCards();
-    fill(255, 255, 255);
-    textSize(20);
-    textAlign(CENTER);
-    text("Points: " + north.points, width / 2 - 70, 27);
-    text("Total: " + north.totalPoints, width / 2 + 70, 27);
-    text("Points: " + south.points, width / 2 - 70, height - 13);
-    text("Total: " + south.totalPoints, width / 2 + 70, height - 13);
-    textAlign(LEFT);
-    text("Points: " + west.points, 10, height / 2 - 15);
-    text("Total: " + west.totalPoints, 10, height / 2 + 15);
-    textAlign(RIGHT);
-    text("Points: " + east.points, width - 10, height / 2 - 15);
-    text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
+  if (!displayingResults) {
+    gameDisplay();
     if (currentPlayer != south && !willReset) {
       if (turnPending) {
         currentPlayer.playCard(lastPlayed, false);
@@ -117,11 +98,33 @@ void draw() {
       }
     }
     if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+      gameDisplay();
       displayingResults = true;
       roundResults();
     }
-  }*/
-  displayRoundResults("North and South");
+  }
+}
+
+void gameDisplay() {
+  background(0, 100, 0);
+  displaySouth.draw();
+  displayNorth.draw();
+  displayEast.draw();
+  displayWest.draw();
+  drawPlayedCards();
+  fill(255, 255, 255);
+  textSize(20);
+  textAlign(CENTER);
+  text("Points: " + north.points, width / 2 - 70, 27);
+  text("Total: " + north.totalPoints, width / 2 + 70, 27);
+  text("Points: " + south.points, width / 2 - 70, height - 13);
+  text("Total: " + south.totalPoints, width / 2 + 70, height - 13);
+  textAlign(LEFT);
+  text("Points: " + west.points, 10, height / 2 - 15);
+  text("Total: " + west.totalPoints, 10, height / 2 + 15);
+  textAlign(RIGHT);
+  text("Points: " + east.points, width - 10, height / 2 - 15);
+  text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
 }
 
 void resetPlayedCards() {
@@ -310,13 +313,38 @@ void roundResults() {
   }
 }
 
-void displayRoundResults(String winner){
+void displayRoundResults(String winner) {
   fill(0, 200, 0);
   rect(width / 2 - 200, height / 2 - 150, 400, 300);
   fill(255, 255, 255);
+  stroke(255, 255, 255);
   textSize(24);
   textAlign(CENTER);
   text("Round winner: " + winner, width / 2, 230);
+  line(600, 255, 600, 455);
+  line(530, 255, 530, 455);
+  line(460, 255, 460, 455);
+  line(390, 255, 390, 455);
+  line(320, 255, 320, 455);
+  line(250, 455, 600, 455);
+  line(250, 388, 600, 388);
+  line(250, 321, 600, 321);
+  textSize(20);
+  text("North", 355, 295);
+  text("South", 425, 295);
+  text("East", 495, 295);
+  text("West", 565, 295);
+  text("Round\nPoints", 285, 345);
+  text("Total\nPoints", 285, 412);
+  text("" + north.points, 355, 360);
+  text("" + south.points, 425, 360);
+  text("" + east.points, 495, 360);
+  text("" + west.points, 565, 360);
+  text("" + north.totalPoints, 355, 427);
+  text("" + south.totalPoints, 425, 427);
+  text("" + east.totalPoints, 495, 427);
+  text("" + west.totalPoints, 565, 427);
+  text("Press enter to go to the next round", width / 2, 490);
 }
 
 void newRound() {
