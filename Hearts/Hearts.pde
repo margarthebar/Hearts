@@ -263,10 +263,10 @@ void heartsBrokenAnimation() {
     int dist = count;
     if (count<=300) {
       dist = 0;
-    } else if (count<=900) {
+    } else if (count<=1000) {
       dist = 25;
     } else {
-      dist = count-875;
+      dist = count-975;
     }
     count+=10;
     displaySouth.heartBigBroken(width/2, height/2, dist);
