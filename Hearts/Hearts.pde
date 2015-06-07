@@ -163,11 +163,11 @@ void gameDisplay() {
       willReset = true;
       time = millis();
     }
-    if (time + 1200 < millis() && time + 1800 >= millis()) {
+    if (time + 1200 < millis() && time + 1500 >= millis()) {
       takeTrick();
       drawPlayedCards();
     }
-    if (time + 1800 < millis()) {
+    if (time + 1500 < millis()) {
       dx = 0;
       dy = 0;
       willReset = false;
@@ -193,13 +193,13 @@ void takeTrick() {
     }
   }
   if (trickWinner.playerNumber==SOUTH) {
-    dy+=10;
+    dy+=20;
   } else if (trickWinner.playerNumber==NORTH) {
-    dy-=10;
+    dy-=20;
   } else if (trickWinner.playerNumber==EAST) {
-    dx+=10;
+    dx+=20;
   } else {
-    dx-=10;
+    dx-=20;
   }
   startingPlayer = trickWinner;
   currentPlayer = trickWinner;
