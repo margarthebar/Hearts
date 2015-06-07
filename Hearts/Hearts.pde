@@ -48,10 +48,7 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
-<<<<<<< HEAD
-=======
   count = 0;
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
   size(850, 700);
   background(0, 100, 0);
   deck = new ArrayList();
@@ -85,53 +82,46 @@ void setup() {
   heartsBroken = false;
   displayingResults = false;
   gameFinished = false;
-<<<<<<< HEAD
   dx = 0;
   dy = 0;
-=======
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
 }
 
 void draw() {
   if (!displayingResults) {
     gameDisplay();
-<<<<<<< HEAD
     if (currentPlayer != south && !willReset) {
       if (turnPending) {
         currentPlayer.playCard(lastPlayed, false);
       } else {
         currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
-=======
-    if (count==0 || count>1200) {
-      if (currentPlayer != south && !willReset) {
-        if (turnPending) {
-          currentPlayer.playCard(lastPlayed, false);
-        } else {
-          currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+        if (count==0 || count>1200) {
+          if (currentPlayer != south && !willReset) {
+            if (turnPending) {
+              currentPlayer.playCard(lastPlayed, false);
+            } else {
+              currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+            }
+          }
         }
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
+        if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+          if (!willReset) {
+            willReset = true;
+            time = millis();
+          }
+          if (time + 1200 < millis()) {
+            takeTrick();
+          }
+          if (time + 2400 < millis()) {
+            willReset = false;
+            resetPlayedCards();
+          }
+        }
+        if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+          gameDisplay();
+          displayingResults = true;
+          roundResults();
+        }
       }
-    }
-    if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
-      if (!willReset) {
-        willReset = true;
-        time = millis();
-      }
-      if (time + 1200 < millis()) {
-<<<<<<< HEAD
-        takeTrick();
-      }
-      if (time + 2400 < millis()) {
-=======
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
-        willReset = false;
-        resetPlayedCards();
-      }
-    }
-    if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
-      gameDisplay();
-      displayingResults = true;
-      roundResults();
     }
   }
 }
@@ -158,7 +148,6 @@ void gameDisplay() {
   text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
   //displays heartsBroken
   heartsBrokenAnimation();
-<<<<<<< HEAD
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
   if (count==0 || count>1200) {
     if (currentPlayer != south && !willReset) {
@@ -189,8 +178,6 @@ void gameDisplay() {
   if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
     roundResults();
   }
-=======
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
 }
 
 void takeTrick() {
@@ -408,52 +395,8 @@ void roundResults() {
   if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
     gameFinished = true;
     gameResults(roundWinnerString);
-<<<<<<< HEAD
   } else {
     displayRoundResults(roundWinnerString);
-  }
-}
-
-void displayRoundResults(String winner) {
-  fill(0, 200, 0);
-  stroke(255, 255, 255);
-  rect(width / 2 - 200, height / 2 - 150, 400, 300);
-  fill(255, 255, 255);
-  textSize(24);
-  textAlign(CENTER);
-  text("Round winner: " + winner, width / 2, 230);
-  line(600, 255, 600, 455);
-  line(530, 255, 530, 455);
-  line(460, 255, 460, 455);
-  line(390, 255, 390, 455);
-  line(320, 255, 320, 455);
-  line(250, 455, 600, 455);
-  line(250, 388, 600, 388);
-  line(250, 321, 600, 321);
-  textSize(20);
-  text("North", 355, 295);
-  text("South", 425, 295);
-  text("East", 495, 295);
-  text("West", 565, 295);
-  text("Round\nPoints", 285, 345);
-  text("Total\nPoints", 285, 412);
-  text("" + north.points, 355, 360);
-  text("" + south.points, 425, 360);
-  text("" + east.points, 495, 360);
-  text("" + west.points, 565, 360);
-  text("" + north.totalPoints, 355, 427);
-  text("" + south.totalPoints, 425, 427);
-  text("" + east.totalPoints, 495, 427);
-  text("" + west.totalPoints, 565, 427);
-  text("Press enter to go to the next round", width / 2, 490);
-  if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
-    gameResults(winner);
-  } else {
-    newRound();
-=======
-  } else {
-    displayRoundResults(roundWinnerString);
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
   }
 }
 
@@ -495,10 +438,7 @@ void newRound() {
   if (gameFinished) {
     setup();
   } else {
-<<<<<<< HEAD
-=======
     count = 0;
->>>>>>> 4cbd6c7383faa9e83a1d12c20541d5156d8d314d
     for (int i = 0; i < 4; i++) {
       getPlayer(i).resetPlayer();
     }
