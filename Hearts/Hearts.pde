@@ -534,19 +534,15 @@ void passCards(Player from, Player to) {
     }
     if (card.suit == HEARTS) {
       from.numHearts--;
-      to.numHearts++;
     } else if (card.suit == SPADES) {
       from.numSpades--;
-      to.numSpades++;
     } else if (card.suit == DIAMONDS) {
       from.numDiamonds--;
-      to.numDiamonds++;
     } else {
       from.numClubs--;
-      to.numClubs++;
     }
     from.hand.remove(card);
-    to.hand.add(card);
+    to.addCard(card);
   }
 }
 
