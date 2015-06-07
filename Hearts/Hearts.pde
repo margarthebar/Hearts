@@ -30,6 +30,8 @@ Player startingPlayer;
 boolean heartsBroken;
 //Whether results are currently being displayed
 boolean displayingResults;
+//Set to true when the game is finished
+boolean gameFinished;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -76,6 +78,7 @@ void setup() {
   willReset = false;
   heartsBroken = false;
   displayingResults = false;
+  gameFinished = false;
 }
 
 void draw() {
@@ -352,7 +355,8 @@ void roundResults() {
     }
   }
   if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
-    gameResults();
+    gameFinished = true;
+    gameResults(roundWinnerString);
   } else {
     displayRoundResults(roundWinnerString);
   }
@@ -360,9 +364,9 @@ void roundResults() {
 
 void displayRoundResults(String winner) {
   fill(0, 200, 0);
+  stroke(255, 255, 255);
   rect(width / 2 - 200, height / 2 - 150, 400, 300);
   fill(255, 255, 255);
-  stroke(255, 255, 255);
   textSize(24);
   textAlign(CENTER);
   text("Round winner: " + winner, width / 2, 230);
@@ -398,39 +402,75 @@ void displayRoundResults(String winner) {
 }
 
 void newRound() {
-  for (int i = 0; i < 4; i++) {
-    getPlayer(i).resetPlayer();
+  if (gameFinished) {
+    setup();
+  } else {
+    for (int i = 0; i < 4; i++) {
+      getPlayer(i).resetPlayer();
+    }
+    displaySouth = new CardDisplay(south);
+    displayNorth = new CardDisplay(north);
+    displayEast = new CardDisplay(east);
+    displayWest = new CardDisplay(west);
+    cardSelected = 12;
+    setDeck();
+    deal();
+    firstPlayed = false;
+    turnPending = false;
+    lastPlayed = 0;
+    willReset = false;
+    heartsBroken = false;
+    displayingResults = false;
+    gameFinished = false;
   }
-  displaySouth = new CardDisplay(south);
-  displayNorth = new CardDisplay(north);
-  displayEast = new CardDisplay(east);
-  displayWest = new CardDisplay(west);
-  cardSelected = 12;
-  setDeck();
-  deal();
-  firstPlayed = false;
-  turnPending = false;
-  lastPlayed = 0;
-  willReset = false;
-  heartsBroken = false;
-  displayingResults = false;
 }
 
-void gameResults() {
+void gameResults(String roundWinner) {
   int gameWinner = 0;
   for (int i = 1; i < 4; i++) {
     if (getPlayer(i).totalPoints < getPlayer(gameWinner).totalPoints) {
       gameWinner = i;
     }
   }
-  //Display results for the game (will be displayed inside the game later)
-  println("\nGame Winner: " + getPlayerString(gameWinner));
-  println("\nFinal points:");
-  println("   North: " + getPlayer(NORTH).totalPoints);
-  println("   South: " + getPlayer(SOUTH).totalPoints);
-  println("   East: " + getPlayer(EAST).totalPoints);
-  println("   West: " + getPlayer(WEST).totalPoints);
-  setup();
+  String gameWinnerString = getPlayerString(gameWinner);
+  displayGameResults(roundWinner, gameWinnerString);
+}
+
+void displayGameResults(String roundWinner, String gameWinner) {
+  fill(0, 200, 0);
+  stroke(255, 255, 255);
+  rect(width / 2 - 200, height / 2 - 150, 400, 330);
+  textAlign(CENTER);
+  fill(0, 0, 255);
+  textSize(28);
+  text("Game winner: " + gameWinner, width / 2, 230);
+  fill(255, 255, 255);
+  textSize(24);
+  text("Round winner: " + roundWinner, width / 2, 260);
+  line(600, 285, 600, 485);
+  line(530, 285, 530, 485);
+  line(460, 285, 460, 485);
+  line(390, 285, 390, 485);
+  line(320, 285, 320, 485);
+  line(250, 485, 600, 485);
+  line(250, 418, 600, 418);
+  line(250, 351, 600, 351);
+  textSize(20);
+  text("North", 355, 325);
+  text("South", 425, 325);
+  text("East", 495, 325);
+  text("West", 565, 325);
+  text("Round\nPoints", 285, 375);
+  text("Total\nPoints", 285, 442);
+  text("" + north.points, 355, 390);
+  text("" + south.points, 425, 390);
+  text("" + east.points, 495, 390);
+  text("" + west.points, 565, 390);
+  text("" + north.totalPoints, 355, 457);
+  text("" + south.totalPoints, 425, 457);
+  text("" + east.totalPoints, 495, 457);
+  text("" + west.totalPoints, 565, 457);
+  text("Press enter to play again", width / 2, 520);
 }
 
 boolean gameTied() {
