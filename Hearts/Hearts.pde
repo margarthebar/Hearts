@@ -20,6 +20,8 @@ Player currentPlayer;
 boolean firstPlayed;
 //Whether the program is currently waiting for a turn
 boolean turnPending;
+//Distance cards in a trick should move;
+int dx, dy;
 //The number of the card that has most recently been played
 int lastPlayed;
 //Whether the played cards are about to be reset
@@ -28,6 +30,10 @@ boolean willReset;
 Player startingPlayer;
 //Whether hearts have been broken or not
 boolean heartsBroken;
+//Whether results are currently being displayed
+boolean displayingResults;
+//Set to true when the game is finished
+boolean gameFinished;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -42,7 +48,7 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
-  size(700, 700);
+  size(850, 700);
   background(0, 100, 0);
   deck = new ArrayList();
   southHand = new ArrayList();
@@ -73,16 +79,63 @@ void setup() {
   lastPlayed = 0;
   willReset = false;
   heartsBroken = false;
+  displayingResults = false;
+  gameFinished = false;
+  dx = 0;
+  dy = 0;
 }
 
 void draw() {
+  if (!displayingResults) {
+    gameDisplay();
+    if (currentPlayer != south && !willReset) {
+      if (turnPending) {
+        currentPlayer.playCard(lastPlayed, false);
+      } else {
+        currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+      }
+    }
+    if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+      if (!willReset) {
+        willReset = true;
+        time = millis();
+      }
+      if (time + 1200 < millis()) {
+        takeTrick();
+      }
+      if (time + 2400 < millis()) {
+        willReset = false;
+        resetPlayedCards();
+      }
+    }
+    if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+      gameDisplay();
+      displayingResults = true;
+      roundResults();
+    }
+  }
+}
+
+void gameDisplay() {
   background(0, 100, 0);
-  //displays cards
   displaySouth.draw();
   displayNorth.draw();
   displayEast.draw();
   displayWest.draw();
   drawPlayedCards();
+  fill(255, 255, 255);
+  textSize(20);
+  textAlign(CENTER);
+  text("Points: " + north.points, width / 2 - 70, 27);
+  text("Total: " + north.totalPoints, width / 2 + 70, 27);
+  text("Points: " + south.points, width / 2 - 70, height - 13);
+  text("Total: " + south.totalPoints, width / 2 + 70, height - 13);
+  textAlign(LEFT);
+  text("Points: " + west.points, 10, height / 2 - 15);
+  text("Total: " + west.totalPoints, 10, height / 2 + 15);
+  textAlign(RIGHT);
+  text("Points: " + east.points, width - 10, height / 2 - 15);
+  text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
   //displays heartsBroken
   heartsBrokenAnimation();
   //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
@@ -100,7 +153,13 @@ void draw() {
       willReset = true;
       time = millis();
     }
-    if (time + 1200 < millis()) {
+    if (time + 1200 < millis() && time + 1800 >= millis()) {
+      takeTrick();
+      drawPlayedCards();
+    }
+    if (time + 1800 < millis()) {
+      dx = 0;
+      dy = 0;
       willReset = false;
       resetPlayedCards();
       println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
@@ -111,20 +170,36 @@ void draw() {
   }
 }
 
-void resetPlayedCards() {
-  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
+void takeTrick() {
   Player trickWinner = startingPlayer;
   for (int i = 0; i < 4; i++) {
     if (playedCards[i].suit == playedCards[trickWinner.playerNumber].suit && compareCards(playedCards[i], playedCards[trickWinner.playerNumber]) > 0) {
       trickWinner = getPlayer(i);
     }
   }
-  for (int i=0; i<4; i++) {
-    trickWinner.addCardWon(playedCards[i]);
-    playedCards[i]=new Card(0, 0);
+  if (dx==0 && dy==0) {
+    for (int i=0; i<4; i++) {
+      trickWinner.addCardWon(playedCards[i]);
+    }
+  }
+  if (trickWinner.playerNumber==SOUTH) {
+    dy+=10;
+  } else if (trickWinner.playerNumber==NORTH) {
+    dy-=10;
+  } else if (trickWinner.playerNumber==EAST) {
+    dx+=10;
+  } else {
+    dx-=10;
   }
   startingPlayer = trickWinner;
   currentPlayer = trickWinner;
+  println("animation happening");
+}
+
+void resetPlayedCards() {
+  for (int i=0; i<4; i++) {
+    playedCards[i]=new Card(0, 0);
+  }
 }
 
 void keyPressed() {
@@ -139,6 +214,10 @@ void keyPressed() {
     if (currentPlayer == south) {
       south.playCard(cardSelected, true);
     }
+  }
+  if (displayingResults && keyCode == ENTER) {
+    displayingResults = false;
+    newRound();
   }
 }
 
@@ -179,26 +258,26 @@ void deal() {
 
 //displays cards played by all four players;
 void drawPlayedCards() {
-  int x = 0;
-  int y = 0;
+  int x = 0 +dx;
+  int y = 0 +dy;
   if (playedCards[1].number!=0) {
-    x = width/2;
-    y = height/2 + 50;
+    x = width/2 + dx;
+    y = height/2 + 50 + dy;
     displaySouth.cardFront(x, y, playedCards[1].number, playedCards[1].suit);
   }
   if (playedCards[0].number!=0) {
-    x = width/2;
-    y = height/2 - 50;
+    x = width/2 + dx;
+    y = height/2 - 50 + dy;
     displayNorth.cardFront(x, y, playedCards[0].number, playedCards[0].suit);
   }
   if (playedCards[2].number!=0) {
-    x = width/2 + 50;
-    y = height/2;
+    x = width/2 + 50 + dx;
+    y = height/2 + dy;
     displayEast.cardFront(x, y, playedCards[2].number, playedCards[2].suit);
   }
   if (playedCards[3].number!=0) {
-    x = width/2 - 50;
-    y = height/2;
+    x = width/2 - 50 + dx;
+    y = height/2 + dy;
     displayWest.cardFront(x, y, playedCards[3].number, playedCards[3].suit);
   }
 }
@@ -304,58 +383,123 @@ void roundResults() {
       roundWinnerString += " and " + getPlayerString(i);
     }
   }
-  //Display results for the round and overall (later this will be displayed inside the game)
-  println("\nRound winner: " + roundWinnerString);
-  println("\nRound points:");
-  println("   North: " + getPlayer(NORTH).points);
-  println("   South: " + getPlayer(SOUTH).points);
-  println("   East: " + getPlayer(EAST).points);
-  println("   West: " + getPlayer(WEST).points);
   if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
-    gameResults();
+    gameFinished = true;
+    gameResults(roundWinnerString);
   } else {
-    println("\nOverall points:");
-    println("   North: " + getPlayer(NORTH).totalPoints);
-    println("   South: " + getPlayer(SOUTH).totalPoints);
-    println("   East: " + getPlayer(EAST).totalPoints);
-    println("   West: " + getPlayer(WEST).totalPoints);
+    displayRoundResults(roundWinnerString);
+  }
+}
+
+void displayRoundResults(String winner) {
+  fill(0, 200, 0);
+  stroke(255, 255, 255);
+  rect(width / 2 - 200, height / 2 - 150, 400, 300);
+  fill(255, 255, 255);
+  textSize(24);
+  textAlign(CENTER);
+  text("Round winner: " + winner, width / 2, 230);
+  line(600, 255, 600, 455);
+  line(530, 255, 530, 455);
+  line(460, 255, 460, 455);
+  line(390, 255, 390, 455);
+  line(320, 255, 320, 455);
+  line(250, 455, 600, 455);
+  line(250, 388, 600, 388);
+  line(250, 321, 600, 321);
+  textSize(20);
+  text("North", 355, 295);
+  text("South", 425, 295);
+  text("East", 495, 295);
+  text("West", 565, 295);
+  text("Round\nPoints", 285, 345);
+  text("Total\nPoints", 285, 412);
+  text("" + north.points, 355, 360);
+  text("" + south.points, 425, 360);
+  text("" + east.points, 495, 360);
+  text("" + west.points, 565, 360);
+  text("" + north.totalPoints, 355, 427);
+  text("" + south.totalPoints, 425, 427);
+  text("" + east.totalPoints, 495, 427);
+  text("" + west.totalPoints, 565, 427);
+  text("Press enter to go to the next round", width / 2, 490);
+  if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
+    gameResults(winner);
+  } else {
     newRound();
   }
 }
 
 void newRound() {
-  for (int i = 0; i < 4; i++) {
-    getPlayer(i).resetPlayer();
+  if (gameFinished) {
+    setup();
+  } else {
+    for (int i = 0; i < 4; i++) {
+      getPlayer(i).resetPlayer();
+    }
+    displaySouth = new CardDisplay(south);
+    displayNorth = new CardDisplay(north);
+    displayEast = new CardDisplay(east);
+    displayWest = new CardDisplay(west);
+    cardSelected = 12;
+    setDeck();
+    deal();
+    firstPlayed = false;
+    turnPending = false;
+    lastPlayed = 0;
+    willReset = false;
+    heartsBroken = false;
+    displayingResults = false;
+    gameFinished = false;
   }
-  displaySouth = new CardDisplay(south);
-  displayNorth = new CardDisplay(north);
-  displayEast = new CardDisplay(east);
-  displayWest = new CardDisplay(west);
-  cardSelected = 12;
-  setDeck();
-  deal();
-  firstPlayed = false;
-  turnPending = false;
-  lastPlayed = 0;
-  willReset = false;
-  heartsBroken = false;
 }
 
-void gameResults() {
+void gameResults(String roundWinner) {
   int gameWinner = 0;
   for (int i = 1; i < 4; i++) {
     if (getPlayer(i).totalPoints < getPlayer(gameWinner).totalPoints) {
       gameWinner = i;
     }
   }
-  //Display results for the game (will be displayed inside the game later)
-  println("\nGame Winner: " + getPlayerString(gameWinner));
-  println("\nFinal points:");
-  println("   North: " + getPlayer(NORTH).totalPoints);
-  println("   South: " + getPlayer(SOUTH).totalPoints);
-  println("   East: " + getPlayer(EAST).totalPoints);
-  println("   West: " + getPlayer(WEST).totalPoints);
-  setup();
+  String gameWinnerString = getPlayerString(gameWinner);
+  displayGameResults(roundWinner, gameWinnerString);
+}
+
+void displayGameResults(String roundWinner, String gameWinner) {
+  fill(0, 200, 0);
+  stroke(255, 255, 255);
+  rect(width / 2 - 200, height / 2 - 150, 400, 330);
+  textAlign(CENTER);
+  fill(0, 0, 255);
+  textSize(28);
+  text("Game winner: " + gameWinner, width / 2, 230);
+  fill(255, 255, 255);
+  textSize(24);
+  text("Round winner: " + roundWinner, width / 2, 260);
+  line(600, 285, 600, 485);
+  line(530, 285, 530, 485);
+  line(460, 285, 460, 485);
+  line(390, 285, 390, 485);
+  line(320, 285, 320, 485);
+  line(250, 485, 600, 485);
+  line(250, 418, 600, 418);
+  line(250, 351, 600, 351);
+  textSize(20);
+  text("North", 355, 325);
+  text("South", 425, 325);
+  text("East", 495, 325);
+  text("West", 565, 325);
+  text("Round\nPoints", 285, 375);
+  text("Total\nPoints", 285, 442);
+  text("" + north.points, 355, 390);
+  text("" + south.points, 425, 390);
+  text("" + east.points, 495, 390);
+  text("" + west.points, 565, 390);
+  text("" + north.totalPoints, 355, 457);
+  text("" + south.totalPoints, 425, 457);
+  text("" + east.totalPoints, 495, 457);
+  text("" + west.totalPoints, 565, 457);
+  text("Press enter to play again", width / 2, 520);
 }
 
 boolean gameTied() {
