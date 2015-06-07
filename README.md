@@ -46,11 +46,12 @@ Done:
  - Restrict user to legal plays only
  - Automatic and random play for the three opponents
  - Turns/normal gameplay
-
-To do:
  - Mouse interaction with cards
  - End the game and declare a winner
- - Restart game
+ - restart game
+ - some animation
+
+To do:
  - AI algorithms
  - Allow the user to select a difficulty level for the computer.
  - Create more/less intelligent alternative AIs
