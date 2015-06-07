@@ -139,69 +139,43 @@ class CardDisplay {
       fill(195, 0, 0);
       stroke(195, 0, 0);
     }
-    translate(width/2, height/2);
     rotate(radians(180));
-    float x2 = -203+((13-numCards)*15);
-    if (y<height-75) {
-      if (x==width/2) {
-        x2 = -18+(x-width/2);
-      } else {
-        if (x>width/2) {
-          x2 = x-width/2-118;
-        } else {
-          x2 = x-width/2+100-18;
-        }
-      }
-    }
+    float xcor = x-cardWidth/2+8;
+    float ycor = y-cardHeight/2+8;
+    String s = "";
+
     if (number==ACE) {
-      text("A", x2, -304+((height-75)-y));
-      if (place==SOUTH) {
-        text("A", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("A", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "A";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+      xcor-=1;
     } else if (number==10) {
-      text("10", x2, -304+((height-75)-y));
-      if (place==SOUTH) {
-        text("10", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("10", x-cardWidth/2+6, y-cardHeight/2+8);
+      s = "10";
+      xcor+=2;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+      xcor-=3;
     } else if (number==JACK) {
-      text("J", x2, -304+((height-75)-y));
-      if (place==SOUTH) {
-        text("J", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("J", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "J";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+      xcor-=1;
     } else if (number==QUEEN) {
-      text("Q", x2, -304+((height-75)-y));
-      if (place==SOUTH) {
-        text("Q", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("Q", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "Q";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+      xcor-=1;
     } else if (number==KING) {
-      text("K", x2, -304+((height-75)-y));
-      if (place==SOUTH) {
-        text("K", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("K", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "K";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+      xcor-=1;
     } else {
-      text(""+number, x2, -303+((height-75)-y));
-      if (place==SOUTH) {
-        text(""+number, x2, -303+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text(""+number, x-cardWidth/2+8, y-cardHeight/2+8);
+      s = ""+number;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
     }
+    rotate(radians(180));
+    text(s, xcor, ycor);
+    rectMode(CORNER);
   }
 
   void cardBack(float x, float y) {//cards that are face down and facing NORTH and SOUTH
@@ -796,4 +770,3 @@ class CardDisplay {
     }
   }
 }
-

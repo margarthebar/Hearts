@@ -20,6 +20,8 @@ Player currentPlayer;
 boolean firstPlayed;
 //Whether the program is currently waiting for a turn
 boolean turnPending;
+//Distance cards in a trick should move;
+int dx, dy;
 //The number of the card that has most recently been played
 int lastPlayed;
 //Whether the played cards are about to be reset
@@ -84,6 +86,8 @@ void setup() {
   heartsBroken = false;
   displayingResults = false;
   gameFinished = false;
+  dx = 0;
+  dy = 0;
 
   passingCards = true;
   roundNumber = 0;
@@ -93,13 +97,11 @@ void draw() {
   if (!displayingResults) {
     gameDisplay();
     if (!passingCards) {
-      if (count==0 || count>1200) {
-        if (currentPlayer != south && !willReset) {
-          if (turnPending) {
-            currentPlayer.playCard(lastPlayed, false);
-          } else {
-            currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
-          }
+      if (currentPlayer != south && !willReset) {
+        if (turnPending) {
+          currentPlayer.playCard(lastPlayed, false);
+        } else {
+          currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
         }
       }
       if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
@@ -107,7 +109,13 @@ void draw() {
           willReset = true;
           time = millis();
         }
-        if (time + 1200 < millis()) {
+        if (time + 1200 < millis() && time + 1500 >= millis()) {
+          takeTrick();
+          drawPlayedCards();
+        }
+        if (time + 1500 < millis()) {
+          dx = 0;
+          dy = 0;
           willReset = false;
           resetPlayedCards();
         }
@@ -151,20 +159,35 @@ void gameDisplay() {
   heartsBrokenAnimation();
 }
 
-void resetPlayedCards() {
-  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + " HeartsBroken: " + heartsBroken); 
+void takeTrick() {
   Player trickWinner = startingPlayer;
   for (int i = 0; i < 4; i++) {
     if (playedCards[i].suit == playedCards[trickWinner.playerNumber].suit && compareCards(playedCards[i], playedCards[trickWinner.playerNumber]) > 0) {
       trickWinner = getPlayer(i);
     }
   }
-  for (int i=0; i<4; i++) {
-    trickWinner.addCardWon(playedCards[i]);
-    playedCards[i]=new Card(0, 0);
+  if (dx==0 && dy==0) {
+    for (int i=0; i<4; i++) {
+      trickWinner.addCardWon(playedCards[i]);
+    }
+  }
+  if (trickWinner.playerNumber==SOUTH) {
+    dy+=20;
+  } else if (trickWinner.playerNumber==NORTH) {
+    dy-=20;
+  } else if (trickWinner.playerNumber==EAST) {
+    dx+=20;
+  } else {
+    dx-=20;
   }
   startingPlayer = trickWinner;
   currentPlayer = trickWinner;
+}
+
+void resetPlayedCards() {
+  for (int i=0; i<4; i++) {
+    playedCards[i]=new Card(0, 0);
+  }
 }
 
 void keyPressed() {
@@ -244,26 +267,26 @@ void deal() {
 
 //displays cards played by all four players;
 void drawPlayedCards() {
-  int x = 0;
-  int y = 0;
+  int x = 0 +dx;
+  int y = 0 +dy;
   if (playedCards[1].number!=0) {
-    x = width/2;
-    y = height/2 + 50;
+    x = width/2 + dx;
+    y = height/2 + 50 + dy;
     displaySouth.cardFront(x, y, playedCards[1].number, playedCards[1].suit);
   }
   if (playedCards[0].number!=0) {
-    x = width/2;
-    y = height/2 - 50;
+    x = width/2 + dx;
+    y = height/2 - 50 + dy;
     displayNorth.cardFront(x, y, playedCards[0].number, playedCards[0].suit);
   }
   if (playedCards[2].number!=0) {
-    x = width/2 + 50;
-    y = height/2;
+    x = width/2 + 50 + dx;
+    y = height/2 + dy;
     displayEast.cardFront(x, y, playedCards[2].number, playedCards[2].suit);
   }
   if (playedCards[3].number!=0) {
-    x = width/2 - 50;
-    y = height/2;
+    x = width/2 - 50 + dx;
+    y = height/2 + dy;
     displayWest.cardFront(x, y, playedCards[3].number, playedCards[3].suit);
   }
 }
