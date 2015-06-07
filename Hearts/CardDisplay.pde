@@ -142,24 +142,33 @@ class CardDisplay {
 
     if (number==ACE) {
       s = "A";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
       xcor-=1;
     } else if (number==10) {
       s = "10";
-      xcor-=1;
+      xcor+=2;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+      xcor-=3;
     } else if (number==JACK) {
       s = "J";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
       xcor-=1;
     } else if (number==QUEEN) {
       s = "Q";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
       xcor-=1;
     } else if (number==KING) {
       s = "K";
+      xcor+=1;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
       xcor-=1;
     } else {
       s = ""+number;
+      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
     }
-
-    text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
     rotate(radians(180));
     text(s, xcor, ycor);
     rectMode(CORNER);
