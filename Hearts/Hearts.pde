@@ -30,6 +30,10 @@ Player startingPlayer;
 boolean heartsBroken;
 //Whether results are currently being displayed
 boolean displayingResults;
+//Whether cards are currents being selected to be passed
+boolean passingCards;
+//Keeps track of the number of rounds
+int roundNumber;
 //Set to true when the game is finished
 boolean gameFinished;
 
@@ -80,34 +84,39 @@ void setup() {
   heartsBroken = false;
   displayingResults = false;
   gameFinished = false;
+
+  passingCards = true;
+  roundNumber = 0;
 }
 
 void draw() {
   if (!displayingResults) {
     gameDisplay();
-    if (count==0 || count>1200) {
-      if (currentPlayer != south && !willReset) {
-        if (turnPending) {
-          currentPlayer.playCard(lastPlayed, false);
-        } else {
-          currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+    if (!passingCards) {
+      if (count==0 || count>1200) {
+        if (currentPlayer != south && !willReset) {
+          if (turnPending) {
+            currentPlayer.playCard(lastPlayed, false);
+          } else {
+            currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+          }
         }
       }
-    }
-    if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
-      if (!willReset) {
-        willReset = true;
-        time = millis();
+      if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+        if (!willReset) {
+          willReset = true;
+          time = millis();
+        }
+        if (time + 1200 < millis()) {
+          willReset = false;
+          resetPlayedCards();
+        }
       }
-      if (time + 1200 < millis()) {
-        willReset = false;
-        resetPlayedCards();
+      if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+        gameDisplay();
+        displayingResults = true;
+        roundResults();
       }
-    }
-    if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
-      gameDisplay();
-      displayingResults = true;
-      roundResults();
     }
   }
 }
@@ -396,6 +405,12 @@ void newRound() {
     heartsBroken = false;
     displayingResults = false;
     gameFinished = false;
+    roundNumber++;
+    if (roundNumber % 4 == 3) {
+      passingCards = false;
+    } else {
+      passingCards = true;
+    }
   }
 }
 
