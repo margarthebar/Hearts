@@ -395,7 +395,7 @@ void displayRoundResults(String winner) {
   text("" + west.totalPoints, 565, 427);
   text("Press enter to go to the next round", width / 2, 490);
   if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
-    gameResults();
+    gameResults(winner);
   } else {
     newRound();
   }
