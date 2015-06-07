@@ -89,14 +89,18 @@ class CardDisplay {
         if (i==cardSelected) {
           selected = true;
         }
-        cardFront(x, height-75, south.hand.get(i).number, south.hand.get(i).suit);
+        if (south.cardsToPass.contains(south.hand.get(i))) {
+          cardFront(x, height-100, south.hand.get(i).number, south.hand.get(i).suit);
+        } else {
+          cardFront(x, height-75, south.hand.get(i).number, south.hand.get(i).suit);
+        }
         selected = false;
       }
     } else if (place==NORTH) {
-        for (int i=0; i<north.hand.size (); i++) {
-          int x = width/2 - cardsWidth/2 + i*30 + 15;
-          cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
-        }
+      for (int i=0; i<north.hand.size (); i++) {
+        int x = width/2 - cardsWidth/2 + i*30 + 15;
+        cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
+      }
     } else if (place==EAST) {
       for (int i=0; i<east.hand.size (); i++) {
         int y = height/2 - cardsHeight/2 + i*30;

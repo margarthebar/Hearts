@@ -131,8 +131,12 @@ void gameDisplay() {
   displayWest.draw();
   drawPlayedCards();
   fill(255, 255, 255);
-  textSize(20);
   textAlign(CENTER);
+  if (passingCards) {
+    textSize(30);
+    text("Select 3 cards to pass", width / 2, height - 200);
+  }
+  textSize(20);
   text("Points: " + north.points, width / 2 - 70, 27);
   text("Total: " + north.totalPoints, width / 2 + 70, 27);
   text("Points: " + south.points, width / 2 - 70, height - 13);
@@ -180,6 +184,14 @@ void keyPressed() {
     } else {
       if (currentPlayer == south) {
         south.playCard(cardSelected, true);
+      }
+    }
+  }
+  if (keyCode==DOWN) {
+    if (passingCards) {
+      Card card = south.hand.get(cardSelected);
+      if (south.cardsToPass.contains(card)) {
+        south.cardsToPass.remove(card);
       }
     }
   }
