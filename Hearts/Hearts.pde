@@ -117,8 +117,11 @@ void draw() {
         displayingResults = true;
         roundResults();
       }
+    } else {
+      pickPassingCards();
     }
   }
+  println(south.cardsToPass);
 }
 
 void gameDisplay() {
@@ -170,13 +173,24 @@ void keyPressed() {
     displaySouth.selectLeft();
   }
   if (keyCode==UP) {
-    if (currentPlayer == south) {
-      south.playCard(cardSelected, true);
+    if (passingCards) {
+      Card card = south.hand.get(cardSelected);
+      if (!south.cardsToPass.contains(card)) {
+        south.cardsToPass.add(card);
+      }
+    } else {
+      if (currentPlayer == south) {
+        south.playCard(cardSelected, true);
+      }
     }
   }
-  if (displayingResults && keyCode == ENTER) {
-    displayingResults = false;
-    newRound();
+  if (keyCode == ENTER) {
+    if (passingCards) {
+    }
+    if (displayingResults) {
+      displayingResults = false;
+      newRound();
+    }
   }
 }
 

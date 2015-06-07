@@ -11,10 +11,13 @@ class Player {
   int points;
   //The number of points over multiple rounds
   int totalPoints;
+  //The cards the player has selected to pass
+  ArrayList<Card> cardsToPass;
 
   Player(int num) {
     hand = new ArrayList();
     cardsWon = new ArrayList();
+    cardsToPass = new ArrayList();
     playerNumber = num;
   }
 
@@ -276,6 +279,7 @@ class Player {
   void resetPlayer(){
     hand = new ArrayList();
     cardsWon = new ArrayList();
+    cardsToPass = new ArrayList();
     numHearts = 0;
     numSpades = 0;
     numDiamonds = 0;
