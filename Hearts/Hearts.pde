@@ -29,6 +29,8 @@ Player startingPlayer;
 boolean heartsBroken;
 //Whether results are currently being displayed
 boolean displayingResults;
+//Set to true when the game is finished
+boolean gameFinished;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -75,6 +77,7 @@ void setup() {
   willReset = false;
   heartsBroken = false;
   displayingResults = false;
+  gameFinished = false;
 }
 
 void draw() {
@@ -307,7 +310,8 @@ void roundResults() {
     }
   }
   if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
-    gameResults();
+    gameFinished = true;
+    gameResults(roundWinnerString);
   } else {
     displayRoundResults(roundWinnerString);
   }
@@ -348,39 +352,41 @@ void displayRoundResults(String winner) {
 }
 
 void newRound() {
-  for (int i = 0; i < 4; i++) {
-    getPlayer(i).resetPlayer();
+  if (gameFinished) {
+    setup();
+  } else {
+    for (int i = 0; i < 4; i++) {
+      getPlayer(i).resetPlayer();
+    }
+    displaySouth = new CardDisplay(south);
+    displayNorth = new CardDisplay(north);
+    displayEast = new CardDisplay(east);
+    displayWest = new CardDisplay(west);
+    cardSelected = 12;
+    setDeck();
+    deal();
+    firstPlayed = false;
+    turnPending = false;
+    lastPlayed = 0;
+    willReset = false;
+    heartsBroken = false;
+    displayingResults = false;
+    gameFinished = false;
   }
-  displaySouth = new CardDisplay(south);
-  displayNorth = new CardDisplay(north);
-  displayEast = new CardDisplay(east);
-  displayWest = new CardDisplay(west);
-  cardSelected = 12;
-  setDeck();
-  deal();
-  firstPlayed = false;
-  turnPending = false;
-  lastPlayed = 0;
-  willReset = false;
-  heartsBroken = false;
-  displayingResults = false;
 }
 
-void gameResults() {
+void gameResults(String roundWinner) {
   int gameWinner = 0;
   for (int i = 1; i < 4; i++) {
     if (getPlayer(i).totalPoints < getPlayer(gameWinner).totalPoints) {
       gameWinner = i;
     }
   }
-  //Display results for the game (will be displayed inside the game later)
-  println("\nGame Winner: " + getPlayerString(gameWinner));
-  println("\nFinal points:");
-  println("   North: " + getPlayer(NORTH).totalPoints);
-  println("   South: " + getPlayer(SOUTH).totalPoints);
-  println("   East: " + getPlayer(EAST).totalPoints);
-  println("   West: " + getPlayer(WEST).totalPoints);
-  setup();
+  String gameWinnerString = getPlayerString(gameWinner);
+  displayGameResults(roundWinner, gameWinnerString);
+}
+
+void displayGameResults(String roundWinner, String gameWinner) {
 }
 
 boolean gameTied() {
