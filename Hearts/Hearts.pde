@@ -1,5 +1,6 @@
 //Time
 int time;
+int count = 0;
 
 ArrayList<Card> deck; //The deck of cards
 Card[] playedCards; //The cards currently played (length 4, with indices corresponding to player number)
@@ -125,6 +126,32 @@ void gameDisplay() {
   textAlign(RIGHT);
   text("Points: " + east.points, width - 10, height / 2 - 15);
   text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
+  //displays heartsBroken
+  heartsBrokenAnimation();
+  //println("North: " + playedCards[0] + "  South: " + playedCards[1] + "  East: " + playedCards[2] + "  West: " + playedCards[3] + "  HeartsBroken: " + heartsBroken); 
+  if (count==0 || count>1200) {
+    if (currentPlayer != south && !willReset) {
+      if (turnPending) {
+        currentPlayer.playCard(lastPlayed, false);
+      } else {
+        currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+      }
+    }
+  }
+  if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+    if (!willReset) {
+      willReset = true;
+      time = millis();
+    }
+    if (time + 1200 < millis()) {
+      willReset = false;
+      resetPlayedCards();
+      println("North: " + north.points + "  South: " + south.points + "  East: " + east.points + "  West: " + west.points);
+    }
+  }
+  if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+    roundResults();
+  }
 }
 
 void resetPlayedCards() {
@@ -163,6 +190,7 @@ void keyPressed() {
 }
 
 void mouseClicked() {
+  displaySouth.click();
 }
 
 //Creates the deck
@@ -274,6 +302,22 @@ int compareCards(Card first, Card second) {
 void breakHearts() {
   println("Hearts have been broken!");
   heartsBroken = true;
+  displaySouth.heartBigBroken(width/2, height/2, 0);
+}
+
+void heartsBrokenAnimation() {
+  if (heartsBroken) {
+    int dist = count;
+    if (count<=300) {
+      dist = 0;
+    } else if (count<=1000) {
+      dist = 25;
+    } else {
+      dist = count-975;
+    }
+    count+=10;
+    displaySouth.heartBigBroken(width/2, height/2, dist);
+  }
 }
 
 void roundResults() {
@@ -285,6 +329,7 @@ void roundResults() {
       moonShotBy = i;
       roundWinner = i;
     }
+    getPlayer(i).totalPoints += getPlayer(i).points;   
     if (moonShotBy == -1 && getPlayer(i).points < getPlayer(roundWinner).points) {
       roundWinner = i;
     }
@@ -345,6 +390,11 @@ void displayRoundResults(String winner) {
   text("" + east.totalPoints, 495, 427);
   text("" + west.totalPoints, 565, 427);
   text("Press enter to go to the next round", width / 2, 490);
+  if ((north.totalPoints >= 100 || south.totalPoints >= 100 || east.totalPoints >= 100 || west.totalPoints >= 100) && !gameTied()) {
+    gameResults();
+  } else {
+    newRound();
+  }
 }
 
 void newRound() {
