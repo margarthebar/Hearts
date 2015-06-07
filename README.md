@@ -35,6 +35,36 @@ Development Log
 5/31/15:
  - The cards are sorted by suit and number in each hand
  - Bug fixes with breaking hearts and trick winning
+ 
+6/1/15:
+ - The winner of a round is determined
+ - A new round begins automatically
+ - The game recognizes shooting the moon
+
+6/2/15:
+ - The game resets once a player reaches 100 points
+ - The game recognizes tied rounds
+
+6/3/15:
+ - Points are displayed next to the hand
+ - Cards can be selected by clicking
+ - An animation is played when hearts are broken
+ 
+6/4/15:
+ - At the end of each round the results for the round are displayed
+ - The user must press enter to go to the next round
+ 
+6/5/15:
+ - Changes to the hearts breaking animation
+
+6/6/15:
+ - The game winner is determined once a player reaches 100 points
+ - The results for the whole game are displayed at the end
+
+6/7/15:
+ - Cards are passed at the beginning of each round
+ - Cards move towards the trick winner at the end of each trick
+ - Bug fixes with card and results display
 
 Project Plan
 
@@ -48,8 +78,8 @@ Done:
  - Turns/normal gameplay
  - Mouse interaction with cards
  - End the game and declare a winner
- - restart game
- - some animation
+ - Restart game
+ - Some animation
 
 To do:
  - AI algorithms
