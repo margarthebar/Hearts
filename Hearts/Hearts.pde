@@ -121,7 +121,10 @@ void draw() {
       pickPassingCards();
     }
   }
+  println(north.cardsToPass);
   println(south.cardsToPass);
+  println(east.cardsToPass);
+  println(west.cardsToPass + "\n");
 }
 
 void gameDisplay() {
@@ -175,7 +178,7 @@ void keyPressed() {
   if (keyCode==UP) {
     if (passingCards) {
       Card card = south.hand.get(cardSelected);
-      if (!south.cardsToPass.contains(card)) {
+      if (south.cardsToPass.size() < 3 && !south.cardsToPass.contains(card)) {
         south.cardsToPass.add(card);
       }
     } else {
@@ -186,6 +189,7 @@ void keyPressed() {
   }
   if (keyCode == ENTER) {
     if (passingCards) {
+      passCards();
     }
     if (displayingResults) {
       displayingResults = false;
@@ -489,5 +493,41 @@ boolean gameTied() {
     }
   }
   return false;
+}
+
+void pickPassingCards() {
+  for (int i = 0; i < 4; i++) {
+    if (i != 1) {
+      Player current = getPlayer(i);
+      while (current.cardsToPass.size () < 3) {
+        Card card = current.hand.get((int)random(current.hand.size()));
+        if (!current.cardsToPass.contains(card)) {
+          current.cardsToPass.add(card);
+        }
+      }
+    }
+  }
+}
+
+void passCards() {
+  if (roundNumber % 4 == 0) {
+    passCards(north, east);
+    passCards(east, south);
+    passCards(south, west);
+    passCards(west, north);
+  } else if (roundNumber % 4 == 1) {
+    passCards(north, west);
+    passCards(west, south);
+    passCards(south, east);
+    passCards(east, north);
+  } else if (roundNumber % 4 == 2) {
+    passCards(north, south);
+    passCards(south, north);
+    passCards(east, west);
+    passCards(west, east);
+  }
+}
+
+void passCards(Player from, Player to) { 
 }
 
