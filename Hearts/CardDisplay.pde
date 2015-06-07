@@ -48,8 +48,8 @@ class CardDisplay {
       cardSelected--;
     }
   }
-  
-  
+
+
   void click() {//selects a card by clicking
     if (place==SOUTH) {
       int cardsWidth = cardWidth + (numCards-2)*30;
@@ -94,24 +94,18 @@ class CardDisplay {
       }
     } else if (place==NORTH) {
       for (int i=0; i<north.hand.size (); i++) {
-        //for (int i=north.hand.size ()-1; i>=0; i--) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
-        //cardBack(x, 75);
         cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
       }
     } else if (place==EAST) {
       for (int i=0; i<east.hand.size (); i++) {
-        //for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
-        //cardBack2(width-75, y);
-        cardFront(width-75, y, east.hand.get(i).number, east.hand.get(i).suit);
+        cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
       }
     } else if (place==WEST) {
       for (int i=0; i<west.hand.size (); i++) {
-        //for (int i=east.hand.size ()-1; i>=0; i--) {
         int y = height/2 - cardsHeight/2 + i*30;
-        //cardBack2(75, y);
-        cardFront(75, y, west.hand.get(i).number, west.hand.get(i).suit);
+        cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
       }
     }
     rectMode(CORNER);
@@ -141,63 +135,34 @@ class CardDisplay {
       fill(195, 0, 0);
       stroke(195, 0, 0);
     }
-    translate(width/2, height/2);
     rotate(radians(180));
-    float x2 = -203+((13-numCards)*15);
-    if (y<height-75) {
-      if (x==width/2) {
-        x2 = -18+(x-width/2);
-      } else {
-        if (x>width/2) {
-          x2 = x-width/2-118;
-        } else {
-          x2 = x-width/2+100-18;
-        }
-      }
-    }
+    float xcor = x-cardWidth/2+8;
+    float ycor = y-cardHeight/2+8;
+    String s = "";
+
     if (number==ACE) {
-      if (place==SOUTH) {
-        text("A", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("A", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "A";
+      xcor-=1;
     } else if (number==10) {
-      if (place==SOUTH) {
-        text("10", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("10", x-cardWidth/2+6, y-cardHeight/2+8);
+      s = "10";
+      xcor-=1;
     } else if (number==JACK) {
-      if (place==SOUTH) {
-        text("J", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("J", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "J";
+      xcor-=1;
     } else if (number==QUEEN) {
-      if (place==SOUTH) {
-        text("Q", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("Q", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "Q";
+      xcor-=1;
     } else if (number==KING) {
-      if (place==SOUTH) {
-        text("K", x2, -304+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text("K", x-cardWidth/2+8, y-cardHeight/2+8);
+      s = "K";
+      xcor-=1;
     } else {
-      if (place==SOUTH) {
-        text(""+number, x2, -303+((height-75)-y));
-      }
-      translate(width/2, height/2);
-      rotate(radians(180));
-      text(""+number, x-cardWidth/2+8, y-cardHeight/2+8);
+      s = ""+number;
     }
+
+    text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    rotate(radians(180));
+    text(s, xcor, ycor);
+    rectMode(CORNER);
   }
 
   void cardBack(float x, float y) {//cards that are face down and facing NORTH and SOUTH
@@ -388,20 +353,20 @@ class CardDisplay {
     ellipse(x+3.5, y, 7, 7);
     triangle(x-7, y, x+7, y, x, y+10);
   }
-  
+
   void heartBigBroken(float x, float y, float dist) {//the heart displayed when hearts are broken
-    heartHalfLeft(x-dist,y);
-    heartHalfRight(x+dist,y);
+    heartHalfLeft(x-dist, y);
+    heartHalfRight(x+dist, y);
   }
-  
-  void heartHalfLeft(float x, float y){
+
+  void heartHalfLeft(float x, float y) {
     fill(195, 0, 0);
     noStroke();
     ellipse(x-40.5, y, 80, 80);
     triangle(x-70+1, y+30-1, x, y-2, x, y+100-1);
   }
-  
-  void heartHalfRight(float x, float y){
+
+  void heartHalfRight(float x, float y) {
     fill(195, 0, 0);
     noStroke();
     ellipse(x+40.5, y, 80, 80);
