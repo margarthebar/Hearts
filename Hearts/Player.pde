@@ -167,6 +167,10 @@ class Player {
         if (!firstPlayed) {
           return false;
         }
+        //Points cannot be played on the first trick
+        if (firstTrickPoint(card)) {
+          return false;
+        }
         //Disallows the play if it does not follow suit and the player is capable of following suit
         if (!followsSuit(card)) {
           //If the card is a heart, checks to see if it is legal to play
@@ -236,6 +240,20 @@ class Player {
     }
     //the cards are of the same suit
     return true;
+  }
+
+  //Returns true if the player tries to play a point on the first trick
+  boolean firstTrickPoint(Card card) {
+    if (hand.size() == 13) {
+      if (card.suit == HEARTS || (card.suit == SPADES && card.number == QUEEN)) {
+        if (playerNumber == SOUTH) {
+          messageDisplayed = true;
+          message = "Points cannot be played on the first trick";
+        }
+        return true;
+      }
+    }
+    return false;
   }
 
   //returns true if the player is allowed to play a heart (if hearts are broken or if there is no other choice)

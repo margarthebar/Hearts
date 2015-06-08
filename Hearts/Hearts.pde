@@ -466,6 +466,8 @@ void newRound() {
     } else {
       passingCards = true;
     }
+    messageDisplayed = false;
+    message = "";
   }
 }
 
