@@ -1,9 +1,6 @@
 //// This class is for display and play purposes only.
 //// The cards contain therein are only physical representations
 //// of actual functional cards.
-//// Later the information from the actual functional cards
-//// could be passed into this class to display them.
-
 int cardWidth;
 int cardHeight;
 boolean selected;//says if a card has been selected
