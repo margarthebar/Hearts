@@ -91,5 +91,6 @@ To do:
 Demo Versions 
 <br>6/1/15: https://github.com/margarthebar/Hearts/tree/774a817426dafed94b7b6c1c0dccc41c4d2c24f4/Hearts
 <br>The user can play the game by selecting a card with the left and right arrow keys and pressing up to play that card. The opponents play random cards from their hand that follow the rules of the game. Points earned by each player are counted.
-<br>6/8/15: 
+<br>6/8/15: https://github.com/margarthebar/Hearts/tree/3b8f683dcc49cf8bfa8691da16db3da4061cb91e/Hearts
+<br>Points for each player are displayed in the game. At the end of each round, results for the round are displayed and the user can move on to the next round. A winner is determined at the end of the game and the user can restart. All of the gameplay aspects have been implemented, but there is no AI and the opponents play random moves that follow the rules.
 <br>6/15/15: 
