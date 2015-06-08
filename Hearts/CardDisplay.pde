@@ -34,18 +34,26 @@ class CardDisplay {
 
   void draw() {
     hand();
+    if (messageDisplayed) {
+      textAlign(CENTER);
+      textSize(20);
+      fill(255);
+      text(message, width / 2, height - 200);
+    }
   }
 
 
   void selectRight() {//moves highlight (cardSelected) right
     if (cardSelected<south.hand.size()-1) {
       cardSelected++;
+      messageDisplayed = false;
     }
   }
 
   void selectLeft() {// moves highlight (cardSelected) left
     if (cardSelected>0) {
       cardSelected--;
+      messageDisplayed = false;
     }
   }
 
@@ -59,10 +67,12 @@ class CardDisplay {
           if (i==south.hand.size()-1) {
             if (mouseX>x && mouseX<x+cardsWidth) {
               cardSelected = i;
+              messageDisplayed = false;
             }
           } else {
             if (mouseX>x-30 && mouseX<x+cardsWidth) {
               cardSelected = i;
+              messageDisplayed = false;
             }
           }
         }
@@ -773,3 +783,4 @@ class CardDisplay {
     }
   }
 }
+

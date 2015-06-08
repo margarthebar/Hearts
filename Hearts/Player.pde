@@ -126,6 +126,7 @@ class Player {
         if (playerNumber==NORTH) {
           displayNorth.playCard();
         } else if (playerNumber==SOUTH) {
+          messageDisplayed = false;
           displaySouth.playCard();
         } else if (playerNumber==EAST) {
           displayEast.playCard();
@@ -208,7 +209,8 @@ class Player {
   //returns true is the player tries to play any card but the two of clubs first
   boolean illegalFirstPlay(Card card) {
     if (playerNumber==SOUTH) {
-      println("The two of clubs must be played first");
+      messageDisplayed = true;
+      message = "The two of clubs must be played first";
     }
     return !firstPlayed && !(card.number == 2 && card.suit == CLUBS);
   }
@@ -226,7 +228,8 @@ class Player {
       //checks if the suit is the same
       if (card.suit!=suitLed) {
         if (playerNumber==SOUTH) {
-          println("You must follow suit");
+          messageDisplayed = true;
+          message = "You must follow suit";
         }
         return false;
       }
@@ -245,7 +248,8 @@ class Player {
           if (c.suit!=HEARTS) {
             //the player does have the option of playing a card that isn't a heart, so the play is illegal
             if (playerNumber==SOUTH) {
-              println("Hearts have not been broken");
+              messageDisplayed = true;
+              message = "Hearts have not been broken";
             }
             return false;
           }
@@ -275,8 +279,8 @@ class Player {
     }
     return true;
   }
-  
-  void resetPlayer(){
+
+  void resetPlayer() {
     hand = new ArrayList();
     cardsWon = new ArrayList();
     cardsToPass = new ArrayList();
@@ -287,5 +291,4 @@ class Player {
     points = 0;
   }
 }
-
 

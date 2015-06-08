@@ -38,6 +38,9 @@ boolean passingCards;
 int roundNumber;
 //Set to true when the game is finished
 boolean gameFinished;
+//Keeps track of error message being displayed
+boolean messageDisplayed;
+String message;
 
 //The hands for the 4 players
 ArrayList<Card> southHand;
@@ -91,6 +94,9 @@ void setup() {
 
   passingCards = true;
   roundNumber = 0;
+  
+  messageDisplayed = false;
+  message = "";
 }
 
 void draw() {
@@ -133,6 +139,8 @@ void draw() {
 
 void gameDisplay() {
   background(0, 100, 0);
+  //displays heartsBroken
+  heartsBrokenAnimation();
   displaySouth.draw();
   displayNorth.draw();
   displayEast.draw();
@@ -155,8 +163,6 @@ void gameDisplay() {
   textAlign(RIGHT);
   text("Points: " + east.points, width - 10, height / 2 - 15);
   text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
-  //displays heartsBroken
-  heartsBrokenAnimation();
 }
 
 void takeTrick() {
@@ -341,7 +347,6 @@ int compareCards(Card first, Card second) {
 
 //Breaks hearts (later this may lead to a more complicated display)
 void breakHearts() {
-  println("Hearts have been broken!");
   heartsBroken = true;
   displaySouth.heartBigBroken(width/2, height/2, 0);
 }
