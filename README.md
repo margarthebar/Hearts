@@ -65,6 +65,7 @@ Development Log
  - Cards are passed at the beginning of each round
  - Cards move towards the trick winner at the end of each trick
  - Bug fixes with card and results display
+ - Error messages are displayed onscreen if the user selects an illegal card
 
 Project Plan
 
