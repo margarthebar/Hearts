@@ -138,6 +138,11 @@ class Player {
     }
   }
 
+  //Picks a card to play (AI)
+  int pickCard() {
+    return (int)random(hand.size());
+  }
+
   //Checks if the card being played is legal
   boolean isLegalMove(int cardNumber) {
     //println("heartsBroken: " + heartsBroken);

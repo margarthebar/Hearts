@@ -114,7 +114,7 @@ void draw() {
           if (turnPending) {
             currentPlayer.playCard(lastPlayed, false);
           } else {
-            currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+            currentPlayer.playCard(currentPlayer.pickCard(), false);
           }
         }
         if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
