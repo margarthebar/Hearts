@@ -160,14 +160,14 @@ void draw() {
             roundResults();
           }
         }
+        if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+          gameDisplay();
+          displayingResults = true;
+          roundResults();
+        }
+      } else {
+        pickPassingCards();
       }
-      if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
-        gameDisplay();
-        displayingResults = true;
-        roundResults();
-      }
-    } else {
-      pickPassingCards();
     }
   } else if (screen==DIRECTIONS) {
     background(0, 100, 0);
