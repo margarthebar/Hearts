@@ -132,33 +132,6 @@ void draw() {
             willReset = false;
             resetPlayedCards();
           }
-          if (count==0 || count>1200) {
-            if (currentPlayer != south && !willReset) {
-              if (turnPending) {
-                currentPlayer.playCard(lastPlayed, false);
-              } else {
-                currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
-              }
-            }
-          }
-          if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
-            if (!willReset) {
-              willReset = true;
-              time = millis();
-            }
-            if (time + 1200 < millis()) {
-              takeTrick();
-            }
-            if (time + 2400 < millis()) {
-              willReset = false;
-              resetPlayedCards();
-            }
-          }
-          if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
-            gameDisplay();
-            displayingResults = true;
-            roundResults();
-          }
         }
         if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
           gameDisplay();
