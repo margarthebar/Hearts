@@ -140,7 +140,91 @@ class Player {
 
   //Picks a card to play (AI)
   int pickCard() {
+    //Chooses what to do on the first trick
+    if (hand.size() == 13) {
+      //If player has the two of clubs, play it
+      if (this == startingPlayer) {
+        for (int i = 0; i < hand.size (); i++) {
+          if (hand.get(i).suit == CLUBS && hand.get(i).number == 2) {
+            return i;
+          }
+        }
+      } else if (numClubs > 0) { //If the player has clubs, play the highest
+        return getHighest(CLUBS);
+      } else if (!hasCard(QUEEN, SPADES)) {
+        //If the player has the king or ace of spades, play it
+        if (hasCard(KING, SPADES) || hasCard(ACE, SPADES)) {
+          return getHighest(SPADES);
+        } else {
+          return getHighest2(SPADES, DIAMONDS);
+        }
+      } else {
+        return getHighest(DIAMONDS);
+      }
+    }
     return (int)random(hand.size());
+  }
+
+  boolean hasCard(int number, int suit) {
+    for (int i = 0; i < hand.size (); i++) {
+      Card current = hand.get(i);
+      if (current.number == number && current.suit == suit) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  int getHighest(int suit) {
+    int high = -1;
+    int highestNumber = 0;
+    for (int i = 0; i < hand.size (); i++) {
+      Card current = hand.get(i);
+      if (current.suit == suit && current.number > highestNumber) {
+        high = i;
+        highestNumber = current.number;
+      }
+    }
+    return high;
+  }
+
+  int getHighest2(int suit1, int suit2) {
+    int high = -1;
+    int highestNumber = 0;
+    for (int i = 0; i < hand.size (); i++) {
+      Card current = hand.get(i);
+      if ((current.suit == suit1 || current.suit == suit2) && current.number > highestNumber) {
+        high = i;
+        highestNumber = current.number;
+      }
+    }
+    return high;
+  }
+
+  int getLowest(int suit) {
+    int low = -1;
+    int lowestNumber = 15;
+    for (int i = 0; i < hand.size (); i++) {
+      Card current = hand.get(i);
+      if (current.suit == suit && current.number < lowestNumber) {
+        low = i;
+        lowestNumber = current.number;
+      }
+    }
+    return low;
+  }
+
+  int getLowest2(int suit1, int suit2) {
+    int low = -1;
+    int lowestNumber = 15;
+    for (int i = 0; i < hand.size (); i++) {
+      Card current = hand.get(i);
+      if ((current.suit == suit1 || current.suit == suit2) && current.number < lowestNumber) {
+        low = i;
+        lowestNumber = current.number;
+      }
+    }
+    return low;
   }
 
   //Checks if the card being played is legal
