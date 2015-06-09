@@ -133,14 +133,30 @@ void draw() {
     }
   } else if (screen==DIRECTIONS) {
     background(0,100,0);
-    fill(0,0,0,150);
+    drawDirections();
+  }
+}
+
+void drawDirections(){
+  fill(0,0,0,150);
     noStroke();
     rectMode(CENTER);
     rect(width/2,height/2,width-125,height-100);
     rectMode(CORNER);
-    stroke(0);
-  }
+    stroke(255,255,255);
+    fill(255);
+    textSize(20);
+    textAlign(CENTER,CENTER);
+    text("Click cards to select them.", width/2, 200);
+    text("or",width/2, 250);
+    text("Use the left and right arrow keys.",width/2,300);
+    text("Use the up arrow key to pass or play the cards selected.", width/2, 400);
+    
+    textAlign(CENTER,CENTER);
+    textSize(20);
+    text("Press enter to start the game", width / 2, height-100);
 }
+
 
 void gameDisplay() {
   background(0, 100, 0);
@@ -248,7 +264,7 @@ void keyPressed() {
     }
   } else if (screen==DIRECTIONS) {
     //to exit (later scroll through) directions
-    if (keyCode==RIGHT) {
+    if (keyCode==ENTER) {
       screen = GAME;
     }
   }
