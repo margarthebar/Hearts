@@ -1,3 +1,8 @@
+//The number of the screen being displayed
+int screen;
+int GAME = 0;
+int DIRECTIONS = 1;
+
 //Time
 int time;
 int count;
@@ -48,6 +53,7 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
+  screen = DIRECTIONS;
   count = 0;
   size(850, 700);
   background(0, 100, 0);
@@ -87,42 +93,52 @@ void setup() {
 }
 
 void draw() {
-  if (!displayingResults) {
-    gameDisplay();
-    if (currentPlayer != south && !willReset) {
-      if (turnPending) {
-        currentPlayer.playCard(lastPlayed, false);
-      } else {
-        currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
-        if (count==0 || count>1200) {
-          if (currentPlayer != south && !willReset) {
-            if (turnPending) {
-              currentPlayer.playCard(lastPlayed, false);
-            } else {
-              currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+  if (screen==GAME) {
+    if (!displayingResults) {
+      gameDisplay();
+      if (currentPlayer != south && !willReset) {
+        if (turnPending) {
+          currentPlayer.playCard(lastPlayed, false);
+        } else {
+          currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+          if (count==0 || count>1200) {
+            if (currentPlayer != south && !willReset) {
+              if (turnPending) {
+                currentPlayer.playCard(lastPlayed, false);
+              } else {
+                currentPlayer.playCard((int)random(currentPlayer.hand.size()), false);
+              }
             }
           }
-        }
-        if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
-          if (!willReset) {
-            willReset = true;
-            time = millis();
+          if (playedCards[0].number!=0 && playedCards[1].number!=0 && playedCards[2].number!=0 && playedCards[3].number!=0) {
+            if (!willReset) {
+              willReset = true;
+              time = millis();
+            }
+            if (time + 1200 < millis()) {
+              takeTrick();
+            }
+            if (time + 2400 < millis()) {
+              willReset = false;
+              resetPlayedCards();
+            }
           }
-          if (time + 1200 < millis()) {
-            takeTrick();
+          if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
+            gameDisplay();
+            displayingResults = true;
+            roundResults();
           }
-          if (time + 2400 < millis()) {
-            willReset = false;
-            resetPlayedCards();
-          }
-        }
-        if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
-          gameDisplay();
-          displayingResults = true;
-          roundResults();
         }
       }
     }
+  } else if (screen==DIRECTIONS) {
+    background(0,100,0);
+    fill(0,0,0,150);
+    noStroke();
+    rectMode(CENTER);
+    rect(width/2,height/2,width-125,height-100);
+    rectMode(CORNER);
+    stroke(0);
   }
 }
 
@@ -213,21 +229,28 @@ void resetPlayedCards() {
 }
 
 void keyPressed() {
-  ////card selection
-  if (keyCode==RIGHT) {
-    displaySouth.selectRight();
-  }
-  if (keyCode==LEFT) {
-    displaySouth.selectLeft();
-  }
-  if (keyCode==UP) {
-    if (currentPlayer == south) {
-      south.playCard(cardSelected, true);
+  if (screen==GAME) {
+    ////card selection
+    if (keyCode==RIGHT) {
+      displaySouth.selectRight();
     }
-  }
-  if (displayingResults && keyCode == ENTER) {
-    displayingResults = false;
-    newRound();
+    if (keyCode==LEFT) {
+      displaySouth.selectLeft();
+    }
+    if (keyCode==UP) {
+      if (currentPlayer == south) {
+        south.playCard(cardSelected, true);
+      }
+    }
+    if (displayingResults && keyCode == ENTER) {
+      displayingResults = false;
+      newRound();
+    }
+  } else if (screen==DIRECTIONS) {
+    //to exit (later scroll through) directions
+    if (keyCode==RIGHT) {
+      screen = GAME;
+    }
   }
 }
 
@@ -437,6 +460,7 @@ void displayRoundResults(String winner) {
 void newRound() {
   if (gameFinished) {
     setup();
+    screen = GAME;
   } else {
     count = 0;
     for (int i = 0; i < 4; i++) {
