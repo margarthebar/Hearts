@@ -106,20 +106,20 @@ class CardDisplay {
     } else if (place==NORTH) {
       for (int i=0; i<north.hand.size (); i++) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
-        cardBack(x, 75);
-        //cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
+        //cardBack(x, 75);
+        cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
       }
     } else if (place==EAST) {
       for (int i=0; i<east.hand.size (); i++) {
         int y = height/2 - cardsHeight/2 + i*30;
-        cardBack2(width-150, y);
-        //cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
+        //cardBack2(width-150, y);
+        cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
       }
     } else if (place==WEST) {
       for (int i=0; i<west.hand.size (); i++) {
         int y = height/2 - cardsHeight/2 + i*30;
-        cardBack2(150, y);
-        //cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
+        //cardBack2(150, y);
+        cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
       }
     }
     rectMode(CORNER);
