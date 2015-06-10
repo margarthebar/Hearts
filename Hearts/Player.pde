@@ -179,10 +179,14 @@ class Player {
     int high = -1;
     int highestNumber = 0;
     for (int i = 0; i < hand.size (); i++) {
-      Card current = hand.get(i);
-      if (current.suit == suit && current.number > highestNumber) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if (currentSuit == suit && currentNumber > highestNumber) {
         high = i;
-        highestNumber = current.number;
+        highestNumber = currentNumber;
       }
     }
     return high;
@@ -192,10 +196,14 @@ class Player {
     int high = -1;
     int highestNumber = 0;
     for (int i = 0; i < hand.size (); i++) {
-      Card current = hand.get(i);
-      if ((current.suit == suit1 || current.suit == suit2) && current.number > highestNumber) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber > highestNumber) {
         high = i;
-        highestNumber = current.number;
+        highestNumber = currentNumber;
       }
     }
     return high;
@@ -205,10 +213,14 @@ class Player {
     int low = -1;
     int lowestNumber = 15;
     for (int i = 0; i < hand.size (); i++) {
-      Card current = hand.get(i);
-      if (current.suit == suit && current.number < lowestNumber) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if (currentSuit == suit && currentNumber < lowestNumber) {
         low = i;
-        lowestNumber = current.number;
+        lowestNumber = currentNumber;
       }
     }
     return low;
@@ -218,10 +230,14 @@ class Player {
     int low = -1;
     int lowestNumber = 15;
     for (int i = 0; i < hand.size (); i++) {
-      Card current = hand.get(i);
-      if ((current.suit == suit1 || current.suit == suit2) && current.number < lowestNumber) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber < lowestNumber) {
         low = i;
-        lowestNumber = current.number;
+        lowestNumber = currentNumber;
       }
     }
     return low;
