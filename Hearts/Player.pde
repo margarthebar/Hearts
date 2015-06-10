@@ -195,15 +195,19 @@ class Player {
   int getHighest(int suit1, int suit2) {
     int high = -1;
     int highestNumber = 0;
+    int numOfSuitOfHighest = 0;
     for (int i = 0; i < hand.size (); i++) {
       int currentSuit = hand.get(i).suit;
       int currentNumber = hand.get(i).number;
       if (currentNumber == ACE) {
         currentNumber = 14;
       }
-      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber > highestNumber) {
-        high = i;
-        highestNumber = currentNumber;
+      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber >= highestNumber) {
+        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+          high = i;
+          highestNumber = currentNumber;
+          numOfSuitOfHighest = numOfSuit(currentSuit);
+        }
       }
     }
     return high;
@@ -229,18 +233,34 @@ class Player {
   int getLowest(int suit1, int suit2) {
     int low = -1;
     int lowestNumber = 15;
+    int numOfSuitOfLowest = 0;
     for (int i = 0; i < hand.size (); i++) {
       int currentSuit = hand.get(i).suit;
       int currentNumber = hand.get(i).number;
       if (currentNumber == ACE) {
         currentNumber = 14;
       }
-      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber < lowestNumber) {
-        low = i;
-        lowestNumber = currentNumber;
+      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber <= lowestNumber) {
+        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+          low = i;
+          lowestNumber = currentNumber;
+          numOfSuitOfLowest = numOfSuit(currentSuit);
+        }
       }
     }
     return low;
+  }
+
+  int numOfSuit(int suit) {
+    if (suit == HEARTS) {
+      return numHearts;
+    } else if (suit == SPADES) {
+      return numSpades;
+    } else if (suit == CLUBS) {
+      return numClubs;
+    } else {
+      return numDiamonds;
+    }
   }
 
   //Checks if the card being played is legal
