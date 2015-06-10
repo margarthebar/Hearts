@@ -1,8 +1,22 @@
 //The number of the screen being displayed
 int screen;
-int GAME = 2;
-int DIRECTIONS = 1;
-int MENU = 2;
+int MAIN = -1;
+int GAME = 0;
+int MENU = 1;
+int DIRECTIONS = 2;
+int RULES = 3;
+
+//buttons on main
+Button newGame;
+
+//buttons in game
+Button menuButton;
+
+//buttons on menu
+Button resumeGame;
+Button showDirections;
+Button leaveGame;
+Button mainMenu;
 
 //Time
 int time;
@@ -61,7 +75,7 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
-  screen = DIRECTIONS;
+  screen = MAIN;
   count = 0;
   size(850, 700);
   background(0, 100, 0);
@@ -104,6 +118,18 @@ void setup() {
 
   messageDisplayed = false;
   message = "";
+  
+  //buttons in main screen
+  newGame = new Button("NEW GAME", width/2, 200);
+
+  //menu button in game screen
+  menuButton = new Button("MENU", width-100, height-50);
+
+  //buttons in menu screen 
+  leaveGame = new Button("LEAVE GAME", width/2, 200);
+  resumeGame = new Button("RESUME GAME", width/2, 300);
+  showDirections = new Button("PLAY DIRECTIONS", width/2, 400);
+  mainMenu = new Button("BACK TO MAIN MENU", width/2, 500);
 }
 
 void draw() {
@@ -146,9 +172,12 @@ void draw() {
   } else if (screen==DIRECTIONS) {
     background(0, 100, 0);
     drawDirections();
-  }else if (screen==MENU){
+  } else if (screen==MENU) {
     background(0, 100, 0);
     drawMenu();
+  }else if(screen==MAIN){
+    background(0, 100, 0);
+    drawMain();
   }
 }
 
@@ -169,7 +198,7 @@ void drawDirections() {
 
   textAlign(CENTER, CENTER);
   textSize(20);
-  text("Press enter to start the game", width / 2, height-100);
+  text("Press enter to return to play menu", width / 2, height-100);
 }
 
 void drawMenu() {
@@ -182,9 +211,21 @@ void drawMenu() {
   fill(255);
   textSize(20);
   textAlign(CENTER, CENTER);
-  text("Menu",width/2,height/2);
+
+  leaveGame.draw();
+  resumeGame.draw();
+  showDirections.draw();
+  mainMenu.draw();
 }
 
+void drawMain() {
+  stroke(255, 255, 255);
+  fill(255);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+
+  newGame.draw();
+}
 
 void gameDisplay() {
   background(0, 100, 0);
@@ -212,6 +253,8 @@ void gameDisplay() {
   textAlign(RIGHT);
   text("Points: " + east.points, width - 10, height / 2 - 15);
   text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
+
+  menuButton.draw();
 }
 
 void takeTrick() {
@@ -287,18 +330,38 @@ void keyPressed() {
   } else if (screen==DIRECTIONS) {
     //to exit (later scroll through) directions
     if (keyCode==ENTER) {
-      screen = GAME;
-    }
-  }else if (screen==MENU) {
-    //to exit menu
-    if (keyCode==ENTER) {
-      screen = GAME;
+      screen = MENU;
     }
   }
 }
 
 void mouseClicked() {
-  displaySouth.click();
+  if(screen==MAIN){
+    if (newGame.hoveredOver()) {
+      setup();
+      screen = GAME;
+    }
+  }
+  if (screen==GAME) {
+    displaySouth.click();
+    if (menuButton.hoveredOver()) {
+      screen=MENU;
+    }
+  }
+  if (screen==MENU) {
+    if (leaveGame.hoveredOver()) {
+      screen = MAIN;
+    }
+    if (resumeGame.hoveredOver()) {
+      screen=GAME;
+    }
+    if (showDirections.hoveredOver()) {
+      screen=DIRECTIONS;
+    }
+    if(mainMenu.hoveredOver()){
+      screen=MAIN;
+    }
+  }
 }
 
 //Creates the deck
