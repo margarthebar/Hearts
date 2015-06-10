@@ -156,7 +156,7 @@ class Player {
         if (hasCard(KING, SPADES) || hasCard(ACE, SPADES)) {
           return getHighest(SPADES);
         } else {
-          return getHighest2(SPADES, DIAMONDS);
+          return getHighest(SPADES, DIAMONDS);
         }
       } else {
         return getHighest(DIAMONDS);
@@ -192,7 +192,7 @@ class Player {
     return high;
   }
 
-  int getHighest2(int suit1, int suit2) {
+  int getHighest(int suit1, int suit2) {
     int high = -1;
     int highestNumber = 0;
     for (int i = 0; i < hand.size (); i++) {
@@ -226,7 +226,7 @@ class Player {
     return low;
   }
 
-  int getLowest2(int suit1, int suit2) {
+  int getLowest(int suit1, int suit2) {
     int low = -1;
     int lowestNumber = 15;
     for (int i = 0; i < hand.size (); i++) {
