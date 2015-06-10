@@ -7,16 +7,15 @@ int DIRECTIONS = 2;
 int RULES = 3;
 
 //buttons on main
-Button newGame;
-
+Button[] mainButtons;
 //buttons in game
-Button menuButton;
-
+Button[] gameButtons;
 //buttons on menu
-Button resumeGame;
-Button showDirections;
-Button leaveGame;
-Button mainMenu;
+Button[] menuButtons;
+//buttons on rules screen
+Button[] rulesButtons;
+//buttons on directions screen
+Button[] directionsButtons;
 
 //Time
 int time;
@@ -118,18 +117,38 @@ void setup() {
 
   messageDisplayed = false;
   message = "";
-  
+
   //buttons in main screen
-  newGame = new Button("NEW GAME", width/2, 200);
+  Button newGame = new Button("NEW GAME", width/2, 300);
+  Button showRules = new Button("RULES", width/2, 400);
+  mainButtons = new Button[] { 
+    newGame, showRules
+  };
 
   //menu button in game screen
-  menuButton = new Button("MENU", width-100, height-50);
+  Button menuButton = new Button("MENU", width-100, height-50);
+  gameButtons = new Button[] {
+    menuButton
+  };
 
   //buttons in menu screen 
-  leaveGame = new Button("LEAVE GAME", width/2, 200);
-  resumeGame = new Button("RESUME GAME", width/2, 300);
-  showDirections = new Button("PLAY DIRECTIONS", width/2, 400);
-  mainMenu = new Button("BACK TO MAIN MENU", width/2, 500);
+  Button leaveGame = new Button("LEAVE GAME", width/2, 200);
+  Button resumeGame = new Button("RESUME GAME", width/2, 300);
+  Button showDirections = new Button("PLAY DIRECTIONS", width/2, 400);
+  Button mainMenu = new Button("BACK TO MAIN MENU", width/2, 500);
+  menuButtons = new Button[] {
+    leaveGame, resumeGame, showDirections, mainMenu
+  };
+
+  //buttons in rules screen
+  rulesButtons = new Button[] {
+    mainMenu
+  };
+
+  //buttons in direction screen
+  directionsButtons = new Button[] {
+    mainMenu
+  };
 }
 
 void draw() {
@@ -175,9 +194,12 @@ void draw() {
   } else if (screen==MENU) {
     background(0, 100, 0);
     drawMenu();
-  }else if(screen==MAIN){
+  } else if (screen==MAIN) {
     background(0, 100, 0);
     drawMain();
+  } else if (screen==RULES) {
+    background(0, 100, 0);
+    drawRules();
   }
 }
 
@@ -198,7 +220,10 @@ void drawDirections() {
 
   textAlign(CENTER, CENTER);
   textSize(20);
-  text("Press enter to return to play menu", width / 2, height-100);
+  //text("Press enter to return to play menu", width / 2, height-100);
+  for (Button b : directionsButtons) {
+    b.draw();
+  }
 }
 
 void drawMenu() {
@@ -212,19 +237,41 @@ void drawMenu() {
   textSize(20);
   textAlign(CENTER, CENTER);
 
-  leaveGame.draw();
-  resumeGame.draw();
-  showDirections.draw();
-  mainMenu.draw();
+  for (Button b : menuButtons) {
+    b.draw();
+  }
 }
 
 void drawMain() {
+  textAlign(CENTER, CENTER);
+  textSize(100);
+  fill(255, 0, 0);
+  text("HEARTS", width/2, 100);
+  textSize(20);
+  stroke(255, 255, 255);
+  fill(255);
+  textSize(20);
+
+  for (Button b : mainButtons) {
+    b.draw();
+  }
+}
+
+void drawRules() {
+  fill(0, 0, 0, 150);
+  noStroke();
+  rectMode(CENTER);
+  rect(width/2, height/2, width-125, height-100);
+  rectMode(CORNER);
   stroke(255, 255, 255);
   fill(255);
   textSize(20);
   textAlign(CENTER, CENTER);
+  text("Insert rules here", width/2, height/2);
 
-  newGame.draw();
+  for (Button b : rulesButtons) {
+    b.draw();
+  }
 }
 
 void gameDisplay() {
@@ -254,7 +301,9 @@ void gameDisplay() {
   text("Points: " + east.points, width - 10, height / 2 - 15);
   text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
 
-  menuButton.draw();
+  for (Button b : gameButtons) {
+    b.draw();
+  }
 }
 
 void takeTrick() {
@@ -329,37 +378,49 @@ void keyPressed() {
     }
   } else if (screen==DIRECTIONS) {
     //to exit (later scroll through) directions
-    if (keyCode==ENTER) {
-      screen = MENU;
-    }
+    //if (keyCode==ENTER) {
+    //screen = MENU;
+    //}
   }
 }
 
 void mouseClicked() {
-  if(screen==MAIN){
-    if (newGame.hoveredOver()) {
+  if (screen==MAIN) {
+    if (mainButtons[0].hoveredOver()) {//newGame
       setup();
       screen = GAME;
+    }else if (mainButtons[1].hoveredOver()) {//showRules
+      screen = RULES;
     }
   }
   if (screen==GAME) {
     displaySouth.click();
-    if (menuButton.hoveredOver()) {
+    if (gameButtons[0].hoveredOver()) {//menuButton
       screen=MENU;
     }
   }
   if (screen==MENU) {
-    if (leaveGame.hoveredOver()) {
+    if (menuButtons[0].hoveredOver()) {//leaveGame
       screen = MAIN;
     }
-    if (resumeGame.hoveredOver()) {
+    if (menuButtons[1].hoveredOver()) {//resumeGAme
       screen=GAME;
     }
-    if (showDirections.hoveredOver()) {
+    if (menuButtons[2].hoveredOver()) {//showDirections
       screen=DIRECTIONS;
     }
-    if(mainMenu.hoveredOver()){
+    if (menuButtons[3].hoveredOver()) {//mainMenu
       screen=MAIN;
+    }
+  }
+  if(screen==DIRECTIONS){
+    if(directionsButtons[0].hoveredOver()){//menuButton
+      screen = MENU;
+    }
+  }
+  if(screen==RULES){
+    if(rulesButtons[0].hoveredOver()){//mainMenu
+      screen = MAIN;
     }
   }
 }
