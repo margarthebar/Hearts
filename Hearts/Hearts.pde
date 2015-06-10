@@ -1,7 +1,8 @@
 //The number of the screen being displayed
 int screen;
-int GAME = 0;
+int GAME = 2;
 int DIRECTIONS = 1;
+int MENU = 2;
 
 //Time
 int time;
@@ -145,6 +146,9 @@ void draw() {
   } else if (screen==DIRECTIONS) {
     background(0, 100, 0);
     drawDirections();
+  }else if (screen==MENU){
+    background(0, 100, 0);
+    drawMenu();
   }
 }
 
@@ -166,6 +170,19 @@ void drawDirections() {
   textAlign(CENTER, CENTER);
   textSize(20);
   text("Press enter to start the game", width / 2, height-100);
+}
+
+void drawMenu() {
+  fill(0, 0, 0, 150);
+  noStroke();
+  rectMode(CENTER);
+  rect(width/2, height/2, width-125, height-100);
+  rectMode(CORNER);
+  stroke(255, 255, 255);
+  fill(255);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("Menu",width/2,height/2);
 }
 
 
@@ -269,6 +286,11 @@ void keyPressed() {
     }
   } else if (screen==DIRECTIONS) {
     //to exit (later scroll through) directions
+    if (keyCode==ENTER) {
+      screen = GAME;
+    }
+  }else if (screen==MENU) {
+    //to exit menu
     if (keyCode==ENTER) {
       screen = GAME;
     }
