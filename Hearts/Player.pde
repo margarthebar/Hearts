@@ -182,6 +182,13 @@ class Player {
         return getLowest();
       }
     }
+    if (hasSuit(playedCards[startingPlayer.playerNumber].suit)) {
+      if (getNextPlayer(this) == startingPlayer && pointsCurrentlyPlayed() == 0) {
+        return getHighest(playedCards[startingPlayer.playerNumber].suit);
+      } else {
+        return getLowest(playedCards[startingPlayer.playerNumber].suit);
+      }
+    }
     return (int)random(hand.size());
   }
 
