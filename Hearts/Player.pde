@@ -156,10 +156,30 @@ class Player {
         if (hasCard(KING, SPADES) || hasCard(ACE, SPADES)) {
           return getHighest(SPADES);
         } else {
-          return getHighest2(SPADES, DIAMONDS);
+          return getHighest(SPADES, DIAMONDS);
         }
       } else {
         return getHighest(DIAMONDS);
+      }
+    }
+    //Chooses what to do when leading a trick
+    if (this == startingPlayer) {
+      if ((numSpades > 0 && numSpades <= 2) && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) && getLowest(SPADES) < 8) {
+        return getLowest(SPADES);
+      } else if (heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) && getLowest(CLUBS, DIAMONDS, HEARTS, true) < 8) {
+        return getLowest(CLUBS, DIAMONDS, HEARTS, true);
+      } else if (!heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2)) && getLowest(CLUBS, DIAMONDS, true) < 8) {
+        return getLowest(CLUBS, DIAMONDS, true);
+      } else if (numSpades > 0 && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES))) {
+        return getLowest(SPADES);
+      } else if (!heartsBroken && (numClubs > 0 || numDiamonds > 0)) {
+        return getLowest(CLUBS, DIAMONDS);
+      } else if (heartsBroken && (numClubs > 0 || numDiamonds > 0 || numHearts > 0)) {
+        return getLowest(CLUBS, DIAMONDS, HEARTS);
+      } else if (!heartsBroken) {
+        return getLowest(SPADES, CLUBS, DIAMONDS);
+      } else {
+        return getLowest();
       }
     }
     return (int)random(hand.size());
@@ -192,18 +212,93 @@ class Player {
     return high;
   }
 
-  int getHighest2(int suit1, int suit2) {
+  int getHighest(int suit1, int suit2) {
+    return getHighest(suit1, suit2, false);
+  }
+
+  int getHighest(int suit1, int suit2, boolean restrict) {
     int high = -1;
     int highestNumber = 0;
+    int numOfSuitOfHighest = 0;
+    //If there are more than 2 cards of one the the suits, it ignores that suit
+    if (restrict) {
+      if (numOfSuit(suit1) > 2) {
+        suit1 = 4;
+      }
+      if (numOfSuit(suit2) > 2) {
+        suit2 = 4;
+      }
+    }
     for (int i = 0; i < hand.size (); i++) {
       int currentSuit = hand.get(i).suit;
       int currentNumber = hand.get(i).number;
       if (currentNumber == ACE) {
         currentNumber = 14;
       }
-      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber > highestNumber) {
-        high = i;
-        highestNumber = currentNumber;
+      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber >= highestNumber) {
+        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+          high = i;
+          highestNumber = currentNumber;
+          numOfSuitOfHighest = numOfSuit(currentSuit);
+        }
+      }
+    }
+    return high;
+  }
+
+  int getHighest(int suit1, int suit2, int suit3) {
+    return getHighest(suit1, suit2, suit3, false);
+  }
+
+  int getHighest(int suit1, int suit2, int suit3, boolean restrict) {
+    int high = -1;
+    int highestNumber = 0;
+    int numOfSuitOfHighest = 0;
+    //If there are more than 2 cards of one the the suits, it ignores that suit
+    if (restrict) {
+      if (numOfSuit(suit1) > 2) {
+        suit1 = 4;
+      }
+      if (numOfSuit(suit2) > 2) {
+        suit2 = 4;
+      }
+      if (numOfSuit(suit3) > 2) {
+        suit3 = 4;
+      }
+    }
+    for (int i = 0; i < hand.size (); i++) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if ((currentSuit == suit1 || currentSuit == suit2 || currentSuit == suit3) && currentNumber >= highestNumber) {
+        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+          high = i;
+          highestNumber = currentNumber;
+          numOfSuitOfHighest = numOfSuit(currentSuit);
+        }
+      }
+    }
+    return high;
+  }
+
+  int getHighest() {
+    int high = -1;
+    int highestNumber = 0;
+    int numOfSuitOfHighest = 0;
+    for (int i = 0; i < hand.size (); i++) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if (currentNumber >= highestNumber) {
+        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+          high = i;
+          highestNumber = currentNumber;
+          numOfSuitOfHighest = numOfSuit(currentSuit);
+        }
       }
     }
     return high;
@@ -226,21 +321,107 @@ class Player {
     return low;
   }
 
-  int getLowest2(int suit1, int suit2) {
+  int getLowest(int suit1, int suit2) {
+    return getLowest(suit1, suit2, false);
+  }
+
+  int getLowest(int suit1, int suit2, boolean restrict) {
     int low = -1;
     int lowestNumber = 15;
+    int numOfSuitOfLowest = 0;
+    //If there are more than 2 cards of one the the suits, it ignores that suit
+    if (restrict) {
+      if (numOfSuit(suit1) > 2) {
+        suit1 = 4;
+      }
+      if (numOfSuit(suit2) > 2) {
+        suit2 = 4;
+      }
+    }
     for (int i = 0; i < hand.size (); i++) {
       int currentSuit = hand.get(i).suit;
       int currentNumber = hand.get(i).number;
       if (currentNumber == ACE) {
         currentNumber = 14;
       }
-      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber < lowestNumber) {
-        low = i;
-        lowestNumber = currentNumber;
+      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber <= lowestNumber) {
+        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+          low = i;
+          lowestNumber = currentNumber;
+          numOfSuitOfLowest = numOfSuit(currentSuit);
+        }
       }
     }
     return low;
+  }
+
+  int getLowest(int suit1, int suit2, int suit3) {
+    return getLowest(suit1, suit2, suit3, false);
+  }
+
+  int getLowest(int suit1, int suit2, int suit3, boolean restrict) {
+    int low = -1;
+    int lowestNumber = 15;
+    int numOfSuitOfLowest = 0;
+    if (restrict) {
+      if (numOfSuit(suit1) > 2) {
+        suit1 = 4;
+      }
+      if (numOfSuit(suit2) > 2) {
+        suit2 = 4;
+      }
+      if (numOfSuit(suit3) > 2) {
+        suit3 = 4;
+      }
+    }
+    for (int i = 0; i < hand.size (); i++) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if ((currentSuit == suit1 || currentSuit == suit2 || currentSuit == suit3) && currentNumber <= lowestNumber) {
+        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+          low = i;
+          lowestNumber = currentNumber;
+          numOfSuitOfLowest = numOfSuit(currentSuit);
+        }
+      }
+    }
+    return low;
+  }
+
+  int getLowest() {
+    int low = -1;
+    int lowestNumber = 15;
+    int numOfSuitOfLowest = 0;
+    for (int i = 0; i < hand.size (); i++) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if (currentNumber <= lowestNumber) {
+        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+          low = i;
+          lowestNumber = currentNumber;
+          numOfSuitOfLowest = numOfSuit(currentSuit);
+        }
+      }
+    }
+    return low;
+  }
+
+  int numOfSuit(int suit) {
+    if (suit == HEARTS) {
+      return numHearts;
+    } else if (suit == SPADES) {
+      return numSpades;
+    } else if (suit == CLUBS) {
+      return numClubs;
+    } else {
+      return numDiamonds;
+    }
   }
 
   //Checks if the card being played is legal
