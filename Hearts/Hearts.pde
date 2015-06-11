@@ -277,7 +277,7 @@ void drawRules() {
   fill(255);
   textSize(16);
   text("To have the least amount of points by the game's end.", 150, 155);
-  fill(255,0,0);
+  fill(255, 0, 0);
   textSize(20);
   text("Points:", 100, 180);
   fill(255);
@@ -287,7 +287,7 @@ void drawRules() {
   text("A player can win 0 points either by taking NO point cards", 150, 245);
   text("OR", 350, 265);
   text("by taking ALL of the point cards ('shooting the moon').", 150, 285);
-  fill(255,0,0);
+  fill(255, 0, 0);
   textSize(20);
   text("Playing the Game:", 100, 320);
   fill(255);
@@ -300,7 +300,7 @@ void drawRules() {
   text("Hearts may be played if it is impossible to follow suit.", 150, 445);
   text("Once Hearts have been broken, they can be played like any other card.", 150, 465);
   text("Note: points cannot be played in the first trick!", 150, 485);
-  fill(255,0,0);
+  fill(255, 0, 0);
   textSize(20);
   text("Game End:", 100, 515);
   fill(255);
@@ -763,14 +763,15 @@ void pickPassingCards() {
   for (int i = 0; i < 4; i++) {
     if (i != 1) {
       Player current = getPlayer(i);
-      while (current.cardsToPass.size () < 3) {
-        Card card = current.hand.get((int)random(current.hand.size()));
-        if (!current.cardsToPass.contains(card)) {
-          current.cardsToPass.add(card);
-        }
-      }
+      //while (current.cardsToPass.size () < 3) {
+      //  Card card = current.hand.get((int)random(current.hand.size()));
+      //  if (!current.cardsToPass.contains(card)) {
+      //    current.cardsToPass.add(card);
+      //  }
+      current.pickPassingCards();
     }
   }
+}
 }
 
 void passCards() {

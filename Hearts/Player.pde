@@ -138,6 +138,42 @@ class Player {
     }
   }
 
+  //determines if one can shoot the moon based on original hand
+  boolean canShootMoon() {
+    if (passingCards) {
+      //int AceOfHearts = ;
+      //int KingOfHearts = ;
+      //int QueenOfHearts = ;
+      //int JackOfHearts = ;
+      //int 10OfHearts = ;
+      if (!hasCard(QUEEN, SPADES)) {
+        if (!hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) {
+          return false;
+        }
+      }
+    }else{
+      if (numClubs==13) {
+        return true;
+      }
+      if(numHearts==13 || numSpades==13 || numDiamonds==13){
+        return false;
+      }
+    }
+  }
+
+  //Picks three cards to pass (AI)
+  void pick passingCards() {
+    //determine if running the deck is a viable strategy
+    if (canShootMoon()) {
+      //if yes, pick losing cards to pass
+    } else {
+      //if no:
+      //determine if you can get rid of a suit (except for hearts)
+      //if you decide to, pass the highest cards of that suit
+      //if not, pass the three highest cards of your two least frequent suits
+    }
+  }
+
   //Picks a card to play (AI)
   int pickCard() {
     //Chooses what to do on the first trick
