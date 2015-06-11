@@ -141,8 +141,9 @@ void setup() {
   };
 
   //buttons in rules screen
+  Button mainMenu2 = new Button("BACK TO MAIN MENU", width/2, 600);
   rulesButtons = new Button[] {
-    mainMenu
+    mainMenu2
   };
 
   //buttons in direction screen
@@ -263,11 +264,48 @@ void drawRules() {
   rectMode(CENTER);
   rect(width/2, height/2, width-125, height-100);
   rectMode(CORNER);
-  stroke(255, 255, 255);
-  fill(255);
-  textSize(20);
+  stroke(255, 0, 0);
+  fill(255, 0, 0);
+  textSize(36);
   textAlign(CENTER, CENTER);
-  text("Insert rules here", width/2, height/2);
+  text("RULES:", width/2, 100);
+
+  stroke(255, 255, 255);
+  textAlign(LEFT, CENTER);
+  textSize(20);
+  text("Objective:", 100, 130);
+  fill(255);
+  textSize(16);
+  text("To have the least amount of points by the game's end.", 150, 155);
+  fill(255,0,0);
+  textSize(20);
+  text("Points:", 100, 180);
+  fill(255);
+  textSize(16);
+  text("Each heart card taken is worth 1 point.", 150, 205);
+  text("The Queen of Spades is worth 13 points.", 150, 225);
+  text("A player can win 0 points either by taking NO point cards", 150, 245);
+  text("OR", 350, 265);
+  text("by taking ALL of the point cards ('shooting the moon').", 150, 285);
+  fill(255,0,0);
+  textSize(20);
+  text("Playing the Game:", 100, 320);
+  fill(255);
+  textSize(16);
+  text("The player with the 2 of Clubs in hand leads the first trick.", 150, 345);
+  text("Each subsequent player must follow suit if able.", 150, 365);
+  text("The player with the highest card of the correct suit wins the trick.", 150, 385);
+  text("The player who won the last trick leads the next trick.", 150, 405);
+  text("Hearts cannot be led unless hearts have been broken.", 150, 425);
+  text("Hearts may be played if it is impossible to follow suit.", 150, 445);
+  text("Once Hearts have been broken, they can be played like any other card.", 150, 465);
+  fill(255,0,0);
+  textSize(20);
+  text("Game End:", 100, 495);
+  fill(255);
+  textSize(16);
+  text("The game ends once one or more players reach 100 points.", 150, 515);
+  text("The player with the least amount of points is the winner!", 150, 535);
 
   for (Button b : rulesButtons) {
     b.draw();
@@ -389,7 +427,7 @@ void mouseClicked() {
     if (mainButtons[0].hoveredOver()) {//newGame
       setup();
       screen = GAME;
-    }else if (mainButtons[1].hoveredOver()) {//showRules
+    } else if (mainButtons[1].hoveredOver()) {//showRules
       screen = RULES;
     }
   }
@@ -413,13 +451,13 @@ void mouseClicked() {
       screen=MAIN;
     }
   }
-  if(screen==DIRECTIONS){
-    if(directionsButtons[0].hoveredOver()){//menuButton
+  if (screen==DIRECTIONS) {
+    if (directionsButtons[0].hoveredOver()) {//menuButton
       screen = MENU;
     }
   }
-  if(screen==RULES){
-    if(rulesButtons[0].hoveredOver()){//mainMenu
+  if (screen==RULES) {
+    if (rulesButtons[0].hoveredOver()) {//mainMenu
       screen = MAIN;
     }
   }
