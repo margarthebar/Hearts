@@ -182,13 +182,13 @@ class Player {
         return getLowest();
       }
     }
-    if (hasSuit(playedCards[startingPlayer.playerNumber].suit)) {
+    /*if (hasSuit(playedCards[startingPlayer.playerNumber].suit)) {
       if (getNextPlayer(this) == startingPlayer && pointsCurrentlyPlayed() == 0) {
         return getHighest(playedCards[startingPlayer.playerNumber].suit);
       } else {
         return getLowest(playedCards[startingPlayer.playerNumber].suit);
       }
-    }
+    }*/
     return (int)random(hand.size());
   }
 
@@ -417,6 +417,19 @@ class Player {
       }
     }
     return low;
+  }
+  
+  int pointsCurrentlyPlayed(){
+    int points = 0;
+    for (int i = 0; i < playedCards.length; i++){
+      if (playedCards[i].suit == HEARTS){
+        points++;
+      }
+      if (playedCards[i].number == QUEEN && playedCards[i].suit == SPADES){
+        points += 13;
+      }
+    }
+    return points;
   }
 
   int numOfSuit(int suit) {
