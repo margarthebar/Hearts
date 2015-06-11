@@ -162,6 +162,26 @@ class Player {
         return getHighest(DIAMONDS);
       }
     }
+    //Chooses what to do when leading a trick
+    if (this == startingPlayer) {
+      if ((numSpades > 0 && numSpades <= 2) && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) && getLowest(SPADES) < 8) {
+        return getLowest(SPADES);
+      } else if (heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) && getLowest(CLUBS, DIAMONDS, HEARTS, true) < 8) {
+        return getLowest(CLUBS, DIAMONDS, HEARTS, true);
+      } else if (!heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2)) && getLowest(CLUBS, DIAMONDS, true) < 8) {
+        return getLowest(CLUBS, DIAMONDS, true);
+      } else if (numSpades > 0 && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES))) {
+        return getLowest(SPADES);
+      } else if (!heartsBroken && (numClubs > 0 || numDiamonds > 0)) {
+        return getLowest(CLUBS, DIAMONDS);
+      } else if (heartsBroken && (numClubs > 0 || numDiamonds > 0 || numHearts > 0)) {
+        return getLowest(CLUBS, DIAMONDS, HEARTS);
+      } else if (!heartsBroken) {
+        return getLowest(SPADES, CLUBS, DIAMONDS);
+      } else {
+        return getLowest();
+      }
+    }
     return (int)random(hand.size());
   }
 
@@ -202,10 +222,10 @@ class Player {
     int numOfSuitOfHighest = 0;
     //If there are more than 2 cards of one the the suits, it ignores that suit
     if (restrict) {
-      if (numSuit(suit1) > 2) {
+      if (numOfSuit(suit1) > 2) {
         suit1 = 4;
       }
-      if (numSuit(suit2) > 2) {
+      if (numOfSuit(suit2) > 2) {
         suit2 = 4;
       }
     }
@@ -236,13 +256,13 @@ class Player {
     int numOfSuitOfHighest = 0;
     //If there are more than 2 cards of one the the suits, it ignores that suit
     if (restrict) {
-      if (numSuit(suit1) > 2) {
+      if (numOfSuit(suit1) > 2) {
         suit1 = 4;
       }
-      if (numSuit(suit2) > 2) {
+      if (numOfSuit(suit2) > 2) {
         suit2 = 4;
       }
-      if (numSuit(suit3) > 2) {
+      if (numOfSuit(suit3) > 2) {
         suit3 = 4;
       }
     }
@@ -311,10 +331,10 @@ class Player {
     int numOfSuitOfLowest = 0;
     //If there are more than 2 cards of one the the suits, it ignores that suit
     if (restrict) {
-      if (numSuit(suit1) > 2) {
+      if (numOfSuit(suit1) > 2) {
         suit1 = 4;
       }
-      if (numSuit(suit2) > 2) {
+      if (numOfSuit(suit2) > 2) {
         suit2 = 4;
       }
     }
@@ -344,13 +364,13 @@ class Player {
     int lowestNumber = 15;
     int numOfSuitOfLowest = 0;
     if (restrict) {
-      if (numSuit(suit1) > 2) {
+      if (numOfSuit(suit1) > 2) {
         suit1 = 4;
       }
-      if (numSuit(suit2) > 2) {
+      if (numOfSuit(suit2) > 2) {
         suit2 = 4;
       }
-      if (numSuit(suit3) > 2) {
+      if (numOfSuit(suit3) > 2) {
         suit3 = 4;
       }
     }
