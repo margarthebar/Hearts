@@ -299,13 +299,14 @@ void drawRules() {
   text("Hearts cannot be led unless hearts have been broken.", 150, 425);
   text("Hearts may be played if it is impossible to follow suit.", 150, 445);
   text("Once Hearts have been broken, they can be played like any other card.", 150, 465);
+  text("Note: points cannot be played in the first trick!", 150, 485);
   fill(255,0,0);
   textSize(20);
-  text("Game End:", 100, 495);
+  text("Game End:", 100, 515);
   fill(255);
   textSize(16);
-  text("The game ends once one or more players reach 100 points.", 150, 515);
-  text("The player with the least amount of points is the winner!", 150, 535);
+  text("The game ends once one or more players reach 100 points.", 150, 535);
+  text("The player with the least amount of points is the winner!", 150, 555);
 
   for (Button b : rulesButtons) {
     b.draw();
