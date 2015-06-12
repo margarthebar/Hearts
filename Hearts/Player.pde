@@ -140,56 +140,78 @@ class Player {
 
   //Picks a card to play (AI)
   int pickCard() {
+    if (hand.size() == 1){
+      return 0;
+    }
     //Chooses what to do on the first trick
     if (hand.size() == 13) {
-      //If player has the two of clubs, play it
-      if (this == startingPlayer) {
-        for (int i = 0; i < hand.size (); i++) {
-          if (hand.get(i).suit == CLUBS && hand.get(i).number == 2) {
-            return i;
-          }
-        }
-      } else if (numClubs > 0) { //If the player has clubs, play the highest
-        return getHighest(CLUBS);
-      } else if (!hasCard(QUEEN, SPADES)) {
-        //If the player has the king or ace of spades, play it
-        if (hasCard(KING, SPADES) || hasCard(ACE, SPADES)) {
-          return getHighest(SPADES);
-        } else {
-          return getHighest(SPADES, DIAMONDS);
-        }
-      } else {
-        return getHighest(DIAMONDS);
-      }
+      return pickCardFirstTrick();
     }
     //Chooses what to do when leading a trick
     if (this == startingPlayer) {
-      if ((numSpades > 0 && numSpades <= 2) && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) && getLowest(SPADES) < 8) {
-        return getLowest(SPADES);
-      } else if (heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) && getLowest(CLUBS, DIAMONDS, HEARTS, true) < 8) {
-        return getLowest(CLUBS, DIAMONDS, HEARTS, true);
-      } else if (!heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2)) && getLowest(CLUBS, DIAMONDS, true) < 8) {
-        return getLowest(CLUBS, DIAMONDS, true);
-      } else if (numSpades > 0 && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES))) {
-        return getLowest(SPADES);
-      } else if (!heartsBroken && (numClubs > 0 || numDiamonds > 0)) {
-        return getLowest(CLUBS, DIAMONDS);
-      } else if (heartsBroken && (numClubs > 0 || numDiamonds > 0 || numHearts > 0)) {
-        return getLowest(CLUBS, DIAMONDS, HEARTS);
-      } else if (!heartsBroken) {
-        return getLowest(SPADES, CLUBS, DIAMONDS);
+      return pickCardLeadingTrick();
+    }
+    int startingSuit = playedCards[startingPlayer.playerNumber].suit;
+    if (hasSuit(startingSuit)) {
+      if (getNextPlayer(this) == startingPlayer && !(hand.get(getHighest(startingSuit)).number == QUEEN && hand.get(getHighest(startingSuit)).suit == SPADES) && ((hand.get(pickCardLeadingTrick(true)).number < 8 && pointsCurrentlyPlayed() == 0) || hand.get(getLowest(startingSuit)).number > highestNumCurrentlyPlayed())) {
+        return getHighest(startingSuit);
       } else {
-        return getLowest();
+        return getLowest(startingSuit);
       }
     }
-    /*if (hasSuit(playedCards[startingPlayer.playerNumber].suit)) {
-      if (getNextPlayer(this) == startingPlayer && pointsCurrentlyPlayed() == 0) {
-        return getHighest(playedCards[startingPlayer.playerNumber].suit);
-      } else {
-        return getLowest(playedCards[startingPlayer.playerNumber].suit);
-      }
-    }*/
     return (int)random(hand.size());
+  }
+
+  int pickCardFirstTrick() {
+    //If player has the two of clubs, play it
+    if (this == startingPlayer) {
+      return getLowest(CLUBS);
+    } else if (numClubs > 0) { //If the player has clubs, play the highest
+      return getHighest(CLUBS);
+    } else if (!hasCard(QUEEN, SPADES)) {
+      //If the player has the king or ace of spades, play it
+      if (hasCard(KING, SPADES) || hasCard(ACE, SPADES)) {
+        return getHighest(SPADES);
+      } else {
+        return getHighest(SPADES, DIAMONDS);
+      }
+    } else {
+      return getHighest(DIAMONDS);
+    }
+  }
+
+  int pickCardLeadingTrick() {
+    return pickCardLeadingTrick(false);
+  }
+
+  int pickCardLeadingTrick(boolean isProjection) {
+    Card card = null;
+    int toReturn;
+    if (isProjection) {
+      card = hand.get(getHighest(playedCards[startingPlayer.playerNumber].suit));
+      removeCard(getHighest(playedCards[startingPlayer.playerNumber].suit));
+    }
+    if ((numSpades > 0 && numSpades <= 2) && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) && getLowest(SPADES) < 8) {
+      toReturn = getLowest(SPADES);
+    } else if (heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) && getLowest(CLUBS, DIAMONDS, HEARTS, true) < 8) {
+      toReturn = getLowest(CLUBS, DIAMONDS, HEARTS, true);
+    } else if (!heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2)) && getLowest(CLUBS, DIAMONDS, true) < 8) {
+      toReturn = getLowest(CLUBS, DIAMONDS, true);
+    } else if (numSpades > 0 && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES))) {
+      toReturn = getLowest(SPADES);
+    } else if (!heartsBroken && (numClubs > 0 || numDiamonds > 0)) {
+      toReturn = getLowest(CLUBS, DIAMONDS);
+    } else if (heartsBroken && (numClubs > 0 || numDiamonds > 0 || numHearts > 0)) {
+      toReturn = getLowest(CLUBS, DIAMONDS, HEARTS);
+    } else if (!heartsBroken) {
+      toReturn = getLowest(SPADES, CLUBS, DIAMONDS);
+    } else {
+      toReturn = getLowest();
+    }
+    if (isProjection) {
+      addCard(card);
+    }
+    return toReturn;
   }
 
   boolean hasCard(int number, int suit) {
@@ -418,19 +440,31 @@ class Player {
     }
     return low;
   }
-  
-  int pointsCurrentlyPlayed(){
+
+  int pointsCurrentlyPlayed() {
     int points = 0;
-    for (int i = 0; i < playedCards.length; i++){
-      if (playedCards[i].suit == HEARTS){
+    for (int i = 0; i < playedCards.length; i++) {
+      if (playedCards[i].number != 0 && playedCards[i].suit == HEARTS) {
         points++;
       }
-      if (playedCards[i].number == QUEEN && playedCards[i].suit == SPADES){
+      if (playedCards[i].number == QUEEN && playedCards[i].suit == SPADES) {
         points += 13;
       }
     }
     return points;
   }
+
+  int highestNumCurrentlyPlayed() {
+    int highNum = 0;
+    int startingSuit = playedCards[startingPlayer.playerNumber].suit;
+    for (int i = 0; i < playedCards.length; i++) {
+      if (playedCards[i].number != 0 && playedCards[i].suit == startingSuit && playedCards[i].number > highNum) {
+        highNum = playedCards[i].number;
+      }
+    }
+    return highNum;
+  }
+
 
   int numOfSuit(int suit) {
     if (suit == HEARTS) {
