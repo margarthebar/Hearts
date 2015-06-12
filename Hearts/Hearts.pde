@@ -631,6 +631,7 @@ void roundResults() {
 void displayRoundResults(String winner) {
   fill(0, 200, 0);
   stroke(255, 255, 255);
+  rectMode(CORNER);
   rect(width / 2 - 200, height / 2 - 150, 400, 300);
   fill(255, 255, 255);
   textSize(24);
