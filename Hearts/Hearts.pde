@@ -1,3 +1,6 @@
+//card images
+PImage[] imageList = new PImage[66];
+
 //The number of the screen being displayed
 int screen;
 int MAIN = -1;
@@ -74,6 +77,10 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
+  for(int i=1; i<53; i++){
+    imageList[i-1] = loadImage(i+".png");
+  }
+  
   screen = MAIN;
   count = 0;
   size(850, 700);
@@ -135,20 +142,20 @@ void setup() {
   Button leaveGame = new Button("LEAVE GAME", width/2, 200);
   Button resumeGame = new Button("RESUME GAME", width/2, 300);
   Button showDirections = new Button("PLAY DIRECTIONS", width/2, 400);
-  Button mainMenu = new Button("BACK TO MAIN MENU", width/2, 500);
   menuButtons = new Button[] {
-    leaveGame, resumeGame, showDirections, mainMenu
+    leaveGame, resumeGame, showDirections
   };
 
   //buttons in rules screen
-  Button mainMenu2 = new Button("BACK TO MAIN MENU", width/2, 600);
+  Button mainMenu = new Button("BACK TO MAIN MENU", width/2, 600);
   rulesButtons = new Button[] {
-    mainMenu2
+    mainMenu
   };
 
   //buttons in direction screen
+  Button backToMenu = new Button("BACK TO MENU", width/2, 600);
   directionsButtons = new Button[] {
-    mainMenu
+    backToMenu
   };
 }
 
@@ -448,12 +455,9 @@ void mouseClicked() {
     if (menuButtons[2].hoveredOver()) {//showDirections
       screen=DIRECTIONS;
     }
-    if (menuButtons[3].hoveredOver()) {//mainMenu
-      screen=MAIN;
-    }
   }
   if (screen==DIRECTIONS) {
-    if (directionsButtons[0].hoveredOver()) {//menuButton
+    if (directionsButtons[0].hoveredOver()) {//backToMenu
       screen = MENU;
     }
   }
