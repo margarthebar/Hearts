@@ -140,7 +140,7 @@ class Player {
 
   //Picks a card to play (AI)
   int pickCard() {
-    if (hand.size() == 1){
+    if (hand.size() == 1) {
       return 0;
     }
     //Chooses what to do on the first trick
@@ -156,7 +156,7 @@ class Player {
       if (getNextPlayer(this) == startingPlayer && !(hand.get(getHighest(startingSuit)).number == QUEEN && hand.get(getHighest(startingSuit)).suit == SPADES) && ((hand.get(pickCardLeadingTrick(true)).number < 8 && pointsCurrentlyPlayed() == 0) || hand.get(getLowest(startingSuit)).number > highestNumCurrentlyPlayed())) {
         return getHighest(startingSuit);
       } else {
-        return getLowest(startingSuit);
+        return getHighestWithoutTaking(startingSuit);
       }
     }
     return (int)random(hand.size());
@@ -439,6 +439,27 @@ class Player {
       }
     }
     return low;
+  }
+
+  int getHighestWithoutTaking(int suit) {
+    int highestPlayed = highestNumCurrentlyPlayed();
+    if (hand.get(getLowest(suit)).number > highestPlayed) {
+      return getLowest(suit);
+    }
+    int high = -1;
+    int highestNumber = 0;
+    for (int i = 0; i < hand.size (); i++) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if (currentSuit == suit && currentNumber > highestNumber && currentNumber < highestPlayed) {
+        high = i;
+        highestNumber = currentNumber;
+      }
+    }
+    return high;
   }
 
   int pointsCurrentlyPlayed() {
