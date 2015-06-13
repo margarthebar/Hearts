@@ -22,8 +22,8 @@ class CardDisplay {
   CardDisplay(Player p) {
     cardWidth = imageList[0].width;
     cardHeight = imageList[0].height;
-//    println("x"+cardWidth);
-//    println("y"+cardHeight);
+    //    println("x"+cardWidth);
+    //    println("y"+cardHeight);
     //cardWidth = 60;
     //cardHeight = 80;
     numCards = 13;
@@ -167,83 +167,83 @@ class CardDisplay {
   }
 
   void cardContent(float x, float y, int number, int suit) {//number on card
-      int index = -1;
-      index = 52-((number-1)*4);
-      if(number==1){
-        index = 0;
-      }
-      if(suit==SPADES){
-        index+=1;
-      }else if(suit==HEARTS){
-        index+=2;
-      }else if(suit==DIAMONDS){
-        index+=3;
-      }
-      imageMode(CENTER);
-      //image(imageList[index],x,y);
-      image(imageList[index],x,y,cardWidth,cardHeight);
-      
-//    textSize(12);
-//    textAlign(CENTER, CENTER);
-//    symbols(x, y, number, suit);//prints out symbols on card
-//    if (suit==SPADES || suit==CLUBS) {
-//      fill(0);
-//      stroke(0);
-//    } else {
-//      fill(195, 0, 0);
-//      stroke(195, 0, 0);
-//    }
-//    rotate(radians(180));
-//    float xcor = x-cardWidth/2+8;
-//    float ycor = y-cardHeight/2+8;
-//    String s = "";
-//
-//    if (number==ACE) {
-//      s = "A";
-//      xcor+=1;
-//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-//      xcor-=1;
-//    } else if (number==10) {
-//      s = "10";
-//      xcor+=2;
-//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-//      xcor-=3;
-//    } else if (number==JACK) {
-//      s = "J";
-//      xcor+=1;
-//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-//      xcor-=1;
-//    } else if (number==QUEEN) {
-//      s = "Q";
-//      xcor+=1;
-//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-//      xcor-=1;
-//    } else if (number==KING) {
-//      s = "K";
-//      xcor+=1;
-//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-//      xcor-=1;
-//    } else {
-//      s = ""+number;
-//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-//    }
-//    rotate(radians(180));
-//    text(s, xcor, ycor);
-//    rectMode(CORNER);
+    int index = -1;
+    index = 52-((number-1)*4);
+    if (number==1) {
+      index = 0;
+    }
+    if (suit==SPADES) {
+      index+=1;
+    } else if (suit==HEARTS) {
+      index+=2;
+    } else if (suit==DIAMONDS) {
+      index+=3;
+    }
+    imageMode(CENTER);
+    //image(imageList[index],x,y);
+    image(imageList[index], x, y, cardWidth, cardHeight);
+
+    //    textSize(12);
+    //    textAlign(CENTER, CENTER);
+    //    symbols(x, y, number, suit);//prints out symbols on card
+    //    if (suit==SPADES || suit==CLUBS) {
+    //      fill(0);
+    //      stroke(0);
+    //    } else {
+    //      fill(195, 0, 0);
+    //      stroke(195, 0, 0);
+    //    }
+    //    rotate(radians(180));
+    //    float xcor = x-cardWidth/2+8;
+    //    float ycor = y-cardHeight/2+8;
+    //    String s = "";
+    //
+    //    if (number==ACE) {
+    //      s = "A";
+    //      xcor+=1;
+    //      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    //      xcor-=1;
+    //    } else if (number==10) {
+    //      s = "10";
+    //      xcor+=2;
+    //      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    //      xcor-=3;
+    //    } else if (number==JACK) {
+    //      s = "J";
+    //      xcor+=1;
+    //      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    //      xcor-=1;
+    //    } else if (number==QUEEN) {
+    //      s = "Q";
+    //      xcor+=1;
+    //      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    //      xcor-=1;
+    //    } else if (number==KING) {
+    //      s = "K";
+    //      xcor+=1;
+    //      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    //      xcor-=1;
+    //    } else {
+    //      s = ""+number;
+    //      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+    //    }
+    //    rotate(radians(180));
+    //    text(s, xcor, ycor);
+    //    rectMode(CORNER);
   }
 
   void cardBack(float x, float y) {//cards that are face down and facing NORTH and SOUTH
     rectMode(CENTER);
-    cardHighlight(x, y);
+    //cardHighlight(x, y);
     cardChecker(x, y);
-    cardBorder(x, y);
+    //cardBorder(x, y);
   }
 
   void cardBack2(float x, float y) {//cards that are face down and facing EAST or WEST
     rectMode(CENTER);
-    cardHighlight(x, y);
+    //cardHighlight(x, y);
     cardChecker2(x, y);
-    cardBorder2(x, y);
+    //cardBorder2(x, y);
   }
 
   void cardHighlight(float x, float y) {//indicates that a card has been selected
@@ -256,55 +256,59 @@ class CardDisplay {
   }
 
   void cardChecker(float x, float y) {//creates design on card backs for cards oriented NORTH and SOUTH
-    boolean redFirst = true;
-    float xcor = x-cardWidth/2+2;
-    float ycor = y-cardHeight/2+2;
-    for (float j=3.5; j<66.5; j+=3.5) {
-      for (float i=5; i<45; i+=5) {
-        if (redFirst) {
-          fill(195, 0, 0);
-          stroke(195, 0, 0);
-          rect(xcor+i, ycor+j, 2.5, 3.5);
-          fill(255);
-          stroke(255);
-          rect(xcor+i+2.5, ycor+j, 2.5, 3.5);
-        } else {
-          fill(255);
-          stroke(255);
-          rect(xcor+i, ycor+j, 2.5, 3.5);
-          fill(195, 0, 0);
-          stroke(195, 0, 0);
-          rect(xcor+i+2.5, ycor+j, 2.5, 3.5);
-        }
-      }
-      redFirst = !redFirst;
-    }
+    imageMode(CENTER);
+    image(imageList[53], x, y);
+    //    boolean redFirst = true;
+    //    float xcor = x-cardWidth/2+2;
+    //    float ycor = y-cardHeight/2+2;
+    //    for (float j=3.5; j<66.5; j+=3.5) {
+    //      for (float i=5; i<45; i+=5) {
+    //        if (redFirst) {
+    //          fill(195, 0, 0);
+    //          stroke(195, 0, 0);
+    //          rect(xcor+i, ycor+j, 2.5, 3.5);
+    //          fill(255);
+    //          stroke(255);
+    //          rect(xcor+i+2.5, ycor+j, 2.5, 3.5);
+    //        } else {
+    //          fill(255);
+    //          stroke(255);
+    //          rect(xcor+i, ycor+j, 2.5, 3.5);
+    //          fill(195, 0, 0);
+    //          stroke(195, 0, 0);
+    //          rect(xcor+i+2.5, ycor+j, 2.5, 3.5);
+    //        }
+    //      }
+    //      redFirst = !redFirst;
+    //    }
   }
 
   void cardChecker2(float x, float y) {//creates design on card backs for cards oriented towards EAST and WEST
-    boolean redFirst = true;
-    float xcor = x-cardHeight/2+2;
-    float ycor = y-cardWidth/2+2;
-    for (float j=3.5; j<66.5; j+=3.5) {
-      for (float i=5; i<45; i+=5) {
-        if (redFirst) {
-          fill(195, 0, 0);
-          stroke(195, 0, 0);
-          rect(xcor+j, ycor+i, 2.5, 3.5);
-          fill(255);
-          stroke(255);
-          rect(xcor+j, ycor+i+3.5, 2.5, 3.5);
-        } else {
-          fill(255);
-          stroke(255);
-          rect(xcor+j, ycor+i, 2.5, 3.5);
-          fill(195, 0, 0);
-          stroke(195, 0, 0);
-          rect(xcor+j, ycor+i+3.5, 2.5, 3.5);
-        }
-      }
-      redFirst = !redFirst;
-    }
+    imageMode(CENTER);
+    image(imageList[52], x, y);
+    //    boolean redFirst = true;
+    //    float xcor = x-cardHeight/2+2;
+    //    float ycor = y-cardWidth/2+2;
+    //    for (float j=3.5; j<66.5; j+=3.5) {
+    //      for (float i=5; i<45; i+=5) {
+    //        if (redFirst) {
+    //          fill(195, 0, 0);
+    //          stroke(195, 0, 0);
+    //          rect(xcor+j, ycor+i, 2.5, 3.5);
+    //          fill(255);
+    //          stroke(255);
+    //          rect(xcor+j, ycor+i+3.5, 2.5, 3.5);
+    //        } else {
+    //          fill(255);
+    //          stroke(255);
+    //          rect(xcor+j, ycor+i, 2.5, 3.5);
+    //          fill(195, 0, 0);
+    //          stroke(195, 0, 0);
+    //          rect(xcor+j, ycor+i+3.5, 2.5, 3.5);
+    //        }
+    //      }
+    //      redFirst = !redFirst;
+    //    }
   }
 
 

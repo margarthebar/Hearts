@@ -1,5 +1,5 @@
 //card images
-PImage[] imageList = new PImage[66];
+PImage[] imageList = new PImage[54];
 PImage greenFeltBackground;
 
 //The number of the screen being displayed
@@ -78,11 +78,17 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
-  for(int i=1; i<53; i++){
-    imageList[i-1] = loadImage(i+".png");
+  for (int i=1; i<55; i++) {
+    if (i==53) {
+      imageList[i-1] = loadImage("b2fh.png");
+    } else if (i==54) {
+      imageList[i-1] = loadImage("b2fv.png");
+    } else {
+      imageList[i-1] = loadImage(i+".png");
+    }
   }
   greenFeltBackground = loadImage("greenFelt3.jpg");
-  greenFeltBackground.resize(850,700);
+  greenFeltBackground.resize(850, 700);
   println(greenFeltBackground.width);
   screen = MAIN;
   count = 0;
