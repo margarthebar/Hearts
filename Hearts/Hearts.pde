@@ -775,6 +775,31 @@ void pickPassingCards() {
 
 
 void passCards() {
+  for (int n=0; n<3; n++) {
+    boolean nFound = false;
+    boolean eFound = false;
+    boolean wFound = false;
+    for (int i=0; i<13-n; i++) {
+      if (!nFound) {
+        if (north.hand.get(i)==null) {
+          north.hand.remove(i);
+          nFound=true;
+        }
+      }
+      if (!eFound) {
+        if (east.hand.get(i)==null) {
+          east.hand.remove(i);
+          eFound=true;
+        }
+      }
+      if (!wFound) {
+        if (west.hand.get(i)==null) {
+          west.hand.remove(i);
+          wFound=true;
+        }
+      }
+    }
+  }
   if (roundNumber % 4 == 0) {
     passCards(north, east);
     passCards(east, south);
@@ -790,17 +815,6 @@ void passCards() {
     passCards(south, north);
     passCards(east, west);
     passCards(west, east);
-  }
-  for(int i=0; i<13; i++){
-    if(north.hand.get(i)==null){
-      north.hand.remove(i);
-    }
-    if(east.hand.get(i)==null){
-      east.hand.remove(i);
-    }
-    if(west.hand.get(i)==null){
-      west.hand.remove(i);
-    }
   }
 }
 
