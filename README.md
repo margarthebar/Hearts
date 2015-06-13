@@ -87,6 +87,7 @@ To do:
  - Finish menu
  - Allow the user to select a difficulty level for the computer
  - Create more/less intelligent alternative AIs
+ - Have passed cards move in the direction of passing
  - Polished display (face cards)
  
 Demo Versions 
