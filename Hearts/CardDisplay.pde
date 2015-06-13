@@ -104,22 +104,46 @@ class CardDisplay {
         selected = false;
       }
     } else if (place==NORTH) {
+      int passingCardsFound = 0;
       for (int i=0; i<north.hand.size (); i++) {
-        int x = width/2 - cardsWidth/2 + i*30 + 15;
-        //cardBack(x, 75);
-        cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
+        if (north.hand.get(i)==null) {//this is if the cards to be passed have been removed but are still displayed
+          int x = width/2 - cardsWidth/2 + i*30 + 15;
+          //cardBack(x, 75+25);
+          cardFront(x, 75+25, north.cardsToPass.get(passingCardsFound).number, north.cardsToPass.get(passingCardsFound).suit);
+          passingCardsFound++;
+        } else {
+          int x = width/2 - cardsWidth/2 + i*30 + 15;
+          //cardBack(x, 75);
+          cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
+        }
       }
     } else if (place==EAST) {
+      int passingCardsFound = 0;
       for (int i=0; i<east.hand.size (); i++) {
-        int y = height/2 - cardsHeight/2 + i*30;
-        //cardBack2(width-150, y);
-        cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
+        if (east.hand.get(i)==null) {//this is if the cards to be passed have been removed but are still displayed
+          int y = height/2 - cardsHeight/2 + i*30;
+          //cardBack2(width-150-25, y);
+          cardFront(width-150-25, y, east.cardsToPass.get(passingCardsFound).number, east.cardsToPass.get(passingCardsFound).suit);
+          passingCardsFound++;
+        } else {
+          int y = height/2 - cardsHeight/2 + i*30;
+          //cardBack2(width-150, y);
+          cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
+        }
       }
     } else if (place==WEST) {
+      int passingCardsFound = 0;
       for (int i=0; i<west.hand.size (); i++) {
-        int y = height/2 - cardsHeight/2 + i*30;
-        //cardBack2(150, y);
-        cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
+        if (west.hand.get(i)==null) {//this is if the cards to be passed have been removed but are still displayed
+          int y = height/2 - cardsHeight/2 + i*30;
+          //cardBack2(150+25, y);
+          cardFront(150+25, y, west.cardsToPass.get(passingCardsFound).number, west.cardsToPass.get(passingCardsFound).suit);
+          passingCardsFound++;
+        } else {
+          int y = height/2 - cardsHeight/2 + i*30;
+          //cardBack2(150, y);
+          cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
+        }
       }
     }
     rectMode(CORNER);

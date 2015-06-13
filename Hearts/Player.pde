@@ -181,8 +181,10 @@ class Player {
       return -1;
     }
     for (int i=0; i<hand.size (); i++) {
-      if (hand.get(i).number == num && hand.get(i).suit == suit) {
-        return i;
+      if (hand.get(i)!=null) {
+        if (hand.get(i).number == num && hand.get(i).suit == suit) {
+          return i;
+        }
       }
     }
     return -1;
@@ -211,8 +213,10 @@ class Player {
     if (passingCards) {//when passing
       int countHighs = 0; 
       for (Card c : hand) {
-        if (c.number>=JACK) {
-          countHighs++;
+        if (c!=null) {
+          if (c.number>=JACK) {
+            countHighs++;
+          }
         }
       }
       if (countHighs >= 8) {//A player needs high cards to have a chance of running the deck
@@ -261,7 +265,7 @@ class Player {
         numClubs--;
       }
       cardsToPass.add(hand.get(indexLowest)); 
-      hand.remove(indexLowest);
+      hand.set(indexLowest, null);
     }
   }
 
@@ -271,86 +275,87 @@ class Player {
       if (numLowerSpades()<=2) {
         index = find(QUEEN, SPADES);
         cardsToPass.add(hand.get(index));
-        hand.remove(index);
+        hand.set(index, null);
         numSpades--;
       }
     }
     if (hasCard(ACE, SPADES)) {//passes the Ace of Spades if in hand
       index = find(ACE, SPADES);
       cardsToPass.add(hand.get(index));
-      hand.remove(index);
+      hand.set(index, null);
       numSpades--;
     }
     if (hasCard(KING, SPADES) ) {//passes the King of Spades if in hand
       index = find(KING, SPADES);
       cardsToPass.add(hand.get(index));
-      hand.remove(index);
+      hand.set(index, null);
       numSpades--;
     }
   }
 
   void passHighHearts() {//passes all hearts higher than Jack
-    if (hasHighHearts() || hand.get(getHighest(HEARTS)).number>JACK) {//passes high hearts (A,K,Q) if in hand
-      index = getHighest(HEARTS);
+    if (numHearts>0 && (hasHighHearts() || hand.get(getHighest(HEARTS)).number>JACK)) {//passes high hearts (A,K,Q) if in hand
+      int index = getHighest(HEARTS);
       cardsToPass.add(hand.get(index));
-      hand.remove(index);
+      hand.set(index, null);
       numHearts--;
     }
   }
 
   void voidSuit() {//void a suit if possible
     if (numDiamonds<= 3-cardsToPass.size() || numClubs<= 3-cardsToPass.size()) {//voids a suit if possible
-        if (numDiamonds<numClubs) {
-          while (numDiamonds>0) {
-            index = getHighest(DIAMONDS);
-            cardsToPass.add(hand.get(index));
-            hand.remove(index);
-            numDiamonds--;
-          }
-          if (numClubs<= 3-cardsToPass.size()) {
-            while (numClubs >0) {
-              index = getHighest(CLUBS);
-              cardsToPass.add(hand.get(index));
-              hand.remove(index);
-              numClubs--;
-            }
-          }
-        } else {
-          while (numClubs>0) {
+      int index = -1;
+      if (numDiamonds<numClubs) {
+        while (numDiamonds>0) {
+          index = getHighest(DIAMONDS);
+          cardsToPass.add(hand.get(index));
+          hand.set(index, null);
+          numDiamonds--;
+        }
+        if (numClubs<= 3-cardsToPass.size()) {
+          while (numClubs >0) {
             index = getHighest(CLUBS);
             cardsToPass.add(hand.get(index));
-            hand.remove(index);
+            hand.set(index, null);
             numClubs--;
           }
-          if (numDiamonds<= 3-cardsToPass.size()) {
-            while (numDiamonds >0) {
-              index = getHighest(DIAMONDS);
-              cardsToPass.add(hand.get(index));
-              hand.remove(index);
-              numDiamonds--;
-            }
+        }
+      } else {
+        while (numClubs>0) {
+          index = getHighest(CLUBS);
+          cardsToPass.add(hand.get(index));
+          hand.set(index, null);
+          numClubs--;
+        }
+        if (numDiamonds<= 3-cardsToPass.size()) {
+          while (numDiamonds >0) {
+            index = getHighest(DIAMONDS);
+            cardsToPass.add(hand.get(index));
+            hand.set(index, null);
+            numDiamonds--;
           }
         }
       }
+    }
   }
-  
-  void passHighestCards(){
+
+  void passHighestCards() {
     while (cardsToPass.size ()<3) {
-        if (numDiamonds>0 || numClubs>0) {
-          index = getHighest(DIAMONDS, CLUBS);
-          if (hand.get(index).suit==DIAMONDS) {
-            numDiamonds--;
-          } else {
-            numClubs--;
-          }
-          cardsToPass.add(hand.get(index));
-          hand.remove(index);
+      int index = -1;
+      if (numDiamonds>0 || numClubs>0) {
+        index = getHighest(DIAMONDS, CLUBS);
+        if (hand.get(index).suit==DIAMONDS) {
+          numDiamonds--;
         } else {
-          index = getHighest(HEARTS);
-          cardsToPass.add(hand.get(index));
-          hand.remove(index);
-          numHearts--;
+          numClubs--;
         }
+        cardsToPass.add(hand.get(index));
+        hand.set(index, null);
+      } else {
+        index = getHighest(HEARTS);
+        cardsToPass.add(hand.get(index));
+        hand.set(index, null);
+        numHearts--;
       }
     }
   }
@@ -365,6 +370,7 @@ class Player {
       passHighHearts();
       voidSuit();//voids a suit if possible (only for diamonds and clubs)
       passHighestCards();//if none of the above are true, passes highest cards
+    }
   }
 
   //Picks a card to play (AI)
@@ -416,9 +422,11 @@ class Player {
 
   boolean hasCard(int number, int suit) {
     for (int i = 0; i < hand.size (); i++) {
-      Card current = hand.get(i); 
-      if (current.number == number && current.suit == suit) {
-        return true;
+      if (hand.get(i)!=null) {
+        Card current = hand.get(i); 
+        if (current.number == number && current.suit == suit) {
+          return true;
+        }
       }
     }
     return false;
@@ -428,14 +436,16 @@ class Player {
     int high = -1; 
     int highestNumber = 0; 
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if (currentSuit == suit && currentNumber > highestNumber) {
-        high = i; 
-        highestNumber = currentNumber;
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if (currentSuit == suit && currentNumber > highestNumber) {
+          high = i; 
+          highestNumber = currentNumber;
+        }
       }
     }
     return high;
@@ -459,16 +469,18 @@ class Player {
       }
     }
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber >= highestNumber) {
-        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
-          high = i; 
-          highestNumber = currentNumber; 
-          numOfSuitOfHighest = numOfSuit(currentSuit);
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber >= highestNumber) {
+          if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+            high = i; 
+            highestNumber = currentNumber; 
+            numOfSuitOfHighest = numOfSuit(currentSuit);
+          }
         }
       }
     }
@@ -496,16 +508,18 @@ class Player {
       }
     }
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if ((currentSuit == suit1 || currentSuit == suit2 || currentSuit == suit3) && currentNumber >= highestNumber) {
-        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
-          high = i; 
-          highestNumber = currentNumber; 
-          numOfSuitOfHighest = numOfSuit(currentSuit);
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if ((currentSuit == suit1 || currentSuit == suit2 || currentSuit == suit3) && currentNumber >= highestNumber) {
+          if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+            high = i; 
+            highestNumber = currentNumber; 
+            numOfSuitOfHighest = numOfSuit(currentSuit);
+          }
         }
       }
     }
@@ -517,16 +531,18 @@ class Player {
     int highestNumber = 0; 
     int numOfSuitOfHighest = 0; 
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if (currentNumber >= highestNumber) {
-        if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
-          high = i; 
-          highestNumber = currentNumber; 
-          numOfSuitOfHighest = numOfSuit(currentSuit);
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if (currentNumber >= highestNumber) {
+          if (currentNumber > highestNumber || numOfSuit(currentSuit) < numOfSuitOfHighest) {
+            high = i; 
+            highestNumber = currentNumber; 
+            numOfSuitOfHighest = numOfSuit(currentSuit);
+          }
         }
       }
     }
@@ -537,14 +553,16 @@ class Player {
     int low = -1; 
     int lowestNumber = 15; 
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if (currentSuit == suit && currentNumber < lowestNumber) {
-        low = i; 
-        lowestNumber = currentNumber;
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if (currentSuit == suit && currentNumber < lowestNumber) {
+          low = i; 
+          lowestNumber = currentNumber;
+        }
       }
     }
     return low;
@@ -568,16 +586,18 @@ class Player {
       }
     }
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber <= lowestNumber) {
-        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
-          low = i; 
-          lowestNumber = currentNumber; 
-          numOfSuitOfLowest = numOfSuit(currentSuit);
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if ((currentSuit == suit1 || currentSuit == suit2) && currentNumber <= lowestNumber) {
+          if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+            low = i; 
+            lowestNumber = currentNumber; 
+            numOfSuitOfLowest = numOfSuit(currentSuit);
+          }
         }
       }
     }
@@ -604,16 +624,18 @@ class Player {
       }
     }
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if ((currentSuit == suit1 || currentSuit == suit2 || currentSuit == suit3) && currentNumber <= lowestNumber) {
-        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
-          low = i; 
-          lowestNumber = currentNumber; 
-          numOfSuitOfLowest = numOfSuit(currentSuit);
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if ((currentSuit == suit1 || currentSuit == suit2 || currentSuit == suit3) && currentNumber <= lowestNumber) {
+          if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+            low = i; 
+            lowestNumber = currentNumber; 
+            numOfSuitOfLowest = numOfSuit(currentSuit);
+          }
         }
       }
     }
@@ -625,16 +647,18 @@ class Player {
     int lowestNumber = 15; 
     int numOfSuitOfLowest = 0; 
     for (int i = 0; i < hand.size (); i++) {
-      int currentSuit = hand.get(i).suit; 
-      int currentNumber = hand.get(i).number; 
-      if (currentNumber == ACE) {
-        currentNumber = 14;
-      }
-      if (currentNumber <= lowestNumber) {
-        if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
-          low = i; 
-          lowestNumber = currentNumber; 
-          numOfSuitOfLowest = numOfSuit(currentSuit);
+      if (hand.get(i)!=null) {
+        int currentSuit = hand.get(i).suit; 
+        int currentNumber = hand.get(i).number; 
+        if (currentNumber == ACE) {
+          currentNumber = 14;
+        }
+        if (currentNumber <= lowestNumber) {
+          if (currentNumber < lowestNumber || numOfSuit(currentSuit) < numOfSuitOfLowest) {
+            low = i; 
+            lowestNumber = currentNumber; 
+            numOfSuitOfLowest = numOfSuit(currentSuit);
+          }
         }
       }
     }
