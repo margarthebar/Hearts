@@ -153,11 +153,7 @@ class Player {
     }
     int startingSuit = playedCards[startingPlayer.playerNumber].suit;
     if (hasSuit(startingSuit)) {
-      if (getNextPlayer(this) == startingPlayer && !(hand.get(getHighest(startingSuit)).number == QUEEN && hand.get(getHighest(startingSuit)).suit == SPADES) && ((hand.get(pickCardLeadingTrick(true)).number < 8 && pointsCurrentlyPlayed() == 0) || hand.get(getLowest(startingSuit)).number > highestNumCurrentlyPlayed())) {
-        return getHighest(startingSuit);
-      } else {
-        return getHighestWithoutTaking(startingSuit);
-      }
+      return pickCardHasSuit(startingSuit);
     }
     return (int)random(hand.size());
   }
@@ -212,6 +208,14 @@ class Player {
       addCard(card);
     }
     return toReturn;
+  }
+
+  int pickCardHasSuit(int startingSuit) {
+    if (getNextPlayer(this) == startingPlayer && !(hand.get(getHighest(startingSuit)).number == QUEEN && hand.get(getHighest(startingSuit)).suit == SPADES) && ((hand.get(pickCardLeadingTrick(true)).number < 8 && pointsCurrentlyPlayed() == 0) || hand.get(getLowest(startingSuit)).number > highestNumCurrentlyPlayed())) {
+      return getHighest(startingSuit);
+    } else {
+      return getHighestWithoutTaking(startingSuit);
+    }
   }
 
   boolean hasCard(int number, int suit) {
