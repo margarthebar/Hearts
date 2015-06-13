@@ -161,6 +161,10 @@ class Player {
       return getCard(QUEEN, SPADES);
     } else if (hasCard(ACE, SPADES) || hasCard(KING, SPADES)) {
       return getHighest(SPADES);
+    } else if ((numSpades > 0 && numSpades <= 2) || (numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) {
+      return getHighest(true);
+    } else {
+      return getHighest();
     }
   }
 
@@ -205,7 +209,7 @@ class Player {
       toReturn = getLowest(CLUBS, DIAMONDS);
     } else if (heartsBroken && (numClubs > 0 || numDiamonds > 0 || numHearts > 0)) {
       toReturn = getLowest(CLUBS, DIAMONDS, HEARTS);
-    } else if (!heartsBroken) {
+    } else if (!heartsBroken && (numClubs > 0 || numDiamonds > 0 || numSpades > 0)) {
       toReturn = getLowest(SPADES, CLUBS, DIAMONDS);
     } else {
       toReturn = getLowest();
@@ -241,6 +245,7 @@ class Player {
         return i;
       }
     }
+    return -1;
   }
 
   int getHighest(int suit) {
