@@ -419,8 +419,25 @@ class Player {
       if (otherPlayerHasPoints() || !canShootMoon()) {
         shootingMoon = false;
       } else {
-        //AI decision-making will go here (for now, picks randomly)
-        return (int)random(hand.size());
+        if (hand.size() == 13) {
+          return pickCardFirstTrickMoonShoot();
+        }
+        if (this == startingPlayer) {
+          return pickCardLeadingTrickMoonShoot();
+        }
+        int startingSuit = playedCards[startingPlayer.playerNumber].suit;
+        if (hasSuit(startingSuit)) {
+          return pickCardHasSuitMoonShoot(startingSuit);
+        }
+        if (numSpades == 0 && numClubs == 0 && numDiamonds == 0) {
+          return getHighest(HEARTS);
+        } else if (!(hand.get(getLowest(SPADES, DIAMONDS, CLUBS)).number == QUEEN && hand.get(getLowest(SPADES, DIAMONDS, CLUBS)).suit == SPADES)) {
+          return getLowest(SPADES, DIAMONDS, CLUBS);
+        } else if (numClubs > 0 || numDiamonds > 0) {
+          return getLowest(CLUBS, DIAMONDS);
+        } else {
+          return getHighest(SPADES);
+        }
       }
     }
     if (!shootingMoon) {
@@ -469,6 +486,16 @@ class Player {
     }
   }
 
+  int pickCardFirstTrickMoonShoot() {
+    if (this == startingPlayer) {
+      return getLowest(CLUBS);
+    } else if (numClubs > 0) {
+      return getHighest(CLUBS);
+    } else {
+      return getLowest(SPADES, DIAMONDS);
+    }
+  }
+
   int pickCardLeadingTrick() {
     return pickCardLeadingTrick(false);
   }
@@ -503,11 +530,27 @@ class Player {
     return toReturn;
   }
 
+  int pickCardLeadingTrickMoonShoot() {
+    if (!heartsBroken) {
+      return getHighest(SPADES, CLUBS, DIAMONDS);
+    } else {
+      return getHighest();
+    }
+  }
+
   int pickCardHasSuit(int startingSuit) {
     if (getNextPlayer(this) == startingPlayer && !(hand.get(getHighest(startingSuit)).number == QUEEN && hand.get(getHighest(startingSuit)).suit == SPADES) && ((hand.get(pickCardLeadingTrick(true)).number < 8 && pointsCurrentlyPlayed() == 0) || hand.get(getLowest(startingSuit)).number > highestNumCurrentlyPlayed())) {
       return getHighest(startingSuit);
     } else {
       return getHighestWithoutTaking(startingSuit);
+    }
+  }
+
+  int pickCardHasSuitMoonShoot(int startingSuit) {
+    if (getNextPlayer(this) == startingPlayer) {
+      return getLowestWhileTaking(startingSuit);
+    } else {
+      return getHighest(startingSuit);
     }
   }
 
@@ -842,6 +885,27 @@ class Player {
     return high;
   }
 
+  int getLowestWhileTaking(int suit) {
+    int highestPlayed = highestNumCurrentlyPlayed();
+    if (hand.get(getHighest(suit)).number < highestPlayed) {
+      return getLowest(suit);
+    }
+    int low = -1;
+    int lowestNumber = 15;
+    for (int i = 0; i < hand.size (); i++) {
+      int currentSuit = hand.get(i).suit;
+      int currentNumber = hand.get(i).number;
+      if (currentNumber == ACE) {
+        currentNumber = 14;
+      }
+      if (currentSuit == suit && currentNumber < lowestNumber && currentNumber > highestPlayed) {
+        low = i;
+        lowestNumber = currentNumber;
+      }
+    }
+    return low;
+  }
+
   int pointsCurrentlyPlayed() {
     int points = 0;
     for (int i = 0; i < playedCards.length; i++) {
@@ -1051,4 +1115,3 @@ class Player {
     shootingMoon = false;
   }
 }
-
