@@ -416,10 +416,11 @@ class Player {
     }
     if (shootingMoon) { //Different strategy for picking cards if the player is trying to shoot the moon
       //Checks if another player has taken a point
-      if (otherPlayerHasPoints()) {
+      if (otherPlayerHasPoints() || !canShootMoon()) {
         shootingMoon = false;
       } else {
-        //AI decision-making will go here
+        //AI decision-making will go here (for now, picks randomly)
+        return (int)random(hand.size());
       }
     }
     if (!shootingMoon) {
@@ -533,7 +534,12 @@ class Player {
   }
 
   boolean otherPlayerHasPoints() {
-    return true;
+    for (int i = 0; i < 4; i++) {
+      if (i != playerNumber && getPlayer(i).points != 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   int getHighest(int suit) {
