@@ -84,10 +84,11 @@ Done:
 
 To do:
  - AI algorithms
- - Allow the user to select a difficulty level for the computer.
+ - Finish menu
+ - Allow the user to select a difficulty level for the computer
  - Create more/less intelligent alternative AIs
- - Polished display
- - Animation (when dealing, playing)
+ - Have passed cards move in the direction of passing
+ - Polished display (face cards)
  
 Demo Versions 
 <br>6/1/15: https://github.com/margarthebar/Hearts/tree/774a817426dafed94b7b6c1c0dccc41c4d2c24f4/Hearts
