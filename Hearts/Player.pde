@@ -142,6 +142,40 @@ class Player {
     return hasCard(ACE, HEARTS) && hasCard(KING, HEARTS) && hasCard(QUEEN, HEARTS);
   }
 
+  int getLeastCommonSuit() {
+    int LCS = 0;
+    for (int s=1; s<4; s++) {
+      if (numOfSuit(s)<numOfSuit(LCS)) {
+        LCS = s;
+      }
+    }
+    return LCS;
+  }
+
+  int numLowerSpades() {//number of spades lower than Q
+    int lowerSpades = numSpades;
+    if (hasCard(ACE, SPADES) ) {
+      lowerSpades--;
+    }
+    if (hasCard(KING, SPADES) ) {
+      lowerSpades--;
+    }
+    if (hasCard(QUEEN, SPADES)) {
+      lowerSpades--;
+    }
+    return lowerSpades;
+  }
+
+  int getMostCommonSuit() {
+    int MCS = 0;
+    for (int s=1; s<4; s++) {
+      if (numOfSuit(s)>numOfSuit(MCS)) {
+        MCS = s;
+      }
+    }
+    return MCS;
+  }
+
   int find(int num, int suit) {
     if (!hasCard(num, suit)) {
       return -1;
@@ -204,41 +238,133 @@ class Player {
       return true;
     }
   }
+  void passToShootMoon() {//passes the cards needed to shoot the moon
+    for (int i=0; i<3- (13-hand.size ()); i++) {
+      int indexLowest = -1; 
+      boolean found = false; 
+      for (int s=0; s<4; s++) {//finds and removes lowest cards starting with hearts, then spades, etc.
+        if (!found && numOfSuit(s)>0 && getLowest(s)!=getLowestCardInRun(s)) {
+          indexLowest = getLowest(s); 
+          found = true;
+        }
+      }
+      if (!found) {//if all the suits are in runs of the highest cards
+        indexLowest = getLowest(getMostCommonSuit());
+      }
+      if (hand.get(indexLowest).suit==HEARTS) {
+        numHearts--;
+      } else if (hand.get(indexLowest).suit==SPADES) {
+        numSpades--;
+      } else if (hand.get(indexLowest).suit==DIAMONDS) {
+        numDiamonds--;
+      } else {
+        numClubs--;
+      }
+      cardsToPass.add(hand.get(indexLowest)); 
+      hand.remove(indexLowest);
+    }
+  }
+
+  void passHighSpades() {//passes the Ace and King of Spades, passes Queen if necessary
+    int index = -1;
+    if (hasCard(QUEEN, SPADES)) {//passes the Queen of Spades if it's too dangerous to keep
+      if (numLowerSpades()<=2) {
+        index = find(QUEEN, SPADES);
+        cardsToPass.add(hand.get(index));
+        hand.remove(index);
+        numSpades--;
+      }
+    }
+    if (hasCard(ACE, SPADES)) {//passes the Ace of Spades if in hand
+      index = find(ACE, SPADES);
+      cardsToPass.add(hand.get(index));
+      hand.remove(index);
+      numSpades--;
+    }
+    if (hasCard(KING, SPADES) ) {//passes the King of Spades if in hand
+      index = find(KING, SPADES);
+      cardsToPass.add(hand.get(index));
+      hand.remove(index);
+      numSpades--;
+    }
+  }
+
+  void passHighHearts() {//passes all hearts higher than Jack
+    if (hasHighHearts() || hand.get(getHighest(HEARTS)).number>JACK) {//passes high hearts (A,K,Q) if in hand
+      index = getHighest(HEARTS);
+      cardsToPass.add(hand.get(index));
+      hand.remove(index);
+      numHearts--;
+    }
+  }
+
+  void voidSuit() {//void a suit if possible
+    if (numDiamonds<= 3-cardsToPass.size() || numClubs<= 3-cardsToPass.size()) {//voids a suit if possible
+        if (numDiamonds<numClubs) {
+          while (numDiamonds>0) {
+            index = getHighest(DIAMONDS);
+            cardsToPass.add(hand.get(index));
+            hand.remove(index);
+            numDiamonds--;
+          }
+          if (numClubs<= 3-cardsToPass.size()) {
+            while (numClubs >0) {
+              index = getHighest(CLUBS);
+              cardsToPass.add(hand.get(index));
+              hand.remove(index);
+              numClubs--;
+            }
+          }
+        } else {
+          while (numClubs>0) {
+            index = getHighest(CLUBS);
+            cardsToPass.add(hand.get(index));
+            hand.remove(index);
+            numClubs--;
+          }
+          if (numDiamonds<= 3-cardsToPass.size()) {
+            while (numDiamonds >0) {
+              index = getHighest(DIAMONDS);
+              cardsToPass.add(hand.get(index));
+              hand.remove(index);
+              numDiamonds--;
+            }
+          }
+        }
+      }
+  }
+  
+  void passHighestCards(){
+    while (cardsToPass.size ()<3) {
+        if (numDiamonds>0 || numClubs>0) {
+          index = getHighest(DIAMONDS, CLUBS);
+          if (hand.get(index).suit==DIAMONDS) {
+            numDiamonds--;
+          } else {
+            numClubs--;
+          }
+          cardsToPass.add(hand.get(index));
+          hand.remove(index);
+        } else {
+          index = getHighest(HEARTS);
+          cardsToPass.add(hand.get(index));
+          hand.remove(index);
+          numHearts--;
+        }
+      }
+    }
+  }
 
   //Picks three cards to pass (AI)
   void pickPassingCards() {
     //determine if running the deck is a viable strategy
     if (canShootMoon()) {
-      for (int i=0; i<3- (13-hand.size ()); i++) {
-        int indexLowest = -1; 
-        boolean found = false; 
-        for (int s=0; s<4; s++) {//finds and removes lowest cards starting with hearts, then spades, etc.
-          if (!found && numOfSuit(s)>0 && getLowest(s)!=getLowestCardInRun(s)) {
-            indexLowest = getLowest(s); 
-            found = true;
-          }
-        }
-        if (found) {
-          cardsToPass.add(hand.get(indexLowest)); 
-          hand.remove(indexLowest);
-        } else {//if all the suits are in runs of the highest cards
-          int modeSuit = 0;
-          for (int s=1; s<4; s++) {
-            if (numOfSuit(s)>numOfSuit(modeSuit)) {
-              modeSuit = s;
-            }
-          }
-          indexLowest = getLowest(modeSuit);
-          cardsToPass.add(hand.get(indexLowest)); 
-          hand.remove(indexLowest);
-        }
-      }
+      passToShootMoon();
     } else {
-      //if no:
-      //determine if you can get rid of a suit (except for hearts)
-      //if you decide to, pass the highest cards of that suit
-      //if not, pass the three highest cards of your two least frequent suits
-    }
+      passHighSpades();//passes high spades if they are too dangerous to keep
+      passHighHearts();
+      voidSuit();//voids a suit if possible (only for diamonds and clubs)
+      passHighestCards();//if none of the above are true, passes highest cards
   }
 
   //Picks a card to play (AI)
