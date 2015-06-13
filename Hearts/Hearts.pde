@@ -791,6 +791,17 @@ void passCards() {
     passCards(east, west);
     passCards(west, east);
   }
+  for(int i=0; i<13; i++){
+    if(north.hand.get(i)==null){
+      north.hand.remove(i);
+    }
+    if(east.hand.get(i)==null){
+      east.hand.remove(i);
+    }
+    if(west.hand.get(i)==null){
+      west.hand.remove(i);
+    }
+  }
 }
 
 void passCards(Player from, Player to) {

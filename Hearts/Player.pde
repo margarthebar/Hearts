@@ -264,7 +264,8 @@ class Player {
       } else {
         numClubs--;
       }
-      cardsToPass.add(hand.get(indexLowest)); 
+      addCardToPass(indexLowest);
+      //cardsToPass.add(hand.get(indexLowest)); 
       hand.set(indexLowest, null);
     }
   }
@@ -274,31 +275,40 @@ class Player {
     if (hasCard(QUEEN, SPADES)) {//passes the Queen of Spades if it's too dangerous to keep
       if (numLowerSpades()<=2) {
         index = find(QUEEN, SPADES);
-        cardsToPass.add(hand.get(index));
+        addCardToPass(index);
+        //cardsToPass.add(hand.get(index));
         hand.set(index, null);
         numSpades--;
       }
     }
     if (hasCard(ACE, SPADES)) {//passes the Ace of Spades if in hand
       index = find(ACE, SPADES);
-      cardsToPass.add(hand.get(index));
+      addCardToPass(index);
+      //cardsToPass.add(hand.get(index));
       hand.set(index, null);
       numSpades--;
     }
     if (hasCard(KING, SPADES) ) {//passes the King of Spades if in hand
       index = find(KING, SPADES);
-      cardsToPass.add(hand.get(index));
+      addCardToPass(index);
+      //cardsToPass.add(hand.get(index));
       hand.set(index, null);
       numSpades--;
     }
   }
 
   void passHighHearts() {//passes all hearts higher than Jack
-    if (numHearts>0 && (hasHighHearts() || hand.get(getHighest(HEARTS)).number>JACK)) {//passes high hearts (A,K,Q) if in hand
-      int index = getHighest(HEARTS);
-      cardsToPass.add(hand.get(index));
-      hand.set(index, null);
-      numHearts--;
+    boolean done = false;
+    while (cardsToPass.size ()<3 && !done) {
+      if (numHearts>0 && (hasHighHearts() || hand.get(getHighest(HEARTS)).number>JACK)) {//passes high hearts (A,K,Q) if in hand
+        int index = getHighest(HEARTS);
+        addCardToPass(index);
+        //cardsToPass.add(hand.get(index));
+        hand.set(index, null);
+        numHearts--;
+      } else {
+        done = true;
+      }
     }
   }
 
@@ -308,14 +318,16 @@ class Player {
       if (numDiamonds<numClubs) {
         while (numDiamonds>0) {
           index = getHighest(DIAMONDS);
-          cardsToPass.add(hand.get(index));
+          addCardToPass(index);
+          //cardsToPass.add(hand.get(index));
           hand.set(index, null);
           numDiamonds--;
         }
         if (numClubs<= 3-cardsToPass.size()) {
           while (numClubs >0) {
             index = getHighest(CLUBS);
-            cardsToPass.add(hand.get(index));
+            addCardToPass(index);
+            //cardsToPass.add(hand.get(index));
             hand.set(index, null);
             numClubs--;
           }
@@ -323,19 +335,39 @@ class Player {
       } else {
         while (numClubs>0) {
           index = getHighest(CLUBS);
-          cardsToPass.add(hand.get(index));
+          addCardToPass(index);
+          //cardsToPass.add(hand.get(index));
           hand.set(index, null);
           numClubs--;
         }
         if (numDiamonds<= 3-cardsToPass.size()) {
           while (numDiamonds >0) {
             index = getHighest(DIAMONDS);
-            cardsToPass.add(hand.get(index));
+            addCardToPass(index);
+            //cardsToPass.add(hand.get(index));
             hand.set(index, null);
             numDiamonds--;
           }
         }
       }
+    }
+  }
+
+  void addCardToPass(int index) {
+    boolean added = false;
+    for (int i=0; i<cardsToPass.size (); i++) {
+      if (!added && hand.get(index).suit<cardsToPass.get(i).suit) {
+        cardsToPass.add(i, hand.get(index));
+        added = true;
+      } else if (!added && hand.get(index).suit==cardsToPass.get(i).suit) {
+        if (compareCards(hand.get(index), cardsToPass.get(i))<0) {
+          cardsToPass.add(i, hand.get(index));
+          added = true;
+        }
+      }
+    }
+    if (!added) {
+      cardsToPass.add(cardsToPass.size(), hand.get(index));
     }
   }
 
@@ -349,11 +381,11 @@ class Player {
         } else {
           numClubs--;
         }
-        cardsToPass.add(hand.get(index));
+        addCardToPass(index);
         hand.set(index, null);
       } else {
         index = getHighest(HEARTS);
-        cardsToPass.add(hand.get(index));
+        addCardToPass(index);
         hand.set(index, null);
         numHearts--;
       }
