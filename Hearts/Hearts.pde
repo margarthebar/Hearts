@@ -1,3 +1,7 @@
+//card images
+PImage[] imageList = new PImage[66];
+PImage greenFeltBackground;
+
 //The number of the screen being displayed
 int screen;
 int MAIN = -1;
@@ -74,10 +78,17 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
+  for(int i=1; i<53; i++){
+    imageList[i-1] = loadImage(i+".png");
+  }
+  greenFeltBackground = loadImage("greenFelt3.jpg");
+  greenFeltBackground.resize(850,700);
+  println(greenFeltBackground.width);
   screen = MAIN;
   count = 0;
   size(850, 700);
-  background(0, 100, 0);
+  //background(0, 100, 0);
+  background(greenFeltBackground);
   deck = new ArrayList();
   southHand = new ArrayList();
   northHand = new ArrayList();
@@ -190,16 +201,16 @@ void draw() {
       }
     }
   } else if (screen==DIRECTIONS) {
-    background(0, 100, 0);
+    background(greenFeltBackground);
     drawDirections();
   } else if (screen==MENU) {
-    background(0, 100, 0);
+    background(greenFeltBackground);
     drawMenu();
   } else if (screen==MAIN) {
-    background(0, 100, 0);
+    background(greenFeltBackground);
     drawMain();
   } else if (screen==RULES) {
-    background(0, 100, 0);
+    background(greenFeltBackground);
     drawRules();
   }
 }
@@ -314,7 +325,7 @@ void drawRules() {
 }
 
 void gameDisplay() {
-  background(0, 100, 0);
+  background(greenFeltBackground);
   //displays heartsBroken
   heartsBrokenAnimation();
   displaySouth.draw();

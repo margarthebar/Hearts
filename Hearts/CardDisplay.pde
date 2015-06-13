@@ -20,8 +20,12 @@ class CardDisplay {
   //ArrayList<Card> hand;
 
   CardDisplay(Player p) {
-    cardWidth = 50;
-    cardHeight = 70;
+    cardWidth = imageList[0].width;
+    cardHeight = imageList[0].height;
+//    println("x"+cardWidth);
+//    println("y"+cardHeight);
+    //cardWidth = 60;
+    //cardHeight = 80;
     numCards = 13;
     selected = false;
 
@@ -60,7 +64,7 @@ class CardDisplay {
       int cardsWidth = cardWidth + (numCards-2)*30;
       for (int i=0; i<south.hand.size (); i++) {
         int x = width/2 - cardsWidth/2 + i*30 + 15;
-        if (mouseY>height-75-cardHeight/2 && mouseY<height-75+cardHeight/2) {
+        if (mouseY>height-85-cardHeight/2 && mouseY<height-85+cardHeight/2) {
           if (i==south.hand.size()-1) {
             if (mouseX>x && mouseX<x+cardsWidth) {
               cardSelected = i;
@@ -92,14 +96,14 @@ class CardDisplay {
     int cardsHeight = cardHeight + (numCards-3)*30;
     if (place==SOUTH) {
       for (int i=0; i<south.hand.size (); i++) {
-        int x = width/2 - cardsWidth/2 + i*30 + 15;
+        int x = width/2 - cardsWidth/2 + i*30 + 20;
         if (i==cardSelected) {
           selected = true;
         }
         if (south.cardsToPass.contains(south.hand.get(i))) {
           cardFront(x, height-100, south.hand.get(i).number, south.hand.get(i).suit);
         } else {
-          cardFront(x, height-75, south.hand.get(i).number, south.hand.get(i).suit);
+          cardFront(x, height-85, south.hand.get(i).number, south.hand.get(i).suit);
         }
         selected = false;
       }
@@ -107,26 +111,26 @@ class CardDisplay {
       int passingCardsFound = 0;
       for (int i=0; i<north.hand.size (); i++) {
         if (north.hand.get(i)==null) {//this is if the cards to be passed have been removed but are still displayed
-          int x = width/2 - cardsWidth/2 + i*30 + 15;
-          //cardBack(x, 75+25);
-          cardFront(x, 75+25, north.cardsToPass.get(passingCardsFound).number, north.cardsToPass.get(passingCardsFound).suit);
+          int x = width/2 - cardsWidth/2 + i*30 + 20;
+          //cardBack(x, 80+25);
+          cardFront(x, 100, north.cardsToPass.get(passingCardsFound).number, north.cardsToPass.get(passingCardsFound).suit);
           passingCardsFound++;
         } else {
-          int x = width/2 - cardsWidth/2 + i*30 + 15;
-          //cardBack(x, 75);
-          cardFront(x, 75, north.hand.get(i).number, north.hand.get(i).suit);
+          int x = width/2 - cardsWidth/2 + i*30 + 20;
+          //cardBack(x, 80);
+          cardFront(x, 80, north.hand.get(i).number, north.hand.get(i).suit);
         }
       }
     } else if (place==EAST) {
       int passingCardsFound = 0;
       for (int i=0; i<east.hand.size (); i++) {
         if (east.hand.get(i)==null) {//this is if the cards to be passed have been removed but are still displayed
-          int y = height/2 - cardsHeight/2 + i*30;
+          int y = height/2 - cardsHeight/2 + i*30 +20;
           //cardBack2(width-150-25, y);
           cardFront(width-150-25, y, east.cardsToPass.get(passingCardsFound).number, east.cardsToPass.get(passingCardsFound).suit);
           passingCardsFound++;
         } else {
-          int y = height/2 - cardsHeight/2 + i*30;
+          int y = height/2 - cardsHeight/2 + i*30 +20;
           //cardBack2(width-150, y);
           cardFront(width-150, y, east.hand.get(i).number, east.hand.get(i).suit);
         }
@@ -135,12 +139,12 @@ class CardDisplay {
       int passingCardsFound = 0;
       for (int i=0; i<west.hand.size (); i++) {
         if (west.hand.get(i)==null) {//this is if the cards to be passed have been removed but are still displayed
-          int y = height/2 - cardsHeight/2 + i*30;
+          int y = height/2 - cardsHeight/2 + i*30 +20;
           //cardBack2(150+25, y);
           cardFront(150+25, y, west.cardsToPass.get(passingCardsFound).number, west.cardsToPass.get(passingCardsFound).suit);
           passingCardsFound++;
         } else {
-          int y = height/2 - cardsHeight/2 + i*30;
+          int y = height/2 - cardsHeight/2 + i*30 +20;
           //cardBack2(150, y);
           cardFront(150, y, west.hand.get(i).number, west.hand.get(i).suit);
         }
@@ -152,7 +156,7 @@ class CardDisplay {
   void cardFront(float x, float y, int number, int suit) {//cards that are face up
     rectMode(CENTER);
     cardHighlight(x, y);
-    cardBorder(x, y);
+    //cardBorder(x, y);
     rectMode(CENTER);
     stroke(255);
     fill(255);
@@ -163,53 +167,69 @@ class CardDisplay {
   }
 
   void cardContent(float x, float y, int number, int suit) {//number on card
-    textSize(12);
-    textAlign(CENTER, CENTER);
-    symbols(x, y, number, suit);//prints out symbols on card
-    if (suit==SPADES || suit==CLUBS) {
-      fill(0);
-      stroke(0);
-    } else {
-      fill(195, 0, 0);
-      stroke(195, 0, 0);
-    }
-    rotate(radians(180));
-    float xcor = x-cardWidth/2+8;
-    float ycor = y-cardHeight/2+8;
-    String s = "";
-
-    if (number==ACE) {
-      s = "A";
-      xcor+=1;
-      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-      xcor-=1;
-    } else if (number==10) {
-      s = "10";
-      xcor+=2;
-      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-      xcor-=3;
-    } else if (number==JACK) {
-      s = "J";
-      xcor+=1;
-      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-      xcor-=1;
-    } else if (number==QUEEN) {
-      s = "Q";
-      xcor+=1;
-      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-      xcor-=1;
-    } else if (number==KING) {
-      s = "K";
-      xcor+=1;
-      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-      xcor-=1;
-    } else {
-      s = ""+number;
-      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
-    }
-    rotate(radians(180));
-    text(s, xcor, ycor);
-    rectMode(CORNER);
+      int index = -1;
+      index = 52-((number-1)*4);
+      if(number==1){
+        index = 0;
+      }
+      if(suit==SPADES){
+        index+=1;
+      }else if(suit==HEARTS){
+        index+=2;
+      }else if(suit==DIAMONDS){
+        index+=3;
+      }
+      imageMode(CENTER);
+      //image(imageList[index],x,y);
+      image(imageList[index],x,y,cardWidth,cardHeight);
+      
+//    textSize(12);
+//    textAlign(CENTER, CENTER);
+//    symbols(x, y, number, suit);//prints out symbols on card
+//    if (suit==SPADES || suit==CLUBS) {
+//      fill(0);
+//      stroke(0);
+//    } else {
+//      fill(195, 0, 0);
+//      stroke(195, 0, 0);
+//    }
+//    rotate(radians(180));
+//    float xcor = x-cardWidth/2+8;
+//    float ycor = y-cardHeight/2+8;
+//    String s = "";
+//
+//    if (number==ACE) {
+//      s = "A";
+//      xcor+=1;
+//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+//      xcor-=1;
+//    } else if (number==10) {
+//      s = "10";
+//      xcor+=2;
+//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+//      xcor-=3;
+//    } else if (number==JACK) {
+//      s = "J";
+//      xcor+=1;
+//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+//      xcor-=1;
+//    } else if (number==QUEEN) {
+//      s = "Q";
+//      xcor+=1;
+//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+//      xcor-=1;
+//    } else if (number==KING) {
+//      s = "K";
+//      xcor+=1;
+//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+//      xcor-=1;
+//    } else {
+//      s = ""+number;
+//      text(s, -xcor-cardWidth+16, -ycor-cardHeight+16);
+//    }
+//    rotate(radians(180));
+//    text(s, xcor, ycor);
+//    rectMode(CORNER);
   }
 
   void cardBack(float x, float y) {//cards that are face down and facing NORTH and SOUTH
@@ -230,7 +250,7 @@ class CardDisplay {
     if (selected) {
       stroke(200, 200, 0, 200);
       fill(200, 200, 0, 200);
-      rect(x, y, 58, 78, 6, 6, 6, 6);
+      rect(x, y, cardWidth+8, cardHeight+8, 6, 6, 6, 6);
       noFill();
     }
   }
