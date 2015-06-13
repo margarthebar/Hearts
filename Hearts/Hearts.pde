@@ -1,6 +1,8 @@
-//card images
+//card images: courtesy of http://www.jfitz.com/cards/
 PImage[] imageList = new PImage[54];
 PImage greenFeltBackground;
+PFont font;
+PFont font2;
 
 //The number of the screen being displayed
 int screen;
@@ -78,6 +80,8 @@ int EAST = 2;
 int WEST = 3;
 
 void setup() {
+  font = loadFont("LatinWide-48.vlw");
+  font2 = loadFont("LucidaGrande-48.vlw");
   for (int i=1; i<55; i++) {
     if (i==53) {
       imageList[i-1] = loadImage("b2fh.png");
@@ -264,8 +268,10 @@ void drawMain() {
   textAlign(CENTER, CENTER);
   textSize(100);
   fill(255, 0, 0);
-  text("HEARTS", width/2, 100);
+  textFont(font, 85);
+  text("HEARTS", width/2, 125);
   textSize(20);
+  textFont(font2,20);
   stroke(255, 255, 255);
   fill(255);
   textSize(20);
