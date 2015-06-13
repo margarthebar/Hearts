@@ -140,22 +140,32 @@ class Player {
 
   //determines if one can shoot the moon based on original hand
   boolean canShootMoon() {
-    if (passingCards) {
-      //int AceOfHearts = ;
-      //int KingOfHearts = ;
-      //int QueenOfHearts = ;
-      //int JackOfHearts = ;
-      //int 10OfHearts = ;
-      if (!hasCard(QUEEN, SPADES)) {
-        if (!hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) {
-          return false;
+    if (passingCards) {//when passing
+      int countHighs = 0;
+      for (Card c : hand) {
+        if (card.number>=JACK) {
+          countHighs++;
         }
       }
-    }else{
+      if (countHighs >= 8) {
+        if (hasCard(ACE, HEARTS) && hasCard(KING, HEARTS) && hasCard(QUEEN, HEARTS) {
+          return true;
+        } else if (numHearts <=3) {
+          return true;
+        }else{
+          return false;
+        }
+        if (!hasCard(QUEEN, SPADES)) {
+          if (hasCard(KING, SPADES) || hasCard(ACE, SPADES)) {
+            return true;
+          }
+        }
+      }
+    } else {//when playing
       if (numClubs==13) {
         return true;
       }
-      if(numHearts==13 || numSpades==13 || numDiamonds==13){
+      if (numHearts==13 || numSpades==13 || numDiamonds==13) {
         return false;
       }
     }
