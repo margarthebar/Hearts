@@ -772,7 +772,7 @@ void pickPassingCards() {
     }
   }
 }
-}
+
 
 void passCards() {
   if (roundNumber % 4 == 0) {
