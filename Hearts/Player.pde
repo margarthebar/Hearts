@@ -212,7 +212,7 @@ class Player {
 
   //determines if one can shoot the moon based on original hand
   boolean canShootMoon() {
-    if (passingCards) {//when passing
+    if (passingCards || roundNumber % 4 == 3) {//when passing or when checking on a round where cards aren't passed
       int countHighs = 0; 
       for (Card c : hand) {
         if (c!=null) {
@@ -411,6 +411,11 @@ class Player {
 
   //Picks a card to play (AI)
   int pickCard() {
+    if (hand.size() == 13 && roundNumber % 4 == 3){
+      if (canShootMoon()){
+        shootingMoon = true;
+      }
+    }
     if (hand.size() == 1) {
       return 0;
     }
