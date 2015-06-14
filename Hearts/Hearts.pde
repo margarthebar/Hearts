@@ -173,10 +173,6 @@ void setup() {
 }
 
 void draw() {
-  println(south.numHearts);
-  println(south.numSpades);
-  println(south.numDiamonds);
-  println(south.numClubs);
   if (screen==GAME) {
     if (!displayingResults) {
       gameDisplay();
@@ -205,8 +201,8 @@ void draw() {
           }
         }
         if (!willReset && north.hand.size() == 0 && south.hand.size() == 0 && east.hand.size() == 0 && west.hand.size() == 0) {
-          gameDisplay();
           displayingResults = true;
+          gameDisplay();
           roundResults();
         }
       } else {
@@ -462,9 +458,10 @@ void gameDisplay() {
   textAlign(RIGHT);
   text("Points: " + east.points, width - 10, height / 2 - 15);
   text("Total: " + east.totalPoints, width - 10, height / 2 + 15);
-
-  for (Button b : gameButtons) {
-    b.draw();
+  if (!displayingResults) {
+    for (Button b : gameButtons) {
+      b.draw();
+    }
   }
 }
 
@@ -557,7 +554,7 @@ void mouseClicked() {
   }
   if (screen==GAME) {
     displaySouth.click();
-    if (gameButtons[0].hoveredOver()) {//menuButton
+    if (!displayingResults && gameButtons[0].hoveredOver()) {//menuButton
       screen=MENU;
     }
   }
