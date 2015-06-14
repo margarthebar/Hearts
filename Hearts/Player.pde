@@ -512,11 +512,11 @@ class Player {
       card = hand.get(getHighest(playedCards[startingPlayer.playerNumber].suit));
       removeCard(getHighest(playedCards[startingPlayer.playerNumber].suit));
     }
-    if ((numSpades > 0 && numSpades <= 2) && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) && getLowest(SPADES) < 8) {
+    if ((numSpades > 0 && numSpades <= 2) && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES)) && hand.get(getLowest(SPADES)).number < 8) {
       toReturn = getLowest(SPADES);
-    } else if (heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) && getLowest(CLUBS, DIAMONDS, HEARTS, true) < 8) {
+    } else if (heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2) || (numHearts > 0 && numHearts <= 2)) && hand.get(getLowest(CLUBS, DIAMONDS, HEARTS, true)).number < 8) {
       toReturn = getLowest(CLUBS, DIAMONDS, HEARTS, true);
-    } else if (!heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2)) && getLowest(CLUBS, DIAMONDS, true) < 8) {
+    } else if (!heartsBroken && ((numClubs > 0 && numClubs <= 2) || (numDiamonds > 0 && numDiamonds <= 2)) && hand.get(getLowest(CLUBS, DIAMONDS, true)).number < 8) {
       toReturn = getLowest(CLUBS, DIAMONDS, true);
     } else if (numSpades > 0 && (!hasCard(QUEEN, SPADES) && !hasCard(KING, SPADES) && !hasCard(ACE, SPADES))) {
       toReturn = getLowest(SPADES);
