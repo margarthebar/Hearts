@@ -93,7 +93,6 @@ void setup() {
   }
   greenFeltBackground = loadImage("greenFelt3.jpg");
   greenFeltBackground.resize(850, 700);
-  println(greenFeltBackground.width);
   screen = MAIN;
   count = 0;
   size(850, 700);
@@ -942,15 +941,6 @@ void passCards(Player from, Player to) {
     if (card.number == 2 && card.suit == CLUBS) {
       currentPlayer = to;
       startingPlayer = to;
-    }
-    if (card.suit == HEARTS) {
-      from.numHearts--;
-    } else if (card.suit == SPADES) {
-      from.numSpades--;
-    } else if (card.suit == DIAMONDS) {
-      from.numDiamonds--;
-    } else {
-      from.numClubs--;
     }
     from.hand.remove(card);
     to.addCard(card);
