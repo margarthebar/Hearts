@@ -235,10 +235,24 @@ void drawDirections() {
   fill(255);
   textSize(20);
   textAlign(CENTER, CENTER);
-  text("Click cards to select them.", width/2, 200);
-  text("or", width/2, 250);
-  text("Use the left and right arrow keys.", width/2, 300);
-  text("Use the up arrow key to pass or play the cards selected.", width/2, 400);
+  fill(255);
+  stroke(255);
+  textSize(20);
+  text("Click or use the LEFT and RIGHT arrow keys", width/2, 250);
+  text("to highlight a card", width/2, 275);
+  text("Play highlighted cards", width/2, 325);
+  text("with the UP arrow key", width/2, 350);
+
+  fill(255, 0, 0);
+  stroke(255, 0, 0);
+  text("Click", width/2-186, 250);
+  text("LEFT", width/2-31.10, 250);
+  text("RIGHT", width/2+69.35, 250);
+  text("highlight", width/2-20, 275);
+  text("Play", width/2-87.75, 325);
+  text("UP", width/2-8.15, 350);
+  fill(255);
+  stroke(255);
 
   textAlign(CENTER, CENTER);
   textSize(20);
@@ -271,7 +285,7 @@ void drawMain() {
   textFont(font, 85);
   text("HEARTS", width/2, 125);
   textSize(20);
-  textFont(font2,20);
+  textFont(font2, 20);
   stroke(255, 255, 255);
   fill(255);
   textSize(20);
@@ -348,8 +362,50 @@ void gameDisplay() {
   fill(255, 255, 255);
   textAlign(CENTER);
   if (passingCards) {
+    fill(0, 0, 0, 150);
+    noStroke();
+    rectMode(CENTER);
+    rect(width/2, height/2, width-400, height-350);
+    rectMode(CORNER);
     textSize(30);
-    text("Select 3 cards to pass", width / 2, height - 200);
+    fill(255, 0, 0);
+    stroke(255, 0, 0);
+    text("Select 3 cards to pass", width / 2, 225);
+    fill(255);
+    stroke(255);
+    textSize(20);
+    text("Click or use the LEFT and RIGHT arrow keys", width/2, 275);
+    text("to highlight a card", width/2, 300);
+    text("Select highlighted cards", width/2, 350);
+    text("with the UP arrow key", width/2, 375);
+    text("Deselect selected cards", width/2, 425);
+    text("with the DOWN arrow key", width/2, 450);
+    text("Press ENTER to pass the selected cards", width/2, 500);
+
+    fill(255, 0, 0);
+    stroke(255, 0, 0);
+    text("Click", width/2-186, 275);
+    text("LEFT", width/2-31.10, 275);
+    text("RIGHT", width/2+69.35, 275);
+    text("highlight", width/2-20, 300);
+    text("Select", width/2-87.5, 350);
+    text("UP", width/2-8.15, 375);
+    text("Deselect", width/2-72.08, 425);
+    text("DOWN", width/2-8, 450);
+    text("ENTER", width/2-99.75, 500);
+    text("pass", width/2-16, 500);
+    fill(255);
+    stroke(255);
+  }
+  if (!passingCards && south.hand.size()==13 && currentPlayer.playerNumber==SOUTH) {
+    text("Play highlighted cards", width/2, 200);
+    text("with the UP arrow key", width/2, 225);
+    fill(255, 0, 0);
+    stroke(255, 0, 0);
+    text("Play", width/2-87.75, 200);
+    text("UP", width/2-8.15, 225);
+    fill(255);
+    stroke(255);
   }
   textSize(20);
   text("Points: " + north.points, width / 2 - 70, 27);
