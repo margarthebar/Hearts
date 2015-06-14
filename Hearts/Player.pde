@@ -411,8 +411,8 @@ class Player {
 
   //Picks a card to play (AI)
   int pickCard() {
-    if (hand.size() == 13 && roundNumber % 4 == 3){
-      if (canShootMoon()){
+    if (hand.size() == 13 && roundNumber % 4 == 3) {
+      if (canShootMoon()) {
         shootingMoon = true;
       }
     }
@@ -871,7 +871,7 @@ class Player {
 
   int getHighestWithoutTaking(int suit) {
     int highestPlayed = highestNumCurrentlyPlayed();
-    if (hand.get(getLowest(suit)).number > highestPlayed) {
+    if (hand.get(getLowest(suit)).number > highestPlayed || hand.get(getLowest(suit)).number == ACE) {
       return getLowest(suit);
     }
     int high = -1;
@@ -892,7 +892,7 @@ class Player {
 
   int getLowestWhileTaking(int suit) {
     int highestPlayed = highestNumCurrentlyPlayed();
-    if (hand.get(getHighest(suit)).number < highestPlayed) {
+    if (hand.get(getHighest(suit)).number < highestPlayed && hand.get(getHighest(suit)).number != ACE) {
       return getLowest(suit);
     }
     int low = -1;
@@ -1120,3 +1120,4 @@ class Player {
     shootingMoon = false;
   }
 }
+
