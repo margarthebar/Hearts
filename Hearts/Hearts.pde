@@ -173,6 +173,10 @@ void setup() {
 }
 
 void draw() {
+  println(south.numHearts);
+  println(south.numSpades);
+  println(south.numDiamonds);
+  println(south.numClubs);
   if (screen==GAME) {
     if (!displayingResults) {
       gameDisplay();
@@ -311,8 +315,8 @@ void drawRules() {
   textAlign(LEFT, CENTER);
   textSize(20);
   text("Objective:", 100, 130);
-  fill(255,0,0);
-  ellipse(150,155,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 155, 7.5, 7.5);
   fill(255);
   textSize(16);
   text("To have the least amount of points by the game's end.", 160, 155);
@@ -321,16 +325,16 @@ void drawRules() {
   text("Points:", 100, 180);
   fill(255);
   textSize(16);
-  fill(255,0,0);
-  ellipse(150,205,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 205, 7.5, 7.5);
   fill(255);
   text("Each heart card taken is worth 1 point.", 160, 205);
-  fill(255,0,0);
-  ellipse(150,225,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 225, 7.5, 7.5);
   fill(255);
   text("The Queen of Spades is worth 13 points.", 160, 225);
-  fill(255,0,0);
-  ellipse(150,245,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 245, 7.5, 7.5);
   fill(255);
   text("A player can win 0 points either by taking NO point cards", 160, 245);
   text("OR", 350, 265);
@@ -340,48 +344,48 @@ void drawRules() {
   text("Playing the Game:", 100, 320);
   fill(255);
   textSize(16);
-  fill(255,0,0);
-  ellipse(150,345,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 345, 7.5, 7.5);
   fill(255);
   text("The player with the 2 of Clubs in hand leads the first trick.", 160, 345);
-  fill(255,0,0);
-  ellipse(150,365,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 365, 7.5, 7.5);
   fill(255);
   text("Each subsequent player must follow suit if able.", 160, 365);
-  fill(255,0,0);
-  ellipse(150,385,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 385, 7.5, 7.5);
   fill(255);
   text("The player with the highest card of the correct suit wins the trick.", 160, 385);
-  fill(255,0,0);
-  ellipse(150,405,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 405, 7.5, 7.5);
   fill(255);
   text("The player who won the last trick leads the next trick.", 160, 405);
-  fill(255,0,0);
-  ellipse(150,425,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 425, 7.5, 7.5);
   fill(255);
   text("Hearts cannot be led unless hearts have been broken.", 160, 425);
-  fill(255,0,0);
-  ellipse(150,445,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 445, 7.5, 7.5);
   fill(255);
   text("Hearts may be played if it is impossible to follow suit.", 160, 445);
-  fill(255,0,0);
-  ellipse(150,465,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 465, 7.5, 7.5);
   fill(255);
   text("Once Hearts have been broken, they can be played like any other card.", 160, 465);
-  fill(255,0,0);
-  ellipse(150,485,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 485, 7.5, 7.5);
   fill(255);
   text("Note: points cannot be played in the first trick!", 160, 485);
   fill(255, 0, 0);
   textSize(20);
   text("Game End:", 100, 515);
-  fill(255,0,0);
+  fill(255, 0, 0);
   textSize(16);
-  ellipse(150,535,7.5,7.5);
+  ellipse(150, 535, 7.5, 7.5);
   fill(255);
   text("The game ends once one or more players reach 100 points.", 160, 535);
-  fill(255,0,0);
-  ellipse(150,555,7.5,7.5);
+  fill(255, 0, 0);
+  ellipse(150, 555, 7.5, 7.5);
   fill(255);
   text("The player with the least amount of points is the winner!", 160, 555);
 
@@ -941,6 +945,17 @@ void passCards(Player from, Player to) {
     if (card.number == 2 && card.suit == CLUBS) {
       currentPlayer = to;
       startingPlayer = to;
+    }
+    if (from == south) {
+      if (card.suit == HEARTS) {
+        from.numHearts--;
+      } else if (card.suit == SPADES) {
+        from.numSpades--;
+      } else if (card.suit == DIAMONDS) {
+        from.numDiamonds--;
+      } else {
+        from.numClubs--;
+      }
     }
     from.hand.remove(card);
     to.addCard(card);
