@@ -468,7 +468,7 @@ void gameDisplay() {
 void takeTrick() {
   Player trickWinner = startingPlayer;
   for (int i = 0; i < 4; i++) {
-    if (playedCards[i].suit == playedCards[trickWinner.playerNumber].suit && compareCards(playedCards[i], playedCards[trickWinner.playerNumber]) > 0) {
+    if (playedCards[i].suit == playedCards[trickWinner.playerNumber].suit && playedCards[i]!=null && playedCards[trickWinner.playerNumber]!=null && compareCards(playedCards[i], playedCards[trickWinner.playerNumber]) > 0) {
       trickWinner = getPlayer(i);
     }
   }
